@@ -15,3 +15,8 @@ def signup(request):
         user.save()
         return Response(form.data, status=status.HTTP_201_CREATED)
     return Response(form.errors.as_data(), status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST'])
+def login(request):
+    pass
