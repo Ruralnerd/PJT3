@@ -1,12 +1,22 @@
-import React from 'react'
-import './App.scss'
-import Button from './components/Button'
+/** @jsxImportSource @emotion/react */
+import { css, jsx } from '@emotion/react'
+const color = 'white'
 
 function App() {
   return (
     <div className="App">
-      <div className="buttons">
-        <Button>BUTTON</Button>
+      <div
+        css={css`
+          padding: 32px;
+          background-color: hotpink;
+          font-size: 24px;
+          border-radius: 4px;
+          &:hover {
+            color: ${color};
+          }
+        `}
+      >
+        Hover to change color.
       </div>
     </div>
   )
