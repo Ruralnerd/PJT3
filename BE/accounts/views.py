@@ -11,7 +11,6 @@ from rest_framework.response import Response
 
 @api_view(['POST'])
 def signup(request):
-    print(request.data)
     serializer = UserSerializer(data = request.data)
     if serializer.is_valid(raise_exception=True):
         user = serializer.save()
