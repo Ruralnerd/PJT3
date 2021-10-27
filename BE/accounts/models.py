@@ -32,11 +32,12 @@ class User(AbstractBaseUser):
         unique=True,
     )
     nickname = models.CharField(max_length=50, unique=True)
-    phone = models.CharField(max_length=20, null=True)
-    address = models.TextField(null=True)
+    phone = models.CharField(max_length=20, null=True, blank=True)
+    address = models.TextField(null=True, blank=True)
     profile_img = models.CharField(
         max_length=200,
-        null=True
+        null=True,
+        blank=True
     )
     create_at = models.DateTimeField(auto_now_add=True)
     is_seller = models.BooleanField(default=False)
