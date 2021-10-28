@@ -38,7 +38,7 @@ class User(AbstractBaseUser):
         max_length=200,
         null=True
     )
-    create_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
     is_seller = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
     followers = models.ManyToManyField('self', symmetrical=False, related_name='followings')
