@@ -12,7 +12,7 @@ class Story(models.Model):
 
 class Comment(models.Model):
     story = models.ForeignKey(Story, on_delete=models.CASCADE, related_name='comments')
-    reader = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='comments')
+    producer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='comments')
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
