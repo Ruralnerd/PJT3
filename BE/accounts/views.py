@@ -36,5 +36,8 @@ def update(request, user_pk):
             user.set_password(request.data.get('password'))
             user.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+
         return Response(serializer.errors.as_data(),status=status.HTTP_400_BAD_REQUEST)
+    
+    return Response({'errors' : '토큰과 유저정보가 일치하지 않습니다'}, status=status.HTTP_403_FORBIDDEN)
 
