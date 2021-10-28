@@ -1,17 +1,17 @@
 /** @jsxImportSource @emotion/react */
 import { css, jsx } from '@emotion/react'
-import Login from './views/Login'
+import { Route } from 'react-router-dom'
+import LoginPage from './views/LoginPage'
 
 const AppStyle = css`
   margin: 0;
   padding: 0;
-
 `
 
 function App() {
   return (
     <div css={AppStyle}>
-      <Login />
+      <Route component={LoginPage} path="/login" />
     </div>
   )
 }
