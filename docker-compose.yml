@@ -1,0 +1,40 @@
+version: '3'
+services:
+        #        nginx:
+        #        image: nginx:latest
+        #        ports:
+        #                - "80:80"
+        #        volumes:
+        #                - ./config/nginx/global:/etc/nginx/conf.d
+        #        depends_on:
+        #                - backend
+        backend:
+                build:
+                        context: ./BE
+                        dockerfile: Dockerfile
+                command: sh -c "yes | python manage.py makemigrations && yes | python manage.py migrate && gunicorn final_pjt.wsgi:application --bind 0.0.0.0:8000"
+                volumes:
+                        - ./BE:/code
+                ports:
+                        - "8500:8000"
+                extra_hosts:
+                        - "host.docker.internal:host-gateway"
+        frontend:
+                build:
+                        context: ./frontend
+                        dockerfile: Dockerfile
+                volumes:
+                        - ./config/nginx/frontend:/etc/nginx/conf.d
+                ports:
+                        - "8100:80"
+                          #depends_on:
+                        #- db
+                          #db:
+                          #image: postgres:12.8
+                          #environment:
+                          #- POSTGRES_DB=final_pjt
+                          #- POSTGRES_USER=admin
+                          #- POSTGRES_PASSWORD=qwe123!@#
+                          #ports:
+                          #- "5433:5432"
+
