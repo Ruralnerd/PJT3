@@ -1,10 +1,23 @@
 /** @jsxImportSource @emotion/react */
+import { useCallback, useReducer, useState } from 'react'
 import { css } from '@emotion/react'
-import { TextField } from '@mui/material'
+import { Box } from '@mui/system'
+import {
+  FormControl,
+  Input,
+  TextField,
+  InputAdornment,
+  InputLabel,
+} from '@mui/material'
 import IconButton from '@mui/material/IconButton'
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
-import { useState } from 'react'
+
+const sizes = {
+  desktop: '1024px',
+  tablet: '768px',
+  mobile: '360px',
+}
 
 const wrap = css`
   height: 100vh;
@@ -15,48 +28,119 @@ const wrap = css`
   justify-content: center;
 
   section {
-    width: 280px;
+    width: 480px;
+
+    @media (max-width: ${sizes.desktop}) {
+      width: 100%;
+    }
+    @media (max-width: ${sizes.mobile}) {
+      width: 100%;
+    }
+
     height: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: -6rem;
   }
 
   img {
+    width: 200px;
+  }
+
+  /* Mui Global Class*/
+  .MuiFormControl-root {
+    margin: 0;
     width: 100%;
+    justify-content: center;
   }
 `
 
 const formStyle = css`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
+  width: 80%;
+  padding: 20px;
+  background: white;
+  border-radius: 4px;
+  border: 1px solid #d4d3d3;
+
+  .formHeader {
+    font-family: 'Noto Sans KR';
+    font-weight: normal;
+  }
 `
 
 const Login = () => {
-  const [value, setValue] = useState({
+  const [state, setState] = useState({
     email: '',
     password: '',
     showPassword: false,
   })
+
+  const onChange = (prop) => (e) => {
+    setState({
+      ...state,
+      [prop]: e.target.value,
+    })
+  }
+
+  const handleClickShowPassword = () => {
+    setState({
+      ...state,
+      showPassword: !state.showPassword,
+    })
+  }
+
+  const handleMouseDownPassword = (e) => {
+    e.preventDefault()
+  }
 
   return (
     <div css={wrap}>
       <section>
         <img src="/images/logo/logo_white_horizontal.png" alt="" />
         <div css={formStyle}>
-          <TextField
-            id="standard-error-helper-text"
-            label="아이디"
-            placeholder="아이디를 입력하세요"
-            variant="standard"
-          />
-          <TextField
-            id="standard-error-helper-text"
-            label="비밀번호"
-            type="password"
-            placeholder="비밀번호를 입력하세요"
-            variant="standard"
-          />
+          <Box
+            sx={{
+              display: 'grid',
+              gap: 2,
+            }}
+          >
+            <div className="formHeader">이메일로 로그인</div>
+            <TextField
+              id="text-email"
+              name="email"
+              label="이메일"
+              variant="standard"
+              value={state.email}
+              onChange={onChange('email')}
+            />
+            <FormControl sx={{ m: 1, width: '25ch' }} variant="standard">
+              <InputLabel htmlFor="text-password">비밀번호</InputLabel>
+              <Input
+                id="text-password"
+                name="password"
+                label="비밀번호"
+                type={state.showPassword ? 'text' : 'password'}
+                variant="standard"
+                value={state.password}
+                onChange={onChange('password')}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                    >
+                      {state.showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+              />
+            </FormControl>
+          </Box>
         </div>
       </section>
     </div>
