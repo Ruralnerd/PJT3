@@ -54,5 +54,3 @@ def follow(request, user_pk):
         person.followers.add(me)
     new = UserSmallSerializer(person)
     return Response('',status=status.HTTP_201_CREATED)
-
-
