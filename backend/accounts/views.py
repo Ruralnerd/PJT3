@@ -1,14 +1,15 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth import get_user_model
-from django.http import JsonResponse
 from .serializer import GetUserSerializer, UserSerializer
 
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework.response import Response
 
+@swagger_auto_schema(method='post', request_body=UserSerializer)
 @api_view(['POST'])
 def signup(request):
     serializer = UserSerializer(data = request.data)
@@ -27,7 +28,7 @@ def update(request, user_pk):
     user = get_object_or_404(get_user_model(), pk=user_pk)
     if request.method == 'GET':
         serializer = GetUserSerializer(user)
-        return JsonResponse(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     if request.user == user and request.method == 'PUT':
         serializer = UserSerializer(user, data = request.data)

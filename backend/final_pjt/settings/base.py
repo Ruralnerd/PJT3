@@ -35,6 +35,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'accounts',
     'articles',
+    'drf_yasg',
     'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -147,4 +148,15 @@ JWT_AUTH = {
     'JWT_ALLOW_REFRESH': True,
     'JWT_EXPIRATION_DELTA': datetime.timedelta(days=7),
     'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=28),
+}
+
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS' :{
+        'jwt':{
+            'type':'apiKey',
+            'name':'Authorization',
+            'in':'header'
+        }
+    },
+    'USE_SESSION_AUTH': False
 }
