@@ -1,16 +1,14 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
-import { useCallback, useReducer, useState } from 'react'
-
 import AuthTemplate from '../components/auth/AuthTemplate'
 import AuthForm from '../components/auth/AuthForm'
 
-const Login = () => {
+const RegisterPage = () => {
   return (
     <AuthTemplate>
-      <AuthForm type="login" />
+      <AuthForm type="register" />
     </AuthTemplate>
   )
 }
 
-export default Login
+export default RegisterPage
