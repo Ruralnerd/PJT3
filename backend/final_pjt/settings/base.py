@@ -35,6 +35,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'accounts',
     'articles',
+    'sales',
     'drf_yasg',
     'imagekit',
     'rest_framework',
