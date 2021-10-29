@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth import get_user_model
-from .serializer import GetUserSerializer, UserSerializer
+from .serializer import GetUserSerializer, UserSerializer, UserSmallSerializer
 
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
@@ -42,3 +42,15 @@ def update(request, user_pk):
     
     return Response({'errors' : '토큰과 유저정보가 일치하지 않습니다'}, status=status.HTTP_403_FORBIDDEN)
 
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+@authentication_classes([JSONWebTokenAuthentication])
+def follow(request, user_pk):
+    person = get_object_or_404(get_user_model(), pk=user_pk)
+    me = request.user
+    if person.followers.filter(pk=me.pk).exists():
+        person.followers.remove(me)
+    else:
+        person.followers.add(me)
+    new = UserSmallSerializer(person)
+    return Response('',status=status.HTTP_201_CREATED)
