@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'accounts',
     'articles',
     'drf_yasg',
+    'imagekit',
     'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -160,3 +161,6 @@ SWAGGER_SETTINGS = {
     },
     'USE_SESSION_AUTH': False
 }
+# Media file setting
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / '..' /'media'
