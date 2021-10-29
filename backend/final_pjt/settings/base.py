@@ -34,6 +34,9 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'accounts',
+    'articles',
+    'drf_yasg',
+    'imagekit',
     'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -147,3 +150,17 @@ JWT_AUTH = {
     'JWT_EXPIRATION_DELTA': datetime.timedelta(days=7),
     'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=28),
 }
+
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS' :{
+        'jwt':{
+            'type':'apiKey',
+            'name':'Authorization',
+            'in':'header'
+        }
+    },
+    'USE_SESSION_AUTH': False
+}
+# Media file setting
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / '..' /'media'

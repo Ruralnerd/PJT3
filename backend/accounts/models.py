@@ -1,6 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import (BaseUserManager, AbstractBaseUser)
+from imagekit.models import ProcessedImageField
+from imagekit.processors import ResizeToFill
 
+def profile_image_path(instance, filename):
+    return 'accounts/{}/{}'.format(instance.pk, filename)
 
 class UserManger(BaseUserManager):
     def create_user(self, email, nickname, password=None):
@@ -34,11 +38,14 @@ class User(AbstractBaseUser):
     nickname = models.CharField(max_length=50, unique=True)
     phone = models.CharField(max_length=20, null=True)
     address = models.TextField(null=True)
-    profile_img = models.CharField(
-        max_length=200,
-        null=True
+    profile_img  = ProcessedImageField(
+        upload_to=profile_image_path,
+        processors=[ResizeToFill(150, 150)],
+        format='PNG',
+        blank=True,
+        default='default_profile.jpeg'
     )
-    create_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
     is_seller = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
     followers = models.ManyToManyField('self', symmetrical=False, related_name='followings')
