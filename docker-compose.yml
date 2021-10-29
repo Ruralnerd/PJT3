@@ -10,11 +10,11 @@ services:
         #                - backend
         backend:
                 build:
-                        context: ./BE
+                        context: ./backend
                         dockerfile: Dockerfile
                 command: sh -c "yes | python manage.py makemigrations && yes | python manage.py migrate && gunicorn final_pjt.wsgi:application --bind 0.0.0.0:8000"
                 volumes:
-                        - ./BE:/code
+                        - ./backend:/code
                 ports:
                         - "8500:8000"
                 extra_hosts:
