@@ -1,51 +1,47 @@
 /** @jsxImportSource @emotion/react */
 
 import { css } from '@emotion/react'
-import { BrowserRouter as Router, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
-const LinkText = css`
+const wrap = css`
+  display: flex;
+  background-color: #bc6e3d;
+  justify-content: space-evenly;
+  align-items: center;
+  color: white;
+  font-size: 1.2em;
+  height: 6vh;
+`
+
+const img = css`
+  display: block;
+  width: 20%;
+  margin: 0 auto;
+`
+
+const linkText = css`
   text-decoration: none;
   color: white;
 `
 
-function TopNav() {
+const TopNav = () => {
   return (
-    <Router>
-      <div>
-        <Link to="/">
-          <img
-            src="img/logo.png"
-            alt=""
-            css={css`
-              display: block;
-              width: 20%;
-              margin: 0 auto;
-            `}
-          />
+    <div>
+      <Link to="/">
+        <img src="img/logo.png" alt="" css={img} />
+      </Link>
+      <div css={wrap}>
+        <Link to="/market" css={[linkText]}>
+          장터
         </Link>
-        <div
-          css={css`
-            display: flex;
-            background-color: #bc6e3d;
-            justify-content: space-evenly;
-            align-items: center;
-            color: white;
-            font-size: 1.2em;
-            height: 6vh;
-          `}
-        >
-          <Link to="/" css={[LinkText]}>
-            장터
-          </Link>
-          <Link to="/story" css={[LinkText]}>
-            이야기
-          </Link>
-          <Link to="/farm" css={[LinkText]}>
-            농장
-          </Link>
-        </div>
+        <Link to="/story" css={[linkText]}>
+          이야기
+        </Link>
+        <Link to="/farm" css={[linkText]}>
+          농장
+        </Link>
       </div>
-    </Router>
+    </div>
   )
 }
 
