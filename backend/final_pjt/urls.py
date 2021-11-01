@@ -39,6 +39,7 @@ schema_view = get_schema_view(
 urlpatterns = [
     path(DEFAULT_URL+'accounts/', include('accounts.urls')),
     path(DEFAULT_URL+'story/', include('articles.urls')),
+    path(DEFAULT_URL+'sales/', include('sales.urls')),
     path(DEFAULT_URL+'admin/', admin.site.urls),
 
     # Auto DRF API docs

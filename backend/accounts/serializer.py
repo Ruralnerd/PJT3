@@ -22,3 +22,10 @@ class UserSmallSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'nickname', 'profile_img']
+
+
+class UserOrderSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ['id', 'nickname', 'phone', 'address']
