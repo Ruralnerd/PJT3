@@ -44,6 +44,7 @@ class Category_sales(models.Model):
 class Request(models.Model):
     market = models.ForeignKey(Market, on_delete=models.CASCADE, related_name='requests')
     buyer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='requests')
+    tid = models.CharField(max_length=200, null=True)
     req_date = models.DateTimeField(auto_now_add=True)
     quantity = models.IntegerField()
     state = models.IntegerField()
