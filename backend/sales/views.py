@@ -23,7 +23,7 @@ from .models import Market, Request
 @api_view(['GET', 'POST'])
 @permission_classes([IsAuthenticated])
 @authentication_classes([JSONWebTokenAuthentication])
-def request_inquire_create(request, market_pk):
+def market_request(request, market_pk):
     market = get_object_or_404(Market, id = market_pk)
     seller = market.seller
     user = request.user
