@@ -1,4 +1,5 @@
 asgiref==3.4.1
+bleach==4.1.0
 certifi==2021.10.8
 charset-normalizer==2.0.7
 coreapi==2.3.3
@@ -6,6 +7,7 @@ coreschema==0.0.4
 Django==3.2.8
 django-appconf==1.0.5
 django-imagekit==4.0.2
+django-summernote==0.8.20.0
 djangorestframework==3.12.4
 djangorestframework-jwt==1.11.0
 drf-yasg==1.20.0
@@ -31,3 +33,4 @@ sqlparse==0.4.2
 typing-extensions==3.10.0.2
 uritemplate==4.1.1
 urllib3==1.26.7
+webencodings==0.5.1
