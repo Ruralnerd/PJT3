@@ -49,7 +49,6 @@ def story_detail(request, story_pk):
     user = get_object_or_404(get_user_model(), pk=story.producer.pk)
     if request.method == 'GET':
         serializer = StorySerializer(story)
-        print(serializer.data)
         return Response(serializer.data, status=status.HTTP_200_OK)
         
     if story.producer != request.user:
