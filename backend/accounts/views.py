@@ -1,8 +1,9 @@
-from django.http import response
+from django.http import response, JsonResponse
 from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth import get_user_model
 import requests
 
+import jwt
 from decouple import config
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
@@ -12,7 +13,7 @@ from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework.response import Response
 
 from .serializer import GetUserSerializer, UserSerializer, UserSmallSerializer
-
+from .models import User
 
 @swagger_auto_schema(method='post', request_body=UserSerializer)
 @api_view(['POST'])
@@ -25,19 +26,17 @@ def signup(request):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors.as_data(), status=status.HTTP_400_BAD_REQUEST)
 
-<<<<<<< HEAD
 
 @api_view(['GET'])
 def kakaologin(request):
     URL = "https://kauth.kakao.com/oauth/authorize"
     client_id = config('KAKAO_RESTAPI')
-    redirect_uri = "http://localhost:8000/api/v1/accounts/kakaologin/callback/"
+    redirect_uri = "http://localhost:8000/api/v1/accounts/kakao/callback/"
     
     # 인가코드 받기
     return redirect(
         f'{URL}?client_id={client_id}&redirect_uri={redirect_uri}&response_type=code'
     )
-
 
 def kakaologin_callback(request):
     authorization_code = request.GET.get('code')
@@ -48,7 +47,7 @@ def kakaologin_callback(request):
     params = {
         'grant_type' : 'authorization_code',
         'client_id' : config('KAKAO_RESTAPI'),
-        'redirect_uri': "http://localhost:8000/api/v1/accounts/kakaologin/callback/",
+        'redirect_uri': "http://localhost:8000/api/v1/accounts/kakao/callback/",
         'code' : authorization_code,
         'client_secret' : config('KAKAO_CLIENT_SECRET')
     }
@@ -56,21 +55,41 @@ def kakaologin_callback(request):
     token_res = requests.post(URL, headers= headers, params=params)
 
     access_token = token_res.json().get('access_token')
-
-    user_data = requests.get(
+    kakao_data = requests.get(
         "https://kapi.kakao.com/v2/user/me", 
         headers={
             'Authorization' : "Bearer " + access_token
-        })
+        }
+    )
     
-    print(user_data.json())
+    kakao_account = kakao_data.json().get('kakao_account')
+    kakao_email = kakao_account.get('email')
+    kakao_nickname = kakao_account.get('profile').get('nickname')
+    kakao_profile_img = kakao_account.get('profile').get('thumbnail_image_url')
+    
+    try:
+        user = User.objects.get(email = kakao_email)
+        if user.provider == 'kakao':
+            token = jwt.encode({"user_id": user.pk, "email":user.email}, config('SECRET_KEY'), algorithm="HS256")
+            token = token.decode("utf-8")
+            return JsonResponse({"token" : token}, status=status.HTTP_200_OK)
+        return JsonResponse({'errors' : '이미 다른방식으로 가입된 이메일입니다.'}, status=status.HTTP_400_BAD_REQUEST)
+    except:
+        user = User(
+                    email = kakao_email,
+                    nickname = kakao_nickname,
+                    profile_img = kakao_profile_img,
+                    provider = 'kakao'
+                ).save()
+        user = User.objects.get(email = kakao_email)
+        token = jwt.encode({"user_id": user.pk, "email":user.email}, config('SECRET_KEY'), algorithm="HS256")
+        token = token.decode("utf-8")
 
-    return Response(user_data.json(), status=status.HTTP_200_OK)
+        return JsonResponse({"token" : token}, status=status.HTTP_200_OK)
 
-=======
+
 @swagger_auto_schema(method='get', responses={status.HTTP_200_OK: GetUserSerializer})
 @swagger_auto_schema(method='put', request_body=UserSerializer,  responses={status.HTTP_200_OK: UserSerializer})
->>>>>>> 7f6d9432c3297db4c659fdb848eaa2c2ba56f416
 @api_view(['GET', 'PUT'])
 @permission_classes([IsAuthenticated])
 @authentication_classes([JSONWebTokenAuthentication])
