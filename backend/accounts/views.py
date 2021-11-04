@@ -25,6 +25,7 @@ def signup(request):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors.as_data(), status=status.HTTP_400_BAD_REQUEST)
 
+<<<<<<< HEAD
 
 @api_view(['GET'])
 def kakaologin(request):
@@ -66,6 +67,10 @@ def kakaologin_callback(request):
 
     return Response(user_data.json(), status=status.HTTP_200_OK)
 
+=======
+@swagger_auto_schema(method='get', responses={status.HTTP_200_OK: GetUserSerializer})
+@swagger_auto_schema(method='put', request_body=UserSerializer,  responses={status.HTTP_200_OK: UserSerializer})
+>>>>>>> 7f6d9432c3297db4c659fdb848eaa2c2ba56f416
 @api_view(['GET', 'PUT'])
 @permission_classes([IsAuthenticated])
 @authentication_classes([JSONWebTokenAuthentication])
@@ -87,6 +92,7 @@ def update(request, user_pk):
     
     return Response({'errors' : '토큰과 유저정보가 일치하지 않습니다'}, status=status.HTTP_403_FORBIDDEN)
 
+@swagger_auto_schema(method='post', responses={status.HTTP_201_CREATED: UserSerializer})
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 @authentication_classes([JSONWebTokenAuthentication])
@@ -97,5 +103,5 @@ def follow(request, user_pk):
         person.followers.remove(me)
     else:
         person.followers.add(me)
-    new = UserSmallSerializer(person)
-    return Response('',status=status.HTTP_201_CREATED)
+    new = UserSerializer(person)
+    return Response(new.data,status=status.HTTP_201_CREATED)
