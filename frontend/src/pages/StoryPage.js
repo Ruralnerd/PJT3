@@ -1,4 +1,4 @@
-const Stroy = () => {
+const StoryPage = () => {
   return (
     <div>
       <p>이야기입니다</p>
@@ -6,4 +6,4 @@ const Stroy = () => {
   )
 }
 
-export default Stroy
+export default StoryPage

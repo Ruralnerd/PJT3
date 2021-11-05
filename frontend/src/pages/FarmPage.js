@@ -1,4 +1,4 @@
-const Farm = () => {
+const FarmPage = () => {
   return (
     <div>
       <p>농장입니다</p>
@@ -6,4 +6,4 @@ const Farm = () => {
   )
 }
 
-export default Farm
+export default FarmPage

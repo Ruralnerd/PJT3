@@ -1,4 +1,4 @@
-const Search = () => {
+const SearchPage = () => {
   return (
     <div>
       <p>검색입니다</p>
@@ -6,4 +6,4 @@ const Search = () => {
   )
 }
 
-export default Search
+export default SearchPage
