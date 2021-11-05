@@ -7,7 +7,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['email', 'nickname', 'password', 'address', 'phone', 'is_seller', "profile_img"]
+        fields = ['email', 'nickname', 'password', 'address', 'phone', 'is_seller', "profile_img", "ac_number", "ac_bank"]
 
 
 class GetUserSerializer(serializers.ModelSerializer):
@@ -22,3 +22,10 @@ class UserSmallSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'nickname', 'profile_img']
+
+
+class UserOrderSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ['id', 'nickname', 'phone', 'address']

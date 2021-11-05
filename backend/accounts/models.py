@@ -47,8 +47,11 @@ class User(AbstractBaseUser):
     )
     created_at = models.DateTimeField(auto_now_add=True)
     is_seller = models.BooleanField(default=False)
+    ac_number = models.CharField(max_length=50, null=True)
+    ac_bank = models.CharField(max_length=20, null=True)
     is_admin = models.BooleanField(default=False)
     followers = models.ManyToManyField('self', symmetrical=False, related_name='followings')
+    provider = models.CharField(max_length=50, null=True)
 
     objects = UserManger()
 

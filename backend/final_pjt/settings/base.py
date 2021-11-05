@@ -13,10 +13,10 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 from decouple import config
 import datetime
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
-
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -35,6 +35,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'accounts',
     'articles',
+    'sales',
     'drf_yasg',
     'imagekit',
     'rest_framework',
@@ -162,5 +163,6 @@ SWAGGER_SETTINGS = {
     'USE_SESSION_AUTH': False
 }
 # Media file setting
+X_FRAME_OPTIONS = 'SAMEORIGIN'
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / '..' /'media'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
