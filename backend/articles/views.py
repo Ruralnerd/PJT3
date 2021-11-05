@@ -1,8 +1,8 @@
 from django.shortcuts import get_object_or_404, render
 from django.contrib.auth import get_user_model
 
+from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
-
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.permissions import IsAuthenticated
@@ -14,7 +14,15 @@ from .serializer import StoryImgSerializer
 from .serializer import StoryCommentSerializer, StoryCommentCreateSerializer
 from .models import Story, StoryImg, StoryComment
 
-@swagger_auto_schema(method='get', responses={status.HTTP_200_OK: StorySmallSerializer, status.HTTP_400_BAD_REQUEST:'HTTP_400_BAD_REQUEST'})
+
+@swagger_auto_schema(
+    method='get', 
+    manual_parameters=[
+        openapi.Parameter('num', openapi.IN_QUERY, description="list num", type=openapi.TYPE_INTEGER),
+        openapi.Parameter('option', openapi.IN_QUERY, description="list option", type=openapi.TYPE_STRING)
+    ], 
+    responses={status.HTTP_200_OK: StorySmallSerializer, status.HTTP_400_BAD_REQUEST:'HTTP_400_BAD_REQUEST'}
+)
 @swagger_auto_schema(method='post', request_body=StoryCreateSerializer, responses={status.HTTP_201_CREATED: StorySerializer})
 @api_view(['GET', 'POST'])
 @permission_classes([IsAuthenticated])
