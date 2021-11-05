@@ -1,7 +1,8 @@
 from django.http import response, JsonResponse
 from django.shortcuts import redirect, render, get_object_or_404
-from django.contrib.auth import get_user_model
+from django.contrib.auth import base_user, get_user_model
 import requests
+import random
 
 import jwt
 from decouple import config
@@ -14,6 +15,8 @@ from rest_framework.response import Response
 
 from .serializer import GetUserSerializer, UserSerializer, UserSmallSerializer
 from .models import User
+
+BASE_URL = "http://localhost:8000/api/v1/"
 
 @swagger_auto_schema(method='post', request_body=UserSerializer)
 @api_view(['POST'])
@@ -31,7 +34,7 @@ def signup(request):
 def kakaologin(request):
     URL = "https://kauth.kakao.com/oauth/authorize"
     client_id = config('KAKAO_RESTAPI')
-    redirect_uri = "http://localhost:8000/api/v1/accounts/kakao/callback/"
+    redirect_uri = BASE_URL + "accounts/kakao/callback/"
     
     # 인가코드 받기
     return redirect(
@@ -47,7 +50,7 @@ def kakaologin_callback(request):
     params = {
         'grant_type' : 'authorization_code',
         'client_id' : config('KAKAO_RESTAPI'),
-        'redirect_uri': "http://localhost:8000/api/v1/accounts/kakao/callback/",
+        'redirect_uri': BASE_URL + "accounts/kakao/callback/",
         'code' : authorization_code,
         'client_secret' : config('KAKAO_CLIENT_SECRET')
     }
@@ -82,11 +85,77 @@ def kakaologin_callback(request):
                     provider = 'kakao'
                 ).save()
         user = User.objects.get(email = kakao_email)
+        while user:
+            google_nickname = google_nickname + f'{random.randrange(1, 99999)}'
+            user = User.objects.filter(nickname=google_nickname)
         token = jwt.encode({"user_id": user.pk, "email":user.email}, config('SECRET_KEY'), algorithm="HS256")
         token = token.decode("utf-8")
 
         return JsonResponse({"token" : token}, status=status.HTTP_200_OK)
 
+@api_view(['GET'])
+def googlelogin(request):
+    URL = "https://accounts.google.com/o/oauth2/v2/auth"
+    scope = "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile "
+    redirect_uri = BASE_URL + "accounts/google/callback/"
+    client_id = config('GOOGLE_CLIENT_ID')
+    
+    # 인가코드 받기
+    return redirect(
+        f'{URL}?client_id={client_id}&redirect_uri={redirect_uri}&response_type=code&scope={scope}'
+    )
+
+def googlelogin_callback(request):
+    authorization_code = request.GET.get('code')
+    URL = "https://oauth2.googleapis.com/token"
+    headers = {
+        'Host': "oauth2.googleapis.com",
+        'Content-Type': "application/x-www-form-urlencoded"
+    }
+    params = {
+        'grant_type' : 'authorization_code',
+        'client_id' : config('GOOGLE_CLIENT_ID'),
+        'redirect_uri': "http://localhost:8000/api/v1/accounts/google/callback/",
+        'code' : authorization_code,
+        'client_secret' : config('GOOGLE_SECRET_KEY')
+    }
+
+    token_res = requests.post(URL, headers= headers, params=params)
+    access_token = token_res.json().get('access_token')
+    google_data = requests.get(
+        "https://www.googleapis.com/oauth2/v1/userinfo",
+        headers={
+            'Authorization' : "Bearer " + access_token
+        }
+    )
+    google_email = google_data.json().get('email')
+    google_nickname = google_data.json().get('name')
+    google_profile_img = google_data.json().get('picture')
+    
+    try:
+        user = User.objects.get(email = google_email)
+        if user.provider == 'google':
+            token = jwt.encode({"user_id": user.pk, "email":user.email}, config('SECRET_KEY'), algorithm="HS256")
+            token = token.decode("utf-8")
+            return JsonResponse({"token" : token}, status=status.HTTP_200_OK)
+        return JsonResponse({'errors' : '이미 다른방식으로 가입된 이메일입니다.'}, status=status.HTTP_400_BAD_REQUEST)
+    except:
+        user = User.objects.filter(nickname=google_nickname)
+        while user:
+            google_nickname = google_nickname + f'{random.randrange(1, 99999)}'
+            user = User.objects.filter(nickname=google_nickname)
+        
+        user = User(
+                    email = google_email,
+                    nickname = google_nickname,
+                    profile_img = google_profile_img,
+                    provider = 'google'
+                ).save()
+        user = User.objects.get(email = google_email)
+        token = jwt.encode({"user_id": user.pk, "email":user.email}, config('SECRET_KEY'), algorithm="HS256")
+        token = token.decode("utf-8")
+
+        return JsonResponse({"token" : token}, status=status.HTTP_200_OK)
 
 @swagger_auto_schema(method='get', responses={status.HTTP_200_OK: GetUserSerializer})
 @swagger_auto_schema(method='put', request_body=UserSerializer,  responses={status.HTTP_200_OK: UserSerializer})
