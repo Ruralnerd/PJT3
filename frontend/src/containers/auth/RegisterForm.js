@@ -6,12 +6,13 @@ import AuthForm from '../../components/auth/AuthForm'
 const RegisterForm = () => {
   const dispatch = useDispatch()
   const { form } = useSelector(({ auth }) => ({
-    form: auth.login,
+    form: auth.register,
   }))
   // 인풋 변경 이벤트 핸들러
   const onChange = (e) => {
     const { value, name } = e.target
     console.log(e.target, 'container/auth/RegisterForm')
+
     dispatch(
       changeField({
         form: 'register',

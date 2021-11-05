@@ -11,10 +11,7 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 import rootReducer from './modules'
 import logger from 'redux-logger'
 
-const store = createStore(
-  rootReducer,
-  composeWithDevTools(applyMiddleware(logger)),
-)
+const store = createStore(rootReducer, composeWithDevTools())
 
 ReactDOM.render(
   <React.StrictMode>
