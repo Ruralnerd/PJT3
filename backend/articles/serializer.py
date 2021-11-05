@@ -1,33 +1,33 @@
 from rest_framework import fields, serializers
 
 from accounts.serializer import UserSmallSerializer
-from .models import Story, Comment, Img
+from .models import Story, StoryComment, StoryImg
 
 # Comment Serializers
-class CommentSerializer(serializers.ModelSerializer):
+class StoryCommentSerializer(serializers.ModelSerializer):
     user = UserSmallSerializer()
     class Meta:
-        model = Comment
+        model = StoryComment
         exclude = ['story']
 
-class CommentCreateSerializer(serializers.ModelSerializer):
+class StoryCommentCreateSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Comment
+        model = StoryComment
         fields = ['content'] 
 
 
 # Story Image Serializer
-class ImgSerializer(serializers.ModelSerializer):
+class StoryImgSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = Img
+        model = StoryImg
         fields = "__all__"
 
 # Stroy Serializers
 class StorySerializer(serializers.ModelSerializer):
     producer = UserSmallSerializer()
-    comments = CommentSerializer(many=True)
-    imgs = ImgSerializer(many=True)
+    comments = StoryCommentSerializer(many=True)
+    imgs = StoryImgSerializer(many=True)
 
     class Meta:
         model = Story

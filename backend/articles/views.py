@@ -9,8 +9,10 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework.response import Response
 
-from .serializer import StorySerializer, StorySmallSerializer, StoryCreateSerializer, StoryEditSerializer, ImgSerializer, CommentSerializer, CommentCreateSerializer
-from .models import Story, Img, Comment
+from .serializer import StorySerializer, StorySmallSerializer, StoryCreateSerializer, StoryEditSerializer 
+from .serializer import StoryImgSerializer 
+from .serializer import StoryCommentSerializer, StoryCommentCreateSerializer
+from .models import Story, StoryImg, StoryComment
 
 @swagger_auto_schema(method='get', responses={status.HTTP_200_OK: StorySmallSerializer, status.HTTP_400_BAD_REQUEST:'HTTP_400_BAD_REQUEST'})
 @swagger_auto_schema(method='post', request_body=StoryCreateSerializer, responses={status.HTTP_201_CREATED: StorySerializer})
@@ -63,7 +65,7 @@ def story_detail(request, story_pk):
         story.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-@swagger_auto_schema(method='post', responses={status.HTTP_201_CREATED: ImgSerializer, status.HTTP_403_FORBIDDEN:'HTTP_403_FORBIDDEN'})
+@swagger_auto_schema(method='post', responses={status.HTTP_201_CREATED: StoryImgSerializer, status.HTTP_403_FORBIDDEN:'HTTP_403_FORBIDDEN'})
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 @authentication_classes([JSONWebTokenAuthentication])
@@ -72,8 +74,8 @@ def story_img(request, story_pk):
     if story.producer != request.user:
         return Response(status=status.HTTP_403_FORBIDDEN)
     else:
-        img = Img.objects.create(story=story, img=request.data['img'])
-        serialzer = ImgSerializer(img)
+        img = StoryImg.objects.create(story=story, img=request.data['img'])
+        serialzer = StoryImgSerializer(img)
         return Response(serialzer.data, status=status.HTTP_201_CREATED)
 
 @swagger_auto_schema(method='delete', responses={status.HTTP_204_NO_CONTENT:'HTTP_204_NO_CONTENT',status.HTTP_403_FORBIDDEN:'HTTP_403_FORBIDDEN'})
@@ -85,12 +87,12 @@ def story_img_delete(request, story_pk, img_pk):
     if story.producer != request.user:
         return Response(status=status.HTTP_403_FORBIDDEN)
     else:
-        img = get_object_or_404(Img, id=img_pk)
+        img = get_object_or_404(StoryImg, id=img_pk)
         img.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-@swagger_auto_schema(method='get', responses={status.HTTP_200_OK:  CommentSerializer})
-@swagger_auto_schema(method='post', request_body= CommentCreateSerializer, responses={status.HTTP_201_CREATED: CommentSerializer})
+@swagger_auto_schema(method='get', responses={status.HTTP_200_OK:  StoryCommentSerializer})
+@swagger_auto_schema(method='post', request_body= StoryCommentCreateSerializer, responses={status.HTTP_201_CREATED: StoryCommentSerializer})
 @api_view(['GET','POST'])
 @permission_classes([IsAuthenticated])
 @authentication_classes([JSONWebTokenAuthentication])
@@ -98,14 +100,14 @@ def comment(request, story_pk):
     story = get_object_or_404(Story, pk=story_pk)
     if request.method == 'GET':
         comments = story.comments.filter(story=story).order_by('-created_at')
-        serializers = CommentSerializer(comments, many=True)
+        serializers = StoryCommentSerializer(comments, many=True)
         return Response(serializers.data, status=status.HTTP_200_OK)
     elif request.method == 'POST':
         user = request.user
-        serializer = CommentCreateSerializer(data=request.data)
+        serializer = StoryCommentCreateSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             comment = serializer.save(story=story,user=user)
-            new = CommentSerializer(comment)
+            new = StoryCommentSerializer(comment)
             return Response(new.data,status=status.HTTP_201_CREATED)
 
 @swagger_auto_schema(method='delete', responses={status.HTTP_204_NO_CONTENT:'HTTP_204_NO_CONTENT',status.HTTP_403_FORBIDDEN:'HTTP_403_FORBIDDEN'})
@@ -113,7 +115,7 @@ def comment(request, story_pk):
 @authentication_classes([JSONWebTokenAuthentication])
 @permission_classes([IsAuthenticated])
 def comment_delete(request, story_pk, comment_pk):
-    comment = get_object_or_404(Comment, pk=comment_pk)
+    comment = get_object_or_404(StoryComment, pk=comment_pk)
     if request.user == comment.user:
         comment.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
