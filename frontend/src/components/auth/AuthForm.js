@@ -34,10 +34,11 @@ const Footer = css`
     }
   }
 `
-
+// Mui theme customizing
 const theme = createTheme({
   typography: {
     fontFamily: ['Noto Sans KR'],
+    fontSize: 11,
   },
 })
 
@@ -66,7 +67,7 @@ const AuthForm = ({ type, form, onChange, onSubmit }) => {
           <Box
             sx={{
               display: 'grid',
-              gap: 2,
+              gap: 1,
             }}
           >
             <div className="formHeader">
@@ -141,6 +142,22 @@ const AuthForm = ({ type, form, onChange, onSubmit }) => {
                   variant="standard"
                   onChange={onChange}
                   value={form.nickname}
+                />
+                <TextField
+                  id="text-address"
+                  name="address"
+                  label="주소"
+                  variant="standard"
+                  onChange={onChange}
+                  value={form.address}
+                />
+                <TextField
+                  id="text-phone"
+                  name="phone"
+                  label="핸드폰 번호"
+                  variant="standard"
+                  onChange={onChange}
+                  value={form.phone}
                 />
               </>
             )}
