@@ -51,6 +51,7 @@ class User(AbstractBaseUser):
     ac_bank = models.CharField(max_length=20, null=True)
     is_admin = models.BooleanField(default=False)
     followers = models.ManyToManyField('self', symmetrical=False, related_name='followings')
+    provider = models.CharField(max_length=50, null=True)
 
     objects = UserManger()
 
