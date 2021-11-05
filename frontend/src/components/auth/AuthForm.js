@@ -62,16 +62,16 @@ const AuthForm = ({ type, form, onChange, onSubmit }) => {
   return (
     <div css={AuthFormWrapper}>
       <ThemeProvider theme={theme}>
-        <Box
-          sx={{
-            display: 'grid',
-            gap: 2,
-          }}
-        >
-          <div className="formHeader">
-            {type === 'login' ? '이메일로 로그인' : '회원가입'}
-          </div>
-          <form onSubmit={onSubmit}>
+        <form onSubmit={onSubmit}>
+          <Box
+            sx={{
+              display: 'grid',
+              gap: 2,
+            }}
+          >
+            <div className="formHeader">
+              {type === 'login' ? '이메일로 로그인' : '회원가입'}
+            </div>
             <TextField
               id="text-email"
               name="email"
@@ -107,31 +107,33 @@ const AuthForm = ({ type, form, onChange, onSubmit }) => {
             </FormControl>
             {/* 회원가입일 경우 추가로 입력하는 Input */}
             {type === 'register' && (
-              <FormControl sx={{ m: 1, width: '25ch' }} variant="standard">
-                <InputLabel htmlFor="text-password">비밀번호 확인</InputLabel>
-                <Input
-                  id="text-passwordConfirm"
-                  name="passwordConfirm"
-                  label="비밀번호 확인"
-                  type={state.showPassword ? 'text' : 'password'}
-                  variant="standard"
-                  value={form.passwordConfirm}
-                  onChange={onChange}
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={handleClickShowPassword}
-                      >
-                        {state.showPassword ? (
-                          <VisibilityOff />
-                        ) : (
-                          <Visibility />
-                        )}
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                />
+              <>
+                <FormControl sx={{ m: 1, width: '25ch' }} variant="standard">
+                  <InputLabel htmlFor="text-password">비밀번호 확인</InputLabel>
+                  <Input
+                    id="text-passwordConfirm"
+                    name="passwordConfirm"
+                    label="비밀번호 확인"
+                    type={state.showPassword ? 'text' : 'password'}
+                    variant="standard"
+                    value={form.passwordConfirm}
+                    onChange={onChange}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                        >
+                          {state.showPassword ? (
+                            <VisibilityOff />
+                          ) : (
+                            <Visibility />
+                          )}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                  />
+                </FormControl>
                 <TextField
                   id="text-nickname"
                   name="nickname"
@@ -140,7 +142,7 @@ const AuthForm = ({ type, form, onChange, onSubmit }) => {
                   onChange={onChange}
                   value={form.nickname}
                 />
-              </FormControl>
+              </>
             )}
 
             <div css={Footer}>
@@ -153,8 +155,8 @@ const AuthForm = ({ type, form, onChange, onSubmit }) => {
             <Button orange fullWidth>
               {text}
             </Button>
-          </form>
-        </Box>
+          </Box>
+        </form>
       </ThemeProvider>
     </div>
   )
