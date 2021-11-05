@@ -3,7 +3,7 @@
 import { css } from '@emotion/react'
 import { Link } from 'react-router-dom'
 
-const wrap = css`
+const TopNavWrapper = css`
   display: flex;
   background-color: #bc6e3d;
   justify-content: space-evenly;
@@ -13,13 +13,13 @@ const wrap = css`
   height: 6vh;
 `
 
-const img = css`
+const Logo = css`
   display: block;
   width: 20%;
   margin: 0 auto;
 `
 
-const linkText = css`
+const LinkText = css`
   text-decoration: none;
   color: white;
 `
@@ -28,16 +28,16 @@ const TopNav = () => {
   return (
     <div>
       <Link to="/">
-        <img src="img/logo.png" alt="" css={img} />
+        <img src="img/logo.png" alt="" css={Logo} />
       </Link>
-      <div css={wrap}>
-        <Link to="/market" css={[linkText]}>
+      <div css={TopNavWrapper}>
+        <Link to="/market" css={LinkText}>
           장터
         </Link>
-        <Link to="/story" css={[linkText]}>
+        <Link to="/story" css={LinkText}>
           이야기
         </Link>
-        <Link to="/farm" css={[linkText]}>
+        <Link to="/farm" css={LinkText}>
           농장
         </Link>
       </div>
