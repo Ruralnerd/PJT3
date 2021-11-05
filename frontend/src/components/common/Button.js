@@ -6,7 +6,7 @@ const StyledButton = styled.button`
   border-radius: 4px;
   font-size: 1rem;
   font-weight: bold;
-  margin: 1rem 0;
+  margin: 0.5rem 0;
   padding: 0.25rem 1rem;
   color: white;
   outline: none;
@@ -33,6 +33,7 @@ const StyledButton = styled.button`
       background: ${palette.orange[5]};
       &:hover {
         background: ${palette.orange[3]};
+        transition: 0.3s ease-in;
       }
     `}
 `

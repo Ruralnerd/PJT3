@@ -1,8 +1,6 @@
-/** @jsxImportSource @emotion/react */
-import { css, jsx } from '@emotion/react'
 import { Route } from 'react-router-dom'
-import LoginPage from './views/LoginPage'
-import RegisterPage from './views/RegisterPage'
+import LoginPage from './pages/LoginPage'
+import RegisterPage from './pages/RegisterPage'
 
 function App() {
   return (

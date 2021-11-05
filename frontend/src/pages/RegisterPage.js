@@ -1,12 +1,10 @@
-/** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react'
 import AuthTemplate from '../components/auth/AuthTemplate'
-import AuthForm from '../components/auth/AuthForm'
+import RegisterForm from '../containers/auth/RegisterForm'
 
 const RegisterPage = () => {
   return (
     <AuthTemplate>
-      <AuthForm type="register" />
+      <RegisterForm />
     </AuthTemplate>
   )
 }
