@@ -29,13 +29,13 @@ class Story(models.Model):
         super(Story, self).delete(*args, **kwargs)
         os.remove(os.path.join(settings.MEDIA_ROOT, self.thumbnail_img.path))
 
-class Comment(models.Model):
+class StoryComment(models.Model):
     story = models.ForeignKey(Story, on_delete=models.CASCADE, related_name='comments')
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='comments')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='story_comments')
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
-class Img(models.Model):
+class StoryImg(models.Model):
     story = models.ForeignKey(Story, on_delete=models.CASCADE, related_name='imgs')
     img = ProcessedImageField(
         upload_to=story_image_path,
@@ -45,7 +45,7 @@ class Img(models.Model):
         default='default_profile.jpeg'
     )
     def delete(self, *args, **kwargs):
-        super(Img, self).delete(*args, **kwargs)
+        super(StoryImg, self).delete(*args, **kwargs)
         os.remove(os.path.join(settings.MEDIA_ROOT, self.img.path))
 
 
