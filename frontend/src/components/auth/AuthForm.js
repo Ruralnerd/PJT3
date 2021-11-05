@@ -132,6 +132,14 @@ const AuthForm = ({ type, form, onChange, onSubmit }) => {
                     </InputAdornment>
                   }
                 />
+                <TextField
+                  id="text-nickname"
+                  name="nickname"
+                  label="닉네임"
+                  variant="standard"
+                  onChange={onChange}
+                  value={form.nickname}
+                />
               </FormControl>
             )}
 
