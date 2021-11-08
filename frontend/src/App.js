@@ -1,21 +1,20 @@
-/** @jsxImportSource @emotion/react */
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import MainPage from './pages/MainPage'
-import MyPage from './pages/MyPage'
-import Account from './pages/Account'
+import { Route, useLocation } from 'react-router-dom'
 
-function App() {
+import HomePage from './pages/HomePage'
+import ProfilePage from './pages/ProfilePage'
+import CounterPage from './pages/CounterPage'
+
+const App = () => {
+  // 이 아래 두 줄을 이용해서 내 현재 url을 확인할 수 있다.
+  const location = useLocation()
+  console.log(location.pathname)
   return (
-    <Router>
-      <div>
-        <Switch>
-          {/* 경로상에 '/'가 존재하는 url들이 많으므로 정확하게 '/'만 있는 url을 구분지으려면 exact path를 사용해야 한다. */}
-          <Route exact path="/" component={MainPage} />
-          <Route exact path="/mypage" component={MyPage} />
-          <Route exact path="/mypage/account" component={Account} />
-        </Switch>
-      </div>
-    </Router>
+    <div className="App">
+      <Route exact path={['/counter']} component={CounterPage} />
+      <Route exact path={['/']} component={HomePage} />
+      <Route exact path={['/profile']} component={ProfilePage} />
+    </div>
   )
 }
+
 export default App

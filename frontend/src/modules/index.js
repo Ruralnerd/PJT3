@@ -1,9 +1,12 @@
 import { combineReducers } from 'redux'
-const state1 = true
+import home from './home'
+import profile from './profile'
+import counter from './counter'
 
-function reducer(state = state1, action) {
-  return state
-}
-const rootReducer = combineReducers({ reducer })
+const rootReducer = combineReducers({
+  counter,
+  home,
+  profile,
+})
 
 export default rootReducer

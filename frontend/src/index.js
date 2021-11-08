@@ -1,18 +1,26 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { createStore } from 'redux'
-import { Provider } from 'react-redux'
 import './index.css'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
+import { BrowserRouter } from 'react-router-dom'
+import { applyMiddleware, createStore } from 'redux'
 import rootReducer from './modules'
+import { Provider } from 'react-redux'
+import loggerMiddleware from './lib/loggerMiddleware'
+import { composeWithDevTools } from 'redux-devtools-extension'
 
-const store = createStore(rootReducer)
+const store = createStore(
+  rootReducer,
+  composeWithDevTools(applyMiddleware(loggerMiddleware)),
+)
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root'),
