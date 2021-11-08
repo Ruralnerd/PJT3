@@ -50,14 +50,14 @@ const RegisterForm = ({ history }) => {
 
   // 회원가입 성공/실패 처리
   useEffect(() => {
-    if (auth) {
-      console.log('로그인 된 상태입니다.')
-      console.log(auth)
-      history.push('/')
-    }
     if (authError) {
       setError(Object.values(authError.response.data)[0])
       return
+    }
+    const token = localStorage.getItem('token')
+    if (token) {
+      alert('이미 로그인 된 상태입니다.')
+      history.push('/')
     }
     if (user) {
       alert('회원가입 되었습니다.')
