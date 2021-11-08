@@ -10,6 +10,6 @@ urlpatterns = [
     path('markets/<int:market_pk>/comments/<comment_pk>/', views.comment_delete),
     path('markets/<int:market_pk>/request/', views.market_request),
     path('markets/<int:market_pk>/request/<int:request_pk>/', views.request_management),
-    path('markets/<int:market_pk>/request/<int:request_pk>/approval', views.request_approval),
-
+    path('markets/<int:market_pk>/request/<int:request_pk>/approval/', views.request_approval),
+    path('markets/<int:market_pk>/request/<int:request_pk>/cancel/', views.request_cancel),
 ]

@@ -16,8 +16,8 @@ const Home = ({ getPosts, posts }) => {
   return (
     <div>
       <SlideList posts={posts} />
-      <HotProductList />
-      <SeasonalProductList />
+      <HotProductList posts={posts} />
+      <SeasonalProductList posts={posts} />
       <FarmerStoryList />
     </div>
   )
