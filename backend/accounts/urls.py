@@ -7,6 +7,8 @@ urlpatterns = [
     path('login/', obtain_jwt_token),
     path('kakao/login/', views.kakaologin),
     path('kakao/callback/', views.kakaologin_callback),
+    path('google/login/', views.googlelogin),
+    path('google/callback/', views.googlelogin_callback),
     path('users/<int:user_pk>/follow/', views.follow),
     path('users/<int:user_pk>/', views.update),
 ]
