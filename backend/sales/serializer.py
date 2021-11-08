@@ -24,7 +24,7 @@ class MarketImgSerializer(serializers.ModelSerializer):
 
 # Stroy Serializers
 class MarketSerializer(serializers.ModelSerializer):
-    producer = UserSmallSerializer()
+    seller = UserSmallSerializer()
     comments = MarketCommentSerializer(many=True)
     imgs = MarketImgSerializer(many=True)
 
