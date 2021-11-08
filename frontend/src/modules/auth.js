@@ -15,6 +15,7 @@ const [REGISTER, REGISTER_SUCCESS, REGISTER_FAILURE] =
 const [LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE] =
   createRequestActionTypes('auth/LOGIN')
 
+// 액션 생성 함수
 export const changeField = createAction(
   CHANGE_FIELD,
 
@@ -24,16 +25,20 @@ export const changeField = createAction(
     value, // 실제 바꾸려는 값
   }),
 )
-// 액션 생성 함수
 export const initializeForm = createAction(INITIALIZE_FORM, (form) => form) // register / login
-export const register = createAction(REGISTER, ({ email, password }) => ({
-  email,
-  password,
-})) // register / login
+export const register = createAction(
+  REGISTER,
+  ({ email, nickname, password }) => ({
+    email,
+    password,
+    nickname,
+  }),
+)
+
 export const login = createAction(LOGIN, ({ email, password }) => ({
   email,
   password,
-})) // register / login
+}))
 
 // 사가 생성
 const registerSaga = createRequestSaga(REGISTER, authAPI.register)
@@ -58,8 +63,9 @@ const initialState = {
     email: '',
     password: '',
   },
-  auth: null,
+  auth: null, // 로그인 된 상태인지 체크
   authError: null,
+  user: null,
 }
 
 // 리듀서
@@ -73,11 +79,15 @@ const auth = handleActions(
       ...state,
       [form]: initialState[form],
       authError: null, // 폼 전환 시 인증 관련 에러 초기화
+      user: null, // 폼 전환 시 회원가입했던 기록 초기화
     }),
-    [REGISTER_SUCCESS]: (state, { payload: auth }) => ({
+    [REGISTER_SUCCESS]: (state, { payload: user }) => ({
       ...state,
       authError: null,
-      auth,
+      /**
+       * 여기서 리턴되는 값은 user info
+       */
+      user,
     }),
     [REGISTER_FAILURE]: (state, { payload: error }) => ({
       ...state,
