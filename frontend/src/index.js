@@ -10,16 +10,15 @@ import { createStore, applyMiddleware } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import rootReducer, { rootSaga } from './modules'
 import createSagaMiddleware from 'redux-saga'
-import logger from 'redux-logger'
+import ReduxThunk from 'redux-thunk'
 
 const sagaMiddleware = createSagaMiddleware()
 const store = createStore(
   rootReducer,
-  composeWithDevTools(applyMiddleware(sagaMiddleware)),
+  composeWithDevTools(applyMiddleware(sagaMiddleware, ReduxThunk)),
 )
 
 sagaMiddleware.run(rootSaga)
-
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
