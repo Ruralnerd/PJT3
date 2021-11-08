@@ -86,8 +86,8 @@ def kakaologin_callback(request):
                 ).save()
         user = User.objects.get(email = kakao_email)
         while user:
-            google_nickname = google_nickname + f'{random.randrange(1, 99999)}'
-            user = User.objects.filter(nickname=google_nickname)
+            kakao_nickname = kakao_nickname + f'{random.randrange(1, 99999)}'
+            user = User.objects.filter(nickname=kakao_nickname)
         token = jwt.encode({"user_id": user.pk, "email":user.email}, config('SECRET_KEY'), algorithm="HS256")
         token = token.decode("utf-8")
 
