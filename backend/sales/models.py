@@ -67,6 +67,8 @@ class Request(models.Model):
     market = models.ForeignKey(Market, on_delete=models.CASCADE, related_name='requests')
     buyer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='requests')
     tid = models.CharField(max_length=200, null=True)
+    phone = models.CharField(max_length=20, blank=True)
+    address = models.TextField(blank=True) 
     req_date = models.DateTimeField(auto_now_add=True)
     quantity = models.IntegerField()
     state = models.IntegerField()
