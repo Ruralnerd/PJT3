@@ -16,7 +16,7 @@ from rest_framework.response import Response
 from .serializer import GetUserSerializer, UserSerializer, UserSmallSerializer
 from .models import User
 
-BASE_URL = "http://localhost:8000/api/v1/"
+BASE_URL = "http://k5d201.p.ssafy.io/api/v1/"
 
 @swagger_auto_schema(method='post', request_body=UserSerializer)
 @api_view(['POST'])
@@ -115,7 +115,7 @@ def googlelogin_callback(request):
     params = {
         'grant_type' : 'authorization_code',
         'client_id' : config('GOOGLE_CLIENT_ID'),
-        'redirect_uri': "http://localhost:8000/api/v1/accounts/google/callback/",
+        'redirect_uri': BASE_URL + "accounts/google/callback/",
         'code' : authorization_code,
         'client_secret' : config('GOOGLE_SECRET_KEY')
     }
