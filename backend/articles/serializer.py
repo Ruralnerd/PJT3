@@ -1,6 +1,6 @@
 from rest_framework import fields, serializers
 
-from accounts.serializer import UserSmallSerializer
+from accounts.serializer import UserSmallSerializer, StorySmallSerializer, MarketSmallSerializer
 from .models import Story, StoryComment, StoryImg
 
 # Comment Serializers
@@ -44,9 +44,3 @@ class StoryEditSerializer(serializers.ModelSerializer):
         fields = ['title', 'content', 'thumbnail_img']
 
 
-class StorySmallSerializer(serializers.ModelSerializer):
-    producer = UserSmallSerializer()
-
-    class Meta:
-        model = Story
-        fields = ['id', 'title', 'thumbnail_img', 'producer']
