@@ -4,7 +4,7 @@ import ProfileTemplate from '../components/home/HomeTemplate'
 import Buyer from '../containers/profile/Buyer'
 import Seller from '../containers/profile/Seller'
 
-const HomePage = () => {
+const ProfilePage = () => {
   return (
     <ProfileTemplate>
       <Buyer />
@@ -13,4 +13,4 @@ const HomePage = () => {
   )
 }
 
-export default HomePage
+export default ProfilePage

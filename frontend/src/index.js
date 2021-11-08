@@ -7,12 +7,15 @@ import { BrowserRouter } from 'react-router-dom'
 import { applyMiddleware, createStore } from 'redux'
 import rootReducer from './modules'
 import { Provider } from 'react-redux'
-import loggerMiddleware from './lib/loggerMiddleware'
+import { createLogger } from 'redux-logger'
+import ReduxThunk from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
+
+const logger = createLogger()
 
 const store = createStore(
   rootReducer,
-  composeWithDevTools(applyMiddleware(loggerMiddleware)),
+  composeWithDevTools(applyMiddleware(logger, ReduxThunk)),
 )
 
 ReactDOM.render(
