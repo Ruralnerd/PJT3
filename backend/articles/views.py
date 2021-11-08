@@ -9,6 +9,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework.response import Response
 
+from accounts.serializer import StorySmallSerializer, MarketSmallSerializer, UserSmallSerializer
 from .serializer import StorySerializer, StorySmallSerializer, StoryCreateSerializer, StoryEditSerializer 
 from .serializer import StoryImgSerializer 
 from .serializer import StoryCommentSerializer, StoryCommentCreateSerializer

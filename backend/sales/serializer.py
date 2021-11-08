@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from accounts.serializer import UserOrderSerializer, UserSmallSerializer
+from accounts.serializer import UserOrderSerializer, UserSmallSerializer, StorySmallSerializer, MarketSmallSerializer
 from .models import Request, MarketComment, MarketImg, Market
 
 # Comment Serializers
@@ -41,14 +41,6 @@ class MarketEditSerializer(serializers.ModelSerializer):
     class Meta:
         model = Market
         fields = ['title','price','period','unit','quantity', 'thumbnail_img']
-
-
-class MarketSmallSerializer(serializers.ModelSerializer):
-    seller = UserSmallSerializer()
-
-    class Meta:
-        model = Market
-        fields = ['id', 'title', 'thumbnail_img', 'seller']
 
 # Request Serializers
 class RequestBuyerSerializer(serializers.ModelSerializer):
