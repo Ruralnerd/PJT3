@@ -14,6 +14,12 @@ export default function createRequestSaga(type, request) {
   return function* (action) {
     yield put(startLoading(type)) // 로딩 시작
     try {
+      /*
+        call(request, action.payload)은
+        authAPI.{type}(action.payload)과 같다!
+
+        예시) authAPI.register({email, nickname, password})
+      */
       const response = yield call(request, action.payload)
       yield put({
         type: SUCCESS,

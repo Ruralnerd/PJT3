@@ -34,6 +34,16 @@ const Footer = css`
     }
   }
 `
+/**
+ * Error message Custom
+ */
+const ErrorMessage = css`
+  color: #d64242;
+  text-align: center;
+  font-size: 0.875rem;
+  margin-top: 1rem;
+`
+
 // Mui theme customizing
 const theme = createTheme({
   typography: {
@@ -47,7 +57,7 @@ const textMap = {
   register: '회원가입',
 }
 
-const AuthForm = ({ type, form, onChange, onSubmit }) => {
+const AuthForm = ({ type, form, onChange, onSubmit, error }) => {
   const text = textMap[type]
   const [state, setState] = useState({
     showPassword: false,
@@ -169,6 +179,7 @@ const AuthForm = ({ type, form, onChange, onSubmit }) => {
                 <Link to="/login">로그인</Link>
               )}
             </div>
+            {error && <div css={ErrorMessage}>{error}</div>}
             <Button orange fullWidth>
               {text}
             </Button>
