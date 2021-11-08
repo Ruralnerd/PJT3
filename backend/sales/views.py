@@ -182,7 +182,7 @@ def market_request(request, market_pk):
 # 결제 함수
 def request_payment(market, data):
     URL = 'https://kapi.kakao.com/v1/payment/ready'
-    base_URL = 'http://127.0.0.1:8000/api/v1/'
+    base_URL = 'http://k5d201.p.ssafy.io/api/v1/'
     headers = {
         "Authorization": "KakaoAK " + "8051c1870d17a9e790ea10d9dbaef386",
         "Content-type": "application/x-www-form-urlencoded;charset=utf-8"
