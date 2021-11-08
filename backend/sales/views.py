@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
 from django.http import HttpResponseRedirect
+from django.db.models import Count
 import requests
 
 from drf_yasg.utils import swagger_auto_schema
@@ -35,8 +36,11 @@ def markets(request):
         try:
             count = int(request.GET['num'])
             option = request.GET['option']
+            markets = Market.objects.all()
             if option == 'created_at':
                 stories = Market.objects.order_by('-created_at')[:count]
+            elif option == 'popular':
+                stories = markets.annotate(request_count=Count('requests')).order_by('-request_count')[:count]
             serializer = MarketSmallSerializer(stories, many=True)
             return Response(serializer.data,status=status.HTTP_200_OK)
 
@@ -195,7 +199,7 @@ def request_payment(market, data):
         "quantity": data['quantity'],                      # 구매 물품 수량
         "total_amount": market.price * data['quantity'],   # 구매 물품 가격
         "tax_free_amount": "0",                            # 구매 물품 비과세
-        "approval_url": base_URL + f"sales/markets/{market.id}/request/{data['id']}/approval",           # 결제 성공 시 이동할 url
+        "approval_url": base_URL + f"sales/markets/{market.id}/request/{data['id']}/approval/",           # 결제 성공 시 이동할 url
         "cancel_url": base_URL,                                                                  # 결제 취소 시 이동할 url
         "fail_url": base_URL,                                                                    # 결제 실패 시 이동할 url
     }
