@@ -4,7 +4,8 @@ from . import views
 
 urlpatterns = [
     path('users/', views.signup),
-    path('login/', obtain_jwt_token),
+    path('login/', views.login),
+    path('token/', obtain_jwt_token),
     path('kakao/login/', views.kakaologin),
     path('kakao/callback/', views.kakaologin_callback),
     path('google/login/', views.googlelogin),
