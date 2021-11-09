@@ -23,6 +23,7 @@ class Story(models.Model):
         blank=True,
         default='default_profile.jpeg'
     )
+    hits = models.PositiveIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     def delete(self, *args, **kwargs):
