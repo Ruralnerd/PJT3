@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 from django.http import HttpResponseRedirect
 from django.db.models import Count
 import requests
-from datetime import date, datetime, timedelta
+from datetime import datetime, timedelta
 
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
@@ -81,7 +81,7 @@ def market_detail(request, market_pk):
 
         if f'_{market.id}_' not in cookie_value:
             cookie_value += f'{market.id}_'
-            responseData.set_cookie('hitboard', value=cookie_value, max_age=max_age, httponly=True)
+            responseData.set_cookie('Markethitboard', value=cookie_value, max_age=max_age, httponly=True)
             market.hits += 1
             market.save()
         return responseData
