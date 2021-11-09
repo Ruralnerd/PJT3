@@ -12,9 +12,9 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework.response import Response
 
-
+from accounts.serializer import StorySmallSerializer, MarketSmallSerializer, UserSmallSerializer
 from .serializer import RequestBuyerSerializer, RequestSerializer, RequestSellerSerializer
-from .serializer import MarketSmallSerializer, MarketCreateSerializer, MarketSerializer, MarketEditSerializer
+from .serializer import MarketCreateSerializer, MarketSerializer, MarketEditSerializer
 from .serializer import MarketImgSerializer
 from .serializer import MarketCommentCreateSerializer, MarketCommentSerializer
 from .models import Market, Request, MarketImg, MarketComment

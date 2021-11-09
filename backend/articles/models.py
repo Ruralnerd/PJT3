@@ -13,7 +13,7 @@ def thumbnail_image_path(instance, filename):
     return 'articles/storys/thumbnail/{}/{}'.format(instance.story.pk, filename)
 
 class Story(models.Model):
-    producer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='stories')
+    producer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='storys')
     title = models.CharField(max_length=100)
     content = models.TextField()
     thumbnail_img = ProcessedImageField(
