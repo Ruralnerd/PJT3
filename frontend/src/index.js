@@ -11,6 +11,7 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 import rootReducer, { rootSaga } from './modules'
 import createSagaMiddleware from 'redux-saga'
 import ReduxThunk from 'redux-thunk'
+import { check } from './modules/auth'
 
 const sagaMiddleware = createSagaMiddleware()
 const store = createStore(
@@ -18,7 +19,18 @@ const store = createStore(
   composeWithDevTools(applyMiddleware(sagaMiddleware, ReduxThunk)),
 )
 
+function loadUser() {
+  try {
+    const token = localStorage.getItem('token')
+    if (token) {
+      store.dispatch(check({ token }))
+    }
+  } catch (e) {}
+}
+
 sagaMiddleware.run(rootSaga)
+loadUser()
+
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
