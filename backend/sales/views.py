@@ -77,7 +77,7 @@ def market_detail(request, market_pk):
         expire_date -= now
         max_age = expire_date.total_seconds()
 
-        cookie_value = request.COOKIES.get('hitboard', '_')
+        cookie_value = request.COOKIES.get('Markethitboard', '_')
 
         if f'_{market.id}_' not in cookie_value:
             cookie_value += f'{market.id}_'
