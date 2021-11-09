@@ -2,10 +2,12 @@
 
 import { css } from '@emotion/react'
 import { Link } from 'react-router-dom'
+import palette from '../../lib/styles/palette'
+import { useLocation } from 'react-router-dom'
 
 const TopNavWrapper = css`
   display: flex;
-  background-color: #bc6e3d;
+  background: ${palette.orange[5]};
   justify-content: space-evenly;
   align-items: center;
   color: white;
@@ -25,6 +27,8 @@ const LinkText = css`
 `
 
 const TopNav = () => {
+  const location = useLocation()
+  console.log(location.pathname)
   return (
     <div>
       <Link to="/">
