@@ -1,5 +1,6 @@
 from django.shortcuts import get_object_or_404, render
 from django.contrib.auth import get_user_model
+from datetime import datetime, timedelta
 
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
@@ -35,6 +36,8 @@ def storys(request):
             option = request.GET['option']
             if option == 'created_at':
                 stories = Story.objects.order_by('-created_at')[:count]
+            elif option == 'popular':
+                stories = Story.objects.order_by('-hits')[:count]
             serializer = StorySmallSerializer(stories, many=True)
             return Response(serializer.data,status=status.HTTP_200_OK)
 
@@ -60,7 +63,23 @@ def story_detail(request, story_pk):
     user = get_object_or_404(get_user_model(), pk=story.producer.pk)
     if request.method == 'GET':
         serializer = StorySerializer(story)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        responseData = Response(serializer.data, status=status.HTTP_200_OK)
+
+        expire_date, now = datetime.now(), datetime.now()
+        expire_date += timedelta(days=1)
+        expire_date = expire_date.replace(hour=0, minute=0, second=0, microsecond=0)
+        expire_date -= now
+        max_age = expire_date.total_seconds()
+
+        cookie_value = request.COOKIES.get('Storyhitboard', '_')
+
+        if f'_{story.id}_' not in cookie_value:
+            cookie_value += f'{story.id}_'
+            responseData.set_cookie('Storyhitboard', value=cookie_value, max_age=max_age, httponly=True)
+            story.hits += 1
+            story.save()
+
+        return responseData
         
     if story.producer != request.user:
         return Response(status=status.HTTP_403_FORBIDDEN)
