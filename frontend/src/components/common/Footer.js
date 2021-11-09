@@ -10,20 +10,25 @@ const FooterWrapper = css`
   padding: 0;
 `
 
+const FooterTop = css`
+  display: flex;
+  justify-content: space-evenly;
+`
+
 const LinkText = css`
   text-decoration: none;
   color: white;
 `
 
+const FooterBottom = css`
+  margin-top: 0;
+  padding-bottom: 1rem;
+`
+
 const Footer = () => {
   return (
     <div css={FooterWrapper}>
-      <div
-        css={css`
-          display: flex;
-          justify-content: space-evenly;
-        `}
-      >
+      <div css={FooterTop}>
         <Link to="/" css={LinkText}>
           <p>고객센터</p>
         </Link>
@@ -36,14 +41,7 @@ const Footer = () => {
           <p>문의하기</p>
         </Link>
       </div>
-      <p
-        css={css`
-          margin-top: 0;
-          padding-bottom: 1rem;
-        `}
-      >
-        copyright 농사직걸
-      </p>
+      <p css={FooterBottom}>copyright 농사직걸</p>
     </div>
   )
 }
