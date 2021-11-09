@@ -3,26 +3,50 @@
     {
       "id": 1,
       "marketId": 1,
-      "thumbnail_img": "img/product/product01.jpg",
+      "thumbnail_img": "images/product/product01.jpg",
       "title": "설향 딸기"
     },
     {
       "id": 2,
       "marketId": 2,
-      "thumbnail_img": "img/product/product02.jpg",
+      "thumbnail_img": "images/product/product02.jpg",
       "title": "안녕하세요 여러분 이건 꿀입니다. 아마 맞을거에요. 아닐 수도 있지만, 꿀은 우두령이 맛있습니다."
     },
     {
       "id": 3,
       "marketId": 3,
-      "thumbnail_img": "img/product/product03.jpg",
+      "thumbnail_img": "images/product/product03.jpg",
       "title": "해당 작물은 고추입니다. 이렇게 설명을 길게 해놓으면.. 계속 설명이 길어지죠"
     },
     {
       "id": 4,
       "marketId": 4,
-      "thumbnail_img": "img/product/product04.jpg",
+      "thumbnail_img": "images/product/product04.jpg",
       "title": "ㅁㄴㄹ"
+    },
+    {
+      "id": 5,
+      "marketId": 5,
+      "thumbnail_img": "images/product/product05.jpg",
+      "title": "주먹감자"
+    },
+    {
+      "id": 6,
+      "marketId": 6,
+      "thumbnail_img": "images/product/product06.jpg",
+      "title": "고구마는 영어로 sweet potato"
+    },
+    {
+      "id": 7,
+      "marketId": 7,
+      "thumbnail_img": "images/product/product07.jpg",
+      "title": "삼미자 사미자 오미자"
+    },
+    {
+      "id": 8,
+      "marketId": 8,
+      "thumbnail_img": "images/product/product08.jpg",
+      "title": "토 맛 토마토"
     }
   ],
   "posts": [
