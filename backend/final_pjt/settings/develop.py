@@ -1,5 +1,5 @@
 from .base import *
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['host.docker.internal','k5d201.p.ssafy.io', 'backend']
 
