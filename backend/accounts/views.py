@@ -4,20 +4,49 @@ from django.contrib.auth import base_user, get_user_model
 import requests
 import random
 
+from requests.api import request
+
 import jwt
 from decouple import config
 from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework.response import Response
 
-from .serializer import GetUserSerializer, UserSerializer, UserSmallSerializer
+from .serializer import GetUserSerializer, UserSerializer, UserLoginSerializer
 from .models import User
 
 BASE_URL = "http://k5d201.p.ssafy.io/api/v1/"
 
+@swagger_auto_schema(
+    method='post',
+    request_body=UserLoginSerializer,
+    responses={
+        status.HTTP_404_NOT_FOUND:'존재하지 않는 이메일입니다',
+        status.HTTP_401_UNAUTHORIZED:'비밀번호가 잘못되었습니다'
+    }
+)
+@api_view(['POST'])
+def login(request):
+    email = request.data['email']
+    password = request.data['password']
+
+    res = requests.post(BASE_URL + 'accounts/token/', data={'email': email, 'password': password})
+
+    if res.status_code == 200:
+        token = res.json().get('token')
+        return Response({'token' : token}, status=status.HTTP_200_OK)
+    
+    try:
+        user = get_object_or_404(User, email= email)
+        return Response({'errors': '비밀번호가 잘못되었습니다'}, status=status.HTTP_401_UNAUTHORIZED)
+    except:
+        return Response({'errors': '존재하지 않는 이메일입니다'}, status=status.HTTP_404_NOT_FOUND)
+
+    
 @swagger_auto_schema(method='post', request_body=UserSerializer)
 @api_view(['POST'])
 def signup(request):

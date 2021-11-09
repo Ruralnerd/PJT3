@@ -51,3 +51,10 @@ class UserOrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'nickname', 'phone', 'address']
+
+
+class UserLoginSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ['email', 'password']
