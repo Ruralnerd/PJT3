@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from django.http import HttpResponseRedirect
 from django.db.models import Count
 import requests
+from datetime import date, datetime, timedelta
 
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
@@ -39,8 +40,10 @@ def markets(request):
             markets = Market.objects.all()
             if option == 'created_at':
                 stories = Market.objects.order_by('-created_at')[:count]
-            elif option == 'popular':
+            elif option == 'manyorder':
                 stories = markets.annotate(request_count=Count('requests')).order_by('-request_count')[:count]
+            elif option == 'popular':
+                stories = Market.objects.order_by('-hits')[:count]
             serializer = MarketSmallSerializer(stories, many=True)
             return Response(serializer.data,status=status.HTTP_200_OK)
 
@@ -66,7 +69,22 @@ def market_detail(request, market_pk):
     user = get_object_or_404(get_user_model(), pk=market.seller.pk)
     if request.method == 'GET':
         serializer = MarketSerializer(market)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        responseData = Response(serializer.data, status=status.HTTP_200_OK)
+
+        expire_date, now = datetime.now(), datetime.now()
+        expire_date += timedelta(days=1)
+        expire_date = expire_date.replace(hour=0, minute=0, second=0, microsecond=0)
+        expire_date -= now
+        max_age = expire_date.total_seconds()
+
+        cookie_value = request.COOKIES.get('hitboard', '_')
+
+        if f'_{market.id}_' not in cookie_value:
+            cookie_value += f'{market.id}_'
+            responseData.set_cookie('hitboard', value=cookie_value, max_age=max_age, httponly=True)
+            market.hits += 1
+            market.save()
+        return responseData
         
     if market.seller != request.user:
         return Response(status=status.HTTP_403_FORBIDDEN)
@@ -79,6 +97,7 @@ def market_detail(request, market_pk):
     elif request.method == 'DELETE':
         market.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 @swagger_auto_schema(method='post', responses={status.HTTP_201_CREATED: MarketImgSerializer, status.HTTP_403_FORBIDDEN:'HTTP_403_FORBIDDEN'})
 @api_view(['POST'])
