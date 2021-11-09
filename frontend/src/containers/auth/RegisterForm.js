@@ -58,6 +58,14 @@ const RegisterForm = ({ history }) => {
       alert('회원가입 되었습니다.')
       history.push('/')
     }
+    if (auth) {
+      history.push('/')
+      try {
+        localStorage.setItem('token', auth.token)
+      } catch (e) {
+        console.log(e)
+      }
+    }
   }, [history, auth, authError, user])
 
   return (
