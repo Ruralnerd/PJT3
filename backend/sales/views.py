@@ -173,6 +173,8 @@ def comment_delete(request, market_pk, comment_pk):
     type=openapi.TYPE_OBJECT, 
     properties={
         'quantity': openapi.Schema(type=openapi.TYPE_INTEGER),
+        'address' : openapi.Schema(type=openapi.TYPE_STRING),
+        'phone'   : openapi.Schema(type=openapi.TYPE_STRING)
     }
 ))
 @api_view(['GET', 'POST'])
@@ -191,6 +193,7 @@ def market_request(request, market_pk):
             'address' : request.data['address'],
             'phone' : request.data['phone']
         }
+        
         serializer = RequestBuyerSerializer(data = data)
         if serializer.is_valid(raise_exception=True):
             request_data = serializer.save()
