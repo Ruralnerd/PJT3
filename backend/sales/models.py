@@ -4,8 +4,7 @@ from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFill
 import os
 
-
-from searches.models import Category
+from articles.models import Category, Story
 
 def market_image_path(instance, filename):
     return 'sales/markets/{}/{}'.format(instance.market.pk, filename)
@@ -28,6 +27,7 @@ class Market(models.Model):
         blank=True,
         default='default_profile.jpeg'
     )
+    storys = models.ManyToManyField(Story, related_name='markets', blank=True)
     categorys = models.ManyToManyField(Category, related_name='markets')
     hits = models.PositiveIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -69,4 +69,3 @@ class Request(models.Model):
     state = models.IntegerField()
     waybill = models.CharField(max_length=200, null=True)
     comp_date = models.DateTimeField(null=True)
-
