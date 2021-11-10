@@ -12,6 +12,8 @@ from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework.response import Response
 
 from accounts.serializer import StorySmallSerializer, MarketSmallSerializer, UserSmallSerializer
+from searches.serializer import CategorySerializer
+from searches.views import category_process
 from .serializer import RequestBuyerSerializer, RequestSerializer, RequestSellerSerializer
 from .serializer import MarketCreateSerializer, MarketSerializer, MarketEditSerializer
 from .serializer import MarketImgSerializer
@@ -24,7 +26,7 @@ from .models import Market, Request, MarketImg, MarketComment
         openapi.Parameter('num', openapi.IN_QUERY, description="list num", type=openapi.TYPE_INTEGER),
         openapi.Parameter('option', openapi.IN_QUERY, description="list option", type=openapi.TYPE_STRING)
     ], 
-    responses={status.HTTP_200_OK: MarketSmallSerializer, status.HTTP_400_BAD_REQUEST:'HTTP_400_BAD_REQUEST'}
+    responses={status.HTTP_200_OK: MarketSmallSerializer(many=True), status.HTTP_400_BAD_REQUEST:'HTTP_400_BAD_REQUEST'}
 )
 @swagger_auto_schema(method='post', request_body=MarketCreateSerializer, responses={status.HTTP_201_CREATED: MarketSerializer})
 @api_view(['GET', 'POST'])
@@ -75,6 +77,18 @@ def market_detail(request, market_pk):
     elif request.method == 'DELETE':
         market.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+@swagger_auto_schema(method='put', request_body=CategorySerializer(many=True), responses={status.HTTP_201_CREATED: MarketSerializer, status.HTTP_403_FORBIDDEN:'HTTP_403_FORBIDDEN'})
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+@authentication_classes([JSONWebTokenAuthentication])
+def market_categorys(request, market_pk):
+    market = get_object_or_404(Market, id=market_pk)
+    if market.producer != request.user:
+        return Response(status=status.HTTP_403_FORBIDDEN)
+    category_process(market, [x['name'] for x in request.data])
+    new = MarketSerializer(market)
+    return Response(new.data, status=status.HTTP_201_CREATED)
 
 @swagger_auto_schema(method='post', responses={status.HTTP_201_CREATED: MarketImgSerializer, status.HTTP_403_FORBIDDEN:'HTTP_403_FORBIDDEN'})
 @api_view(['POST'])

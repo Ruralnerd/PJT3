@@ -5,6 +5,7 @@ from imagekit.processors import ResizeToFill
 import os
 
 from rest_framework import views
+from searches.models import Category
 
 def story_image_path(instance, filename):
     return 'articles/storys/{}/{}'.format(instance.story.pk, filename)
@@ -23,6 +24,7 @@ class Story(models.Model):
         blank=True,
         default='default_profile.jpeg'
     )
+    categorys = models.ManyToManyField(Category, related_name='storys')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     def delete(self, *args, **kwargs):
@@ -48,16 +50,3 @@ class StoryImg(models.Model):
         super(StoryImg, self).delete(*args, **kwargs)
         os.remove(os.path.join(settings.MEDIA_ROOT, self.img.path))
 
-
-class Category(models.Model):
-    name = models.CharField(max_length=50) 
-
-    class Meta:
-        db_table = 'searches_category'
-
-class Category_story(models.Model):
-    story = models.ForeignKey(Story, on_delete=models.CASCADE)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
-
-    class Meta:
-        db_table = 'articles_category_relation'

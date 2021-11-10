@@ -4,7 +4,8 @@ from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFill
 import os
 
-from articles.models import Category
+
+from searches.models import Category
 
 def market_image_path(instance, filename):
     return 'sales/markets/{}/{}'.format(instance.market.pk, filename)
@@ -27,6 +28,7 @@ class Market(models.Model):
         blank=True,
         default='default_profile.jpeg'
     )
+    categorys = models.ManyToManyField(Category, related_name='markets')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -53,14 +55,6 @@ class MarketImg(models.Model):
     def delete(self, *args, **kwargs):
         super(MarketImg, self).delete(*args, **kwargs)
         os.remove(os.path.join(settings.MEDIA_ROOT, self.img.path))
-
-
-class Category_sales(models.Model):
-    market = models.ForeignKey(Market, on_delete=models.CASCADE)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
-
-    class Meta:
-        db_table = 'sales_category_relation'
 
 
 class Request(models.Model):
