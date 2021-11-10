@@ -34,6 +34,7 @@ class StorySerializer(serializers.ModelSerializer):
     producer = UserSmallSerializer()
     comments = StoryCommentSerializer(many=True)
     contents = StoryContentSerializer(many=True)
+    markets = MarketSmallSerializer(many=True)
 
     class Meta:
         model = Story
