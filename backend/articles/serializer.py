@@ -1,6 +1,7 @@
 from rest_framework import fields, serializers
 
 from accounts.serializer import UserSmallSerializer, StorySmallSerializer, MarketSmallSerializer
+from searches.serializer import CategorySerializer
 from .models import Story, StoryComment, StoryContent
 
 # Comment Serializers
@@ -37,13 +38,13 @@ class StorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Story
         fields = "__all__" 
-
+    
 class StoryCreateSerializer(serializers.ModelSerializer):    
     class Meta:
         model = Story
         fields = ['title']
 
-class StoryEditSerializer(serializers.ModelSerializer):    
+class StoryEditSerializer(serializers.ModelSerializer): 
     class Meta:
         model = Story
         fields = ['title', 'thumbnail_img']
