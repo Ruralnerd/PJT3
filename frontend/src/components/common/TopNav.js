@@ -12,7 +12,7 @@ const TopNavWrapper = css`
   align-items: center;
   color: white;
   font-size: 1.2em;
-  height: 6vh;
+  padding: 2% 0;
 `
 
 const Logo = css`
@@ -26,9 +26,29 @@ const LinkText = css`
   color: white;
 `
 
+/*
+TodoList
+
+const isActive = css`
+  color: red;
+`
+ */
 const TopNav = () => {
+  // TodoList
   const location = useLocation()
   console.log(location.pathname)
+  /*
+
+  if (location.pathname.includes('market')) {
+    console.log('마켓이얌')
+    document.getElementById('market').style.color = 'red'
+  } else if (location.pathname.includes('story')) {
+    console.log('스토리얌')
+  } else if (location.pathname.includes('farm')) {
+    console.log('농장이얌')
+  }
+   */
+
   return (
     <div>
       <Link to="/">
@@ -39,13 +59,13 @@ const TopNav = () => {
         />
       </Link>
       <div css={TopNavWrapper}>
-        <Link to="/market" css={LinkText}>
+        <Link to="/market" css={LinkText} id="market">
           장터
         </Link>
-        <Link to="/story" css={LinkText}>
+        <Link to="/story" css={LinkText} id="stroy">
           이야기
         </Link>
-        <Link to="/farm" css={LinkText}>
+        <Link to="/farm" css={LinkText} id="farm">
           농장
         </Link>
       </div>
