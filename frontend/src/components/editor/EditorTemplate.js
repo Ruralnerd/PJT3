@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import { Link } from 'react-router-dom'
-import palette from '../lib/styles/palette'
+import palette from '../../lib/styles/palette'
 
 /**
  * 스마트 에디터의 레이아웃을 담당하는 컴포넌트입니다.
