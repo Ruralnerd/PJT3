@@ -61,7 +61,7 @@ def markets(request):
 
 
 @swagger_auto_schema(method='get', responses={status.HTTP_200_OK: MarketSerializer})
-@swagger_auto_schema(method='put', request_body=MarketCreateSerializer, responses={status.HTTP_201_CREATED: MarketSerializer, status.HTTP_403_FORBIDDEN:'HTTP_403_FORBIDDEN'})
+@swagger_auto_schema(method='put', request_body=MarketEditSerializer, responses={status.HTTP_201_CREATED: MarketSerializer, status.HTTP_403_FORBIDDEN:'HTTP_403_FORBIDDEN'})
 @swagger_auto_schema(method='delete', responses={status.HTTP_204_NO_CONTENT:'HTTP_204_NO_CONTENT',status.HTTP_403_FORBIDDEN:'HTTP_403_FORBIDDEN'})
 @api_view(['GET', 'PUT', 'DELETE'])
 @permission_classes([IsAuthenticated])
