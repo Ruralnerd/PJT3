@@ -128,7 +128,7 @@ def kakaologin_callback(request):
         token = jwt.encode({"user_id": user.pk, "email":user.email}, config('SECRET_KEY'), algorithm="HS256")
         token = token.decode("utf-8")
 
-        return JsonResponse({"token" : token}, status=status.HTTP_200_OK)
+        return JsonResponse({"id" : user.id, "token" : token}, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
 def googlelogin(request):
@@ -192,7 +192,7 @@ def googlelogin_callback(request):
         token = jwt.encode({"user_id": user.pk, "email":user.email}, config('SECRET_KEY'), algorithm="HS256")
         token = token.decode("utf-8")
 
-        return JsonResponse({"token" : token}, status=status.HTTP_200_OK)
+        return JsonResponse({"id" : user.id, "token" : token}, status=status.HTTP_200_OK)
 
 @swagger_auto_schema(method='get', responses={status.HTTP_200_OK: GetUserSerializer})
 @swagger_auto_schema(method='put', request_body=UserSerializer,  responses={status.HTTP_200_OK: UserSerializer})
