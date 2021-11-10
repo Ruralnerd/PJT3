@@ -51,12 +51,20 @@ def login(request):
 @api_view(['POST'])
 def signup(request):
     serializer = UserSerializer(data = request.data)
-    if serializer.is_valid(raise_exception=True):
+    if serializer.is_valid():
         user = serializer.save()
         user.set_password(request.data.get('password'))
         user.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors.as_data(), status=status.HTTP_400_BAD_REQUEST)
+    error_data = {}
+    for error in serializer.errors:
+        if error == 'email':
+            error_data['email'] = '이미 존재하는 email입니다.'
+        elif error == 'nickname':
+            error_data['nickname'] = '이미 존재하는 nickname입니다.'
+        elif error == 'password':
+            error_data['password'] = 'password를 입력해주세요.'
+    return Response(error_data, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
