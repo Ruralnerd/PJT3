@@ -7,7 +7,6 @@ from sales.models import Market
 User = get_user_model()
 
 # small Serializer
-
 class UserSmallSerializer(serializers.ModelSerializer):
 
     class Meta:
