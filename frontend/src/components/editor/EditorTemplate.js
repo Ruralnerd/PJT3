@@ -1,11 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import { Link } from 'react-router-dom'
+import palette from '../../lib/styles/palette'
 
 /**
  * 스마트 에디터의 레이아웃을 담당하는 컴포넌트입니다.
  */
-
 const sizes = {
   desktop: '1024px',
   tablet: '768px',
@@ -19,7 +19,7 @@ const EditorTemplateWrapper = ({ theme }) => css`
   right: 0;
   top: 0;
   bottom: 0;
-  background: ${theme.WrapperBackground};
+  background: ${palette.gray[0]};
   display: flex;
   flex-direction: column;
   align-items: center;
