@@ -40,17 +40,16 @@ const LoginForm = ({ history }) => {
 
   useEffect(() => {
     if (authError) {
-      setError('로그인 실패')
+      setError(Object.values(authError.response.data)[0])
       return
     }
     if (auth) {
-      localStorage.setItem('token', auth.token)
       history.push('/')
-    }
-    const token = localStorage.getItem('token')
-    if (token) {
-      alert('이미 로그인 된 상태입니다.')
-      history.push('/')
+      try {
+        localStorage.setItem('token', auth.token)
+      } catch (e) {
+        console.log(e)
+      }
     }
   }, [history, auth, authError])
 
