@@ -1,7 +1,7 @@
 import EditorTemplate from '../components/editor/EditorTemplate'
 
-const StoryEditorPage = () => {
+const MarketEditorPage = () => {
   return <EditorTemplate></EditorTemplate>
 }
 
-export default StoryEditorPage
+export default MarketEditorPage
