@@ -8,6 +8,8 @@ import * as authAPI from '../lib/api/auth'
 
 const CHANGE_FIELD = 'auth/CHANGE_FIELD'
 const INITIALIZE_FORM = 'auth/INITIALIZE_FORM'
+const CHECK = 'auth/CHECK'
+const LOGOUT = 'auth/LOGOUT'
 
 // 액션 타입 정의
 const [REGISTER, REGISTER_SUCCESS, REGISTER_FAILURE] =
@@ -39,6 +41,10 @@ export const login = createAction(LOGIN, ({ email, password }) => ({
   email,
   password,
 }))
+export const check = createAction(CHECK, ({ token }) => ({
+  token,
+}))
+export const logout = createAction(LOGOUT)
 
 // 사가 생성
 const registerSaga = createRequestSaga(REGISTER, authAPI.register)
@@ -101,6 +107,14 @@ const auth = handleActions(
     [LOGIN_FAILURE]: (state, { payload: error }) => ({
       ...state,
       authError: error,
+    }),
+    [CHECK]: (state, { payload: token }) => ({
+      ...state,
+      auth: token,
+    }),
+    [LOGOUT]: (state) => ({
+      ...state,
+      auth: null,
     }),
   },
   initialState,

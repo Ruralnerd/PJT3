@@ -16,7 +16,6 @@ def thumbnail_image_path(instance, filename):
 class Story(models.Model):
     producer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='storys')
     title = models.CharField(max_length=100)
-    content = models.TextField()
     thumbnail_img = ProcessedImageField(
         upload_to=thumbnail_image_path,
         processors=[ResizeToFill(150, 150)],
@@ -25,6 +24,7 @@ class Story(models.Model):
         default='default_profile.jpeg'
     )
     categorys = models.ManyToManyField(Category, related_name='storys')
+    hits = models.PositiveIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     def delete(self, *args, **kwargs):
@@ -37,8 +37,8 @@ class StoryComment(models.Model):
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
-class StoryImg(models.Model):
-    story = models.ForeignKey(Story, on_delete=models.CASCADE, related_name='imgs')
+class StoryContent(models.Model):
+    story = models.ForeignKey(Story, on_delete=models.CASCADE, related_name='contents')
     img = ProcessedImageField(
         upload_to=story_image_path,
         processors=[ResizeToFill(150, 150)],
@@ -46,7 +46,9 @@ class StoryImg(models.Model):
         blank=True,
         default='default_profile.jpeg'
     )
+    content = models.TextField(blank=True)
+    sequence = models.IntegerField(default=0)
     def delete(self, *args, **kwargs):
-        super(StoryImg, self).delete(*args, **kwargs)
+        super(StoryContent, self).delete(*args, **kwargs)
         os.remove(os.path.join(settings.MEDIA_ROOT, self.img.path))
 

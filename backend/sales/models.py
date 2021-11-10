@@ -29,6 +29,7 @@ class Market(models.Model):
         default='default_profile.jpeg'
     )
     categorys = models.ManyToManyField(Category, related_name='markets')
+    hits = models.PositiveIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

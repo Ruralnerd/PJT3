@@ -54,14 +54,17 @@ const RegisterForm = ({ history }) => {
       setError(Object.values(authError.response.data)[0])
       return
     }
-    const token = localStorage.getItem('token')
-    if (token) {
-      alert('이미 로그인 된 상태입니다.')
-      history.push('/')
-    }
     if (user) {
       alert('회원가입 되었습니다.')
       history.push('/')
+    }
+    if (auth) {
+      history.push('/')
+      try {
+        localStorage.setItem('token', auth.token)
+      } catch (e) {
+        console.log(e)
+      }
     }
   }, [history, auth, authError, user])
 

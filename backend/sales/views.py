@@ -1,7 +1,9 @@
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
 from django.http import HttpResponseRedirect
+from django.db.models import Count
 import requests
+from datetime import datetime, timedelta
 
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
@@ -37,8 +39,13 @@ def markets(request):
         try:
             count = int(request.GET['num'])
             option = request.GET['option']
+            markets = Market.objects.all()
             if option == 'created_at':
                 stories = Market.objects.order_by('-created_at')[:count]
+            elif option == 'manyorder':
+                stories = markets.annotate(request_count=Count('requests')).order_by('-request_count')[:count]
+            elif option == 'popular':
+                stories = Market.objects.order_by('-hits')[:count]
             serializer = MarketSmallSerializer(stories, many=True)
             return Response(serializer.data,status=status.HTTP_200_OK)
 
@@ -64,7 +71,22 @@ def market_detail(request, market_pk):
     user = get_object_or_404(get_user_model(), pk=market.seller.pk)
     if request.method == 'GET':
         serializer = MarketSerializer(market)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        responseData = Response(serializer.data, status=status.HTTP_200_OK)
+
+        expire_date, now = datetime.now(), datetime.now()
+        expire_date += timedelta(days=1)
+        expire_date = expire_date.replace(hour=0, minute=0, second=0, microsecond=0)
+        expire_date -= now
+        max_age = expire_date.total_seconds()
+
+        cookie_value = request.COOKIES.get('Markethitboard', '_')
+
+        if f'_{market.id}_' not in cookie_value:
+            cookie_value += f'{market.id}_'
+            responseData.set_cookie('Markethitboard', value=cookie_value, max_age=max_age, httponly=True)
+            market.hits += 1
+            market.save()
+        return responseData
         
     if market.seller != request.user:
         return Response(status=status.HTTP_403_FORBIDDEN)
@@ -209,7 +231,7 @@ def request_payment(market, data):
         "quantity": data['quantity'],                      # 구매 물품 수량
         "total_amount": market.price * data['quantity'],   # 구매 물품 가격
         "tax_free_amount": "0",                            # 구매 물품 비과세
-        "approval_url": base_URL + f"sales/markets/{market.id}/request/{data['id']}/approval",           # 결제 성공 시 이동할 url
+        "approval_url": base_URL + f"sales/markets/{market.id}/request/{data['id']}/approval/",           # 결제 성공 시 이동할 url
         "cancel_url": base_URL,                                                                  # 결제 취소 시 이동할 url
         "fail_url": base_URL,                                                                    # 결제 실패 시 이동할 url
     }
