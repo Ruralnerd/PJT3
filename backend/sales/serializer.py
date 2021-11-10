@@ -27,20 +27,21 @@ class MarketSerializer(serializers.ModelSerializer):
     seller = UserSmallSerializer()
     comments = MarketCommentSerializer(many=True)
     imgs = MarketImgSerializer(many=True)
+    storys = StorySmallSerializer(many=True)
 
     class Meta:
         model = Market
         fields = "__all__" 
 
-class MarketCreateSerializer(serializers.ModelSerializer):    
+class MarketCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Market
-        fields = ['title','price','period','unit','quantity']
+        fields = ['title','price','period','unit','quantity', 'storys']
 
 class MarketEditSerializer(serializers.ModelSerializer):    
     class Meta:
         model = Market
-        fields = ['title','price','period','unit','quantity', 'thumbnail_img']
+        fields = ['title','price','period','unit','quantity', 'thumbnail_img', 'storys']
 
 # Request Serializers
 class RequestBuyerSerializer(serializers.ModelSerializer):
