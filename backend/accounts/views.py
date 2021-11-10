@@ -228,5 +228,5 @@ def follow(request, user_pk):
         person.followers.remove(me)
     else:
         person.followers.add(me)
-    new = UserSerializer(person)
+    new = GetUserSerializer(person)
     return Response(new.data,status=status.HTTP_201_CREATED)
