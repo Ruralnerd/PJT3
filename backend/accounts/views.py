@@ -35,10 +35,10 @@ def login(request):
     password = request.data['password']
 
     res = requests.post(BASE_URL + 'accounts/token/', data={'email': email, 'password': password})
-
     if res.status_code == 200:
+        user = get_object_or_404(User, email= email)
         token = res.json().get('token')
-        return Response({'token' : token}, status=status.HTTP_200_OK)
+        return Response({'id' : user.id, 'token' : token }, status=status.HTTP_200_OK)
     
     try:
         user = get_object_or_404(User, email= email)
