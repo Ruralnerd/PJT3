@@ -5,7 +5,7 @@
 
 import React from 'react'
 import { connect } from 'react-redux'
-import SellerProfile from '../../components/profile/SellerProfile'
+import Profile from '../../components/profile/Profile'
 import { getProfile } from '../../modules/profile'
 
 const { useEffect } = React
@@ -14,14 +14,14 @@ const { useEffect } = React
 // 1. getProfile함수
 // 2. profile 초기상태
 // 3. loadingProfile
-const Seller = ({ match, getProfile, profiles, loadingProfile }) => {
+const Seller = ({ getProfile, profiles, loadingProfile }) => {
   console.log('컨테이너')
   useEffect(() => {
     getProfile()
   }, [getProfile])
   return (
     <div>
-      <SellerProfile profile={profiles} loadingProfile={loadingProfile} />
+      <Profile profile={profiles} loadingProfile={loadingProfile} />
     </div>
   )
 }

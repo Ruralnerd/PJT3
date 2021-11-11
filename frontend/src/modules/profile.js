@@ -2,6 +2,7 @@ import { handleActions } from 'redux-actions'
 import * as api from '../lib/api/profile'
 import createRequestThunk from '../lib/createRequestThunk'
 
+// 액션타입 정의
 const GET_PROFILE = 'profile/GET_PROFILE'
 const GET_PROFILE_SUCCESS = 'profile/GET_PROFILE_SUCCESS'
 

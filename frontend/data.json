@@ -155,15 +155,45 @@
       "markets": [
         {
           "id": 1,
-          "title": "상품제목A",
-          "sumnail_img": "상품썸네일A"
+          "title": "상품제목A1",
+          "thumbnail_img": "상품썸네일A1"
+        },
+        {
+          "id": 2,
+          "title": "상품제목A2",
+          "thumbnail_img": "상품썸네일A2"
+        },
+        {
+          "id": 3,
+          "title": "상품제목A3",
+          "thumbnail_img": "상품썸네일A3"
+        },
+        {
+          "id": 4,
+          "title": "상품제목A4",
+          "thumbnail_img": "상품썸네일A4"
         }
       ],
       "storys": [
         {
           "id": 1,
-          "title": "이야기제목A",
-          "sumnail_img": "이야기썸네일A"
+          "title": "이야기제목A1",
+          "thumbnail_img": "이야기썸네일A1"
+        },
+        {
+          "id": 2,
+          "title": "이야기제목A2",
+          "thumbnail_img": "이야기썸네일A1"
+        },
+        {
+          "id": 3,
+          "title": "이야기제목A3",
+          "thumbnail_img": "이야기썸네일A3"
+        },
+        {
+          "id": 4,
+          "title": "이야기제목A4",
+          "thumbnail_img": "이야기썸네일A4"
         }
       ],
       "followers": ["user_id"]
@@ -180,16 +210,46 @@
       "is_admin": false,
       "markets": [
         {
+          "id": 1,
+          "title": "상품제목B1",
+          "thumbnail_img": "상품썸네일B1"
+        },
+        {
           "id": 2,
-          "title": "상품제목B",
-          "sumnail_img": "상품썸네일B"
+          "title": "상품제목B2",
+          "thumbnail_img": "상품썸네일B2"
+        },
+        {
+          "id": 3,
+          "title": "상품제목B3",
+          "thumbnail_img": "상품썸네일B3"
+        },
+        {
+          "id": 4,
+          "title": "상품제목B4",
+          "thumbnail_img": "상품썸네일B4"
         }
       ],
       "storys": [
         {
+          "id": 1,
+          "title": "이야기제목B1",
+          "thumbnail_img": "이야기썸네일B1"
+        },
+        {
           "id": 2,
-          "title": "이야기제목B",
-          "sumnail_img": "이야기썸네일B"
+          "title": "이야기제목B2",
+          "thumbnail_img": "이야기썸네일B2"
+        },
+        {
+          "id": 3,
+          "title": "이야기제목B3",
+          "thumbnail_img": "이야기썸네일B3"
+        },
+        {
+          "id": 4,
+          "title": "이야기제목B4",
+          "thumbnail_img": "이야기썸네일B4"
         }
       ],
       "followers": ["user_id"]
@@ -208,14 +268,14 @@
         {
           "id": 3,
           "title": "상품제목C",
-          "sumnail_img": "상품썸네일C"
+          "thumbnail_img": "상품썸네일C"
         }
       ],
       "storys": [
         {
           "id": 3,
           "title": "이야기제목C",
-          "sumnail_img": "이야기썸네일C"
+          "thumbnail_img": "이야기썸네일C"
         }
       ],
       "followers": ["user_id"]

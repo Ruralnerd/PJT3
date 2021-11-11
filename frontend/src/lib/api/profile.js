@@ -1,4 +1,12 @@
 import axios from 'axios'
 
-// id값을 넣으면 profiles에 들어있는 해당 id를 가진 객체를 요청한다.
-export const getProfile = () => axios.get(`http://localhost:4000/profiles`)
+// 로그인 할 때 id값을 반환하도록 backend에서 설정해놨는데 그 id값을 사용하는방법은 아래와 같다.
+// id값을 넣으면 profiles에 들어있는 해당 user_pk를 가진 객체를 요청한다.
+// export const getProfile = (user_pk) =>
+//   axios.get(`http://localhost:4000/api/v1/accounts/users/{user_pk}`)
+
+// 임시
+// 내정보 조회 요청
+export const getProfile = () => axios.get(`http://localhost:4000/profiles/1`)
+// 프로필 수정 요청
+export const putProfile = () => axios.put(`http://localhost:4000/profiles/2`)
