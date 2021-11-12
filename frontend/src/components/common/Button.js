@@ -28,11 +28,29 @@ const StyledButton = styled.button`
     `}
 
   ${(props) =>
+    props.middleWidth &&
+    css`
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+      font-size: 0.875rem;
+    `}
+
+  ${(props) =>
     props.orange &&
     css`
       background: ${palette.orange[5]};
       &:hover {
         background: ${palette.orange[3]};
+        transition: 0.3s ease-in;
+      }
+    `}
+
+  ${(props) =>
+    props.cyan &&
+    css`
+      background: ${palette.cyan[9]};
+      &:hover {
+        background: ${palette.cyan[7]};
         transition: 0.3s ease-in;
       }
     `}
