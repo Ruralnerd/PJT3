@@ -1,3 +1,4 @@
+from django.http import request
 from django.shortcuts import get_object_or_404, render
 from django.contrib.auth import get_user_model
 from datetime import datetime, timedelta
@@ -12,21 +13,44 @@ from rest_framework.response import Response
 
 
 from accounts.serializer import StorySmallSerializer, MarketSmallSerializer, UserSmallSerializer
+from searches.serializer import CategorySerializer
+from searches.views import category_process
 from .serializer import StorySerializer, StorySmallSerializer, StoryCreateSerializer, StoryEditSerializer 
 from .serializer import StoryContentSerializer, StoryContentEditSerializer
 from .serializer import StoryCommentSerializer, StoryCommentCreateSerializer
 from .models import Story, StoryContent, StoryComment
 
-
+swaager_items = openapi.Schema(
+    type=openapi.TYPE_OBJECT,
+    properties={
+        'img' : openapi.Schema(type=openapi.TYPE_FILE),
+        'content': openapi.Schema(type=openapi.TYPE_STRING)
+    }
+)
 @swagger_auto_schema(
     method='get', 
     manual_parameters=[
         openapi.Parameter('num', openapi.IN_QUERY, description="list num", type=openapi.TYPE_INTEGER),
         openapi.Parameter('option', openapi.IN_QUERY, description="list option", type=openapi.TYPE_STRING)
     ], 
-    responses={status.HTTP_200_OK: StorySmallSerializer, status.HTTP_400_BAD_REQUEST:'HTTP_400_BAD_REQUEST'}
+    responses={status.HTTP_200_OK: StorySmallSerializer(many=True), status.HTTP_400_BAD_REQUEST:'HTTP_400_BAD_REQUEST'}
 )
-@swagger_auto_schema(method='post', request_body=StoryCreateSerializer, responses={status.HTTP_201_CREATED: StorySerializer})
+@swagger_auto_schema(
+    method='post', 
+    responses={status.HTTP_201_CREATED: StorySerializer},
+    request_body=openapi.Schema(
+        type=openapi.TYPE_OBJECT,
+        properties={
+            'title': openapi.Schema(type=openapi.TYPE_STRING),
+            'contents': openapi.Schema(type=openapi.TYPE_ARRAY, items=swaager_items),
+            'tags': openapi.Schema(
+                type=openapi.TYPE_ARRAY, 
+                items=openapi.Schema(
+                    type=openapi.TYPE_STRING,
+                )
+            ),
+    })
+)
 @api_view(['GET', 'POST'])
 @permission_classes([IsAuthenticated])
 @authentication_classes([JSONWebTokenAuthentication])
@@ -48,13 +72,22 @@ def storys(request):
         user = request.user
         serializer = StoryCreateSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
-            story = serializer.save(producer=user)
-            new=StorySerializer(story)
+            contents = request.data.get('contents')
+            tags = request.data.get('tags')
+            story = serializer.save(producer=user, thumbnail_img = contents[0]['img'])
+            new = StorySerializer(story)
+            for idx, content in enumerate(contents):
+                StoryContent.objects.create(
+                    story=story, 
+                    img=content['img'],
+                    content=content['content'], 
+                    sequence = idx)
+            category_process(story, tags)
             return Response(new.data, status=status.HTTP_201_CREATED)
 
 
 @swagger_auto_schema(method='get', responses={status.HTTP_200_OK: StorySerializer})
-@swagger_auto_schema(method='put', request_body=StoryCreateSerializer, responses={status.HTTP_201_CREATED: StorySerializer, status.HTTP_403_FORBIDDEN:'HTTP_403_FORBIDDEN'})
+@swagger_auto_schema(method='put', request_body=StoryEditSerializer, responses={status.HTTP_201_CREATED: StorySerializer, status.HTTP_403_FORBIDDEN:'HTTP_403_FORBIDDEN'})
 @swagger_auto_schema(method='delete', responses={status.HTTP_204_NO_CONTENT:'HTTP_204_NO_CONTENT',status.HTTP_403_FORBIDDEN:'HTTP_403_FORBIDDEN'})
 @api_view(['GET', 'PUT', 'DELETE'])
 @permission_classes([IsAuthenticated])
@@ -94,48 +127,60 @@ def story_detail(request, story_pk):
         story.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-@swagger_auto_schema(
-    method='post', 
-    responses={status.HTTP_201_CREATED: StoryContentSerializer, status.HTTP_403_FORBIDDEN:'HTTP_403_FORBIDDEN'},
-    request_body=openapi.Schema(
-        type=openapi.TYPE_OBJECT,
-        properties={
-            'img': openapi.Schema(type=openapi.TYPE_FILE, description='img upload'),
-    })
-)
-@api_view(['POST'])
+@swagger_auto_schema(method='put', request_body=CategorySerializer(many=True), responses={status.HTTP_201_CREATED: StorySerializer, status.HTTP_403_FORBIDDEN:'HTTP_403_FORBIDDEN'})
+@api_view(['PUT'])
 @permission_classes([IsAuthenticated])
 @authentication_classes([JSONWebTokenAuthentication])
-def story_img(request, story_pk, sequence):
+def story_categorys(request, story_pk):
     story = get_object_or_404(Story, id=story_pk)
     if story.producer != request.user:
         return Response(status=status.HTTP_403_FORBIDDEN)
-    else:
-        img = StoryContent.objects.create(story=story, img=request.data['img'], sequence = sequence)
-        serialzer = StoryContentSerializer(img)
-        return Response(serialzer.data, status=status.HTTP_201_CREATED)
+    category_process(story, [x['name'] for x in request.data])
+    new = StorySerializer(story)
+    return Response(new.data, status=status.HTTP_201_CREATED)
 
-@swagger_auto_schema(method='delete', responses={status.HTTP_204_NO_CONTENT:'HTTP_204_NO_CONTENT',status.HTTP_403_FORBIDDEN:'HTTP_403_FORBIDDEN'})
-@swagger_auto_schema(method='put', request_body=StoryContentEditSerializer, responses={status.HTTP_204_NO_CONTENT:'HTTP_204_NO_CONTENT',status.HTTP_403_FORBIDDEN:'HTTP_403_FORBIDDEN'})
-@api_view(['PUT', 'DELETE'])
-@permission_classes([IsAuthenticated])
-@authentication_classes([JSONWebTokenAuthentication])
-def story_content(request, story_pk, content_pk):
-    story = get_object_or_404(Story, id=story_pk)
-    content = get_object_or_404(StoryContent, id=content_pk)
-    if story.producer != request.user:
-        return Response(status=status.HTTP_403_FORBIDDEN)
+# @swagger_auto_schema(
+#     method='post', 
+#     responses={status.HTTP_201_CREATED: StoryContentSerializer, status.HTTP_403_FORBIDDEN:'HTTP_403_FORBIDDEN'},
+#     request_body=openapi.Schema(
+#         type=openapi.TYPE_OBJECT,
+#         properties={
+#             'img': openapi.Schema(type=openapi.TYPE_FILE, description='img upload'),
+#     })
+# )
+# @api_view(['POST'])
+# @permission_classes([IsAuthenticated])
+# @authentication_classes([JSONWebTokenAuthentication])
+# def story_img(request, story_pk, sequence):
+#     story = get_object_or_404(Story, id=story_pk)
+#     if story.producer != request.user:
+#         return Response(status=status.HTTP_403_FORBIDDEN)
+#     else:
+#         img = StoryContent.objects.create(story=story, img=request.data['img'], sequence = sequence)
+#         serialzer = StoryContentSerializer(img)
+#         return Response(serialzer.data, status=status.HTTP_201_CREATED)
 
-    elif request.method == 'PUT':
-        serializer = StoryContentEditSerializer(content, data=request.data)
-        if serializer.is_valid(raise_exception=True):
-            content = serializer.save()
-            new = StoryContentSerializer(content)
-            return Response(new.data, status=status.HTTP_201_CREATED)
+# @swagger_auto_schema(method='delete', responses={status.HTTP_204_NO_CONTENT:'HTTP_204_NO_CONTENT',status.HTTP_403_FORBIDDEN:'HTTP_403_FORBIDDEN'})
+# @swagger_auto_schema(method='put', request_body=StoryContentEditSerializer, responses={status.HTTP_204_NO_CONTENT:'HTTP_204_NO_CONTENT',status.HTTP_403_FORBIDDEN:'HTTP_403_FORBIDDEN'})
+# @api_view(['PUT', 'DELETE'])
+# @permission_classes([IsAuthenticated])
+# @authentication_classes([JSONWebTokenAuthentication])
+# def story_content(request, story_pk, content_pk):
+#     story = get_object_or_404(Story, id=story_pk)
+#     content = get_object_or_404(StoryContent, id=content_pk)
+#     if story.producer != request.user:
+#         return Response(status=status.HTTP_403_FORBIDDEN)
 
-    elif request.method == 'DELETE':
-        content.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+#     elif request.method == 'PUT':
+#         serializer = StoryContentEditSerializer(content, data=request.data)
+#         if serializer.is_valid(raise_exception=True):
+#             content = serializer.save()
+#             new = StoryContentSerializer(content)
+#             return Response(new.data, status=status.HTTP_201_CREATED)
+
+#     elif request.method == 'DELETE':
+#         content.delete()
+#         return Response(status=status.HTTP_204_NO_CONTENT)
 
 @swagger_auto_schema(method='get', responses={status.HTTP_200_OK:  StoryCommentSerializer})
 @swagger_auto_schema(method='post', request_body= StoryCommentCreateSerializer, responses={status.HTTP_201_CREATED: StoryCommentSerializer})
@@ -166,3 +211,6 @@ def comment_delete(request, story_pk, comment_pk):
         comment.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     return Response(status=status.HTTP_403_FORBIDDEN)
+
+
+    
