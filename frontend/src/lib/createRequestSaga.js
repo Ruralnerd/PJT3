@@ -21,6 +21,7 @@ export default function createRequestSaga(type, request) {
         예시) authAPI.register({email, nickname, password})
       */
       const response = yield call(request, action.payload)
+      console.log('리턴', response)
       yield put({
         type: SUCCESS,
         payload: response.data,

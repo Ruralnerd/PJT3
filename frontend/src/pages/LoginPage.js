@@ -1,7 +1,7 @@
 import AuthTemplate from '../components/auth/AuthTemplate'
 import LoginForm from '../containers/auth/LoginForm'
 
-const Login = () => {
+const LoginPage = () => {
   return (
     <AuthTemplate>
       <LoginForm />
@@ -9,4 +9,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default LoginPage

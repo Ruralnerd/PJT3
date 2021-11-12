@@ -5,9 +5,11 @@ import loading from './loading'
 import market from './market'
 import story from './story'
 import write, { writeSaga } from './write'
+import sale, { saleSaga } from './sale'
 
 const rootReducer = combineReducers({
   auth,
+  sale,
   market,
   loading,
   write,
@@ -15,7 +17,7 @@ const rootReducer = combineReducers({
 })
 
 export function* rootSaga() {
-  yield all([authSaga(), writeSaga()])
+  yield all([authSaga(), saleSaga(), writeSaga()])
 }
 
 export default rootReducer

@@ -23,8 +23,5 @@ const client = axios.create()
     }
   })
  */
-// 로그인 체크를 위한 전역 헤더 설정
-const ACCESS_TOKEN = localStorage.getItem('token')
-client.defaults.headers.common['Authorization'] = `Bearer ${ACCESS_TOKEN}`
 
 export default client
