@@ -35,10 +35,10 @@ def login(request):
     password = request.data['password']
 
     res = requests.post(BASE_URL + 'accounts/token/', data={'email': email, 'password': password})
-
     if res.status_code == 200:
+        user = get_object_or_404(User, email= email)
         token = res.json().get('token')
-        return Response({'token' : token}, status=status.HTTP_200_OK)
+        return Response({'id' : user.id, 'token' : token }, status=status.HTTP_200_OK)
     
     try:
         user = get_object_or_404(User, email= email)
@@ -51,12 +51,20 @@ def login(request):
 @api_view(['POST'])
 def signup(request):
     serializer = UserSerializer(data = request.data)
-    if serializer.is_valid(raise_exception=True):
+    if serializer.is_valid():
         user = serializer.save()
         user.set_password(request.data.get('password'))
         user.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors.as_data(), status=status.HTTP_400_BAD_REQUEST)
+    error_data = {}
+    for error in serializer.errors:
+        if error == 'email':
+            error_data['email'] = '이미 존재하는 email입니다.'
+        elif error == 'nickname':
+            error_data['nickname'] = '이미 존재하는 nickname입니다.'
+        elif error == 'password':
+            error_data['password'] = 'password를 입력해주세요.'
+    return Response(error_data, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
@@ -120,7 +128,7 @@ def kakaologin_callback(request):
         token = jwt.encode({"user_id": user.pk, "email":user.email}, config('SECRET_KEY'), algorithm="HS256")
         token = token.decode("utf-8")
 
-        return JsonResponse({"token" : token}, status=status.HTTP_200_OK)
+        return JsonResponse({"id" : user.id, "token" : token}, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
 def googlelogin(request):
@@ -184,7 +192,7 @@ def googlelogin_callback(request):
         token = jwt.encode({"user_id": user.pk, "email":user.email}, config('SECRET_KEY'), algorithm="HS256")
         token = token.decode("utf-8")
 
-        return JsonResponse({"token" : token}, status=status.HTTP_200_OK)
+        return JsonResponse({"id" : user.id, "token" : token}, status=status.HTTP_200_OK)
 
 @swagger_auto_schema(method='get', responses={status.HTTP_200_OK: GetUserSerializer})
 @swagger_auto_schema(method='put', request_body=UserSerializer,  responses={status.HTTP_200_OK: UserSerializer})
@@ -220,5 +228,5 @@ def follow(request, user_pk):
         person.followers.remove(me)
     else:
         person.followers.add(me)
-    new = UserSerializer(person)
+    new = GetUserSerializer(person)
     return Response(new.data,status=status.HTTP_201_CREATED)
