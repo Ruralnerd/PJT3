@@ -40,6 +40,7 @@ urlpatterns = [
     path(DEFAULT_URL+'accounts/', include('accounts.urls')),
     path(DEFAULT_URL+'articles/', include('articles.urls')),
     path(DEFAULT_URL+'sales/', include('sales.urls')),
+    path(DEFAULT_URL+'searches/', include('searches.urls')),
     path(DEFAULT_URL+'admin/', admin.site.urls),
 
     # Auto DRF API docs

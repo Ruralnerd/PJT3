@@ -7,7 +7,6 @@ from sales.models import Market
 User = get_user_model()
 
 # small Serializer
-
 class UserSmallSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -41,6 +40,8 @@ class UserSerializer(serializers.ModelSerializer):
 class GetUserSerializer(serializers.ModelSerializer):
     storys = StorySmallSerializer(many=True)
     markets = MarketSmallSerializer(many=True)
+    followings = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    
     class Meta:
         model = User
         fields = '__all__'

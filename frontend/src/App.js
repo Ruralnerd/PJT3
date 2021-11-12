@@ -14,6 +14,7 @@ import ProfilePage from './pages/ProfilePage'
 import UpdateProfilePage from './pages/UpdateProfilePage'
 import MarketPage from './pages/MarketPage'
 import MarketDetailPage from './pages/MarketDetailPage'
+import MarketSalePage from './pages/MarketSalePage'
 
 const App = () => {
   // 이 아래 두 줄을 이용해서 내 현재 url을 확인할 수 있다.
@@ -33,6 +34,7 @@ const App = () => {
       <Route path={'/market/:id'} component={MarketDetailPage} />
       <Route path={'/login'} component={LoginPage} />
       <Route path={'/register'} component={RegisterPage} />
+      <Route path={'/sale'} component={MarketSalePage} />
       <Footer />
       <BottomNav />
     </>
