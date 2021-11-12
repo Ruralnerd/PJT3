@@ -1,6 +1,5 @@
-/**
- * EditorForm을 import해서 사용, 필요한 state 관리
- */
+import React from 'react'
+
 const StoryForm = () => {
   return <div></div>
 }

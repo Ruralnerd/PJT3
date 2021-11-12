@@ -1,4 +1,154 @@
 {
+  "test": [
+    {
+      "id": 1
+    }
+  ],
+  "story": [
+    {
+      "id": 1,
+      "username": "김두환",
+      "thumbnail_img": "img/product/product01.jpg",
+      "title": "하하 나는 야인이 될거야"
+    },
+    {
+      "id": 2,
+      "username": "따이완남바완",
+      "thumbnail_img": "img/product/product02.jpg",
+      "title": "타이완에서 온 구아바 드셔보시라해"
+    },
+    {
+      "id": 3,
+      "username": "구마적",
+      "thumbnail_img": "img/product/product03.jpg",
+      "title": "고 구마적"
+    },
+    {
+      "id": 4,
+      "username": "신마적",
+      "thumbnail_img": "img/product/product04.jpg",
+      "title": "사나이 울리는 농심 신마적"
+    },
+    {
+      "id": 5,
+      "username": "리싸수",
+      "thumbnail_img": "img/product/product02.jpg",
+      "title": "하하 나는 컴퓨터왕이 될거야"
+    },
+    {
+      "title": "하하 죽어라 이건 제목이다",
+      "img": [],
+      "tags": [
+        "ㅠㅠ"
+      ],
+      "id": 6
+    },
+    {
+      "title": "이제되겠지?ㅋㅋ",
+      "img": {},
+      "tags": [
+        "ㅋㅋ"
+      ],
+      "id": 7
+    },
+    {
+      "title": "ㅁㄴㅇ",
+      "img": {},
+      "content": "ㅁㄴㅇ",
+      "tags": [],
+      "id": 8
+    },
+    {
+      "title": "ㅋㅋ",
+      "img": [],
+      "content": "ㅋㅋ",
+      "tags": [
+        "ㅋㅋ"
+      ],
+      "id": 9
+    },
+    {
+      "title": "제목",
+      "img": {},
+      "content": "리싸수",
+      "tags": [
+        "리싸수!!"
+      ],
+      "id": 10
+    },
+    {
+      "title": "태그",
+      "img": [],
+      "content": "태그",
+      "tags": [
+        "감자",
+        "고구마"
+      ],
+      "id": 11
+    },
+    {
+      "title": "ㅁㄴㅇ",
+      "img": {},
+      "content": "ㅁㄴㅇ",
+      "tags": [],
+      "id": 12
+    },
+    {
+      "title": "하하 좀 돼라 시벌",
+      "img": {},
+      "content": {},
+      "tags": [],
+      "id": 13
+    },
+    {
+      "title": "제목!!",
+      "img": {},
+      "content": {},
+      "tags": [
+        "ㅌㄱㅌㄱ"
+      ],
+      "id": 14
+    },
+    {
+      "title": "gd",
+      "img": {},
+      "content": [],
+      "tags": [
+        "고구마.,.ㅠ"
+      ],
+      "id": 15
+    },
+    {
+      "title": "돼야해",
+      "img": {},
+      "content": {},
+      "tags": [],
+      "id": 16
+    },
+    {
+      "title": "제목",
+      "img": {},
+      "content": {},
+      "tags": [],
+      "id": 17
+    },
+    {
+      "title": "wa",
+      "img": {},
+      "content": {},
+      "tags": [],
+      "id": 18
+    },
+    {
+      "title": "제목",
+      "img": "",
+      "content": [],
+      "categorys": [
+        "카테고리?"
+      ],
+      "id": 19
+    }
+  ],
   "market": [
     {
       "id": 1,

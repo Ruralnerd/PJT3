@@ -1,9 +1,7 @@
+import StoryContainer from '../containers/story/StoryContainer'
+
 const StoryPage = () => {
-  return (
-    <div>
-      <p>이야기입니다</p>
-    </div>
-  )
+  return <StoryContainer />
 }
 
 export default StoryPage

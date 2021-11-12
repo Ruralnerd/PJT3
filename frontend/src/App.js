@@ -13,13 +13,12 @@ import SearchPage from './pages/SearchPage'
 import ProfilePage from './pages/ProfilePage'
 import MarketPage from './pages/MarketPage'
 import MarketDetailPage from './pages/MarketDetailPage'
-import MarketEditorPage from './pages/MarketEditorPage'
 import StoryEditorPage from './pages/StoryEditorPage'
 
 const App = () => {
   // 이 아래 두 줄을 이용해서 내 현재 url을 확인할 수 있다.
-  // const location = useLocation()
-  // console.log(location.pathname)
+  const location = useLocation()
+  console.log(location.pathname)
 
   return (
     <>
@@ -33,8 +32,7 @@ const App = () => {
       <Route path={'/market/:id'} component={MarketDetailPage} />
       <Route path={'/login'} component={LoginPage} />
       <Route path={'/register'} component={RegisterPage} />
-      <Route path={'/editor/market'} component={MarketEditorPage} />
-      <Route path={'/editor/market'} component={StoryEditorPage} />
+      <Route path={'/editor/story'} component={StoryEditorPage} />
       <Footer />
       <BottomNav />
     </>
