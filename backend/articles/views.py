@@ -20,7 +20,13 @@ from .serializer import StoryContentSerializer, StoryContentEditSerializer
 from .serializer import StoryCommentSerializer, StoryCommentCreateSerializer
 from .models import Story, StoryContent, StoryComment
 
-
+swaager_items = openapi.Schema(
+    type=openapi.TYPE_OBJECT,
+    properties={
+        'img' : openapi.Schema(type=openapi.TYPE_FILE),
+        'content': openapi.Schema(type=openapi.TYPE_STRING)
+    }
+)
 @swagger_auto_schema(
     method='get', 
     manual_parameters=[
@@ -29,7 +35,17 @@ from .models import Story, StoryContent, StoryComment
     ], 
     responses={status.HTTP_200_OK: StorySmallSerializer(many=True), status.HTTP_400_BAD_REQUEST:'HTTP_400_BAD_REQUEST'}
 )
-@swagger_auto_schema(method='post', request_body=StoryCreateSerializer, responses={status.HTTP_201_CREATED: StorySerializer})
+@swagger_auto_schema(
+    method='post', 
+    responses={status.HTTP_201_CREATED: StoryContentSerializer, status.HTTP_403_FORBIDDEN:'HTTP_403_FORBIDDEN'},
+    request_body=openapi.Schema(
+        type=openapi.TYPE_OBJECT,
+        properties={
+            'title': openapi.Schema(type=openapi.TYPE_STRING),
+            'contents': openapi.Schema(type=openapi.TYPE_ARRAY, items=swaager_items),
+    })
+)
+# @swagger_auto_schema(method='post', request_body=StoryCreateSerializer, responses={status.HTTP_201_CREATED: StorySerializer})
 @api_view(['GET', 'POST'])
 @permission_classes([IsAuthenticated])
 @authentication_classes([JSONWebTokenAuthentication])
