@@ -37,7 +37,7 @@ swaager_items = openapi.Schema(
 )
 @swagger_auto_schema(
     method='post', 
-    responses={status.HTTP_201_CREATED: StoryContentSerializer, status.HTTP_403_FORBIDDEN:'HTTP_403_FORBIDDEN'},
+    responses={status.HTTP_201_CREATED: StorySerializer},
     request_body=openapi.Schema(
         type=openapi.TYPE_OBJECT,
         properties={
@@ -45,7 +45,6 @@ swaager_items = openapi.Schema(
             'contents': openapi.Schema(type=openapi.TYPE_ARRAY, items=swaager_items),
     })
 )
-# @swagger_auto_schema(method='post', request_body=StoryCreateSerializer, responses={status.HTTP_201_CREATED: StorySerializer})
 @api_view(['GET', 'POST'])
 @permission_classes([IsAuthenticated])
 @authentication_classes([JSONWebTokenAuthentication])
