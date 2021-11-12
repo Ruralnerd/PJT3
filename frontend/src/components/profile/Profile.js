@@ -27,36 +27,36 @@ const ProfileTitle = css`
   border: 3px solid blue;
 `
 
-const Profile = ({ loadingProfile, profile }) => {
+const Profile = ({ loadingProfile, userData }) => {
   console.log('컴포넌트')
-  console.log(profile && profile.is_seller)
+  console.log(userData && userData.is_seller)
   const updateProfileButton = () => {
     console.log('내정보 수정 버튼 클릭함')
   }
-  const registButton = () => {
+  const registerButton = () => {
     console.log('판매자 등록버튼 클릭함!')
   }
   // 판매자일 경우
-  // profile이 빈 값이 아니고 profile.is_seller가 true일떄
-  if (profile && profile.is_seller === true) {
+  // profile이 빈 값이 아니고 userData.is_seller가 true일떄
+  if (userData && userData.is_seller === true) {
     return (
       <div>
         {loadingProfile && '로딩 중...'}
-        {!loadingProfile && profile && (
+        {!loadingProfile && userData && (
           <div>
             <div>판매자님의 프로필</div>
             <button onClick={updateProfileButton}>내 정보 수정</button>
             <div css={ProfileUser}>
-              <div css={ProfileUserImg}>{profile.profile_img}</div>
+              <div css={ProfileUserImg}>{userData.profile_img}</div>
               <div css={ProfileUserData}>
-                <div>이름:{profile.nickname}</div>
-                <div>주소:{profile.address}</div>
-                <div>연락처:{profile.phone}</div>
+                <div>이름:{userData.nickname}</div>
+                <div>주소:{userData.address}</div>
+                <div>연락처:{userData.phone}</div>
               </div>
             </div>
             <div>판매자님의 판매상품</div>
             <div css={ProfileSaleList}>
-              {profile.markets.map((market) => (
+              {userData.markets.map((market) => (
                 <div key={market.id}>
                   <div css={ProfileSaleDetail}>
                     <div css={ProfileThumbnailImg}>{market.thumbnail_img}</div>
@@ -67,7 +67,7 @@ const Profile = ({ loadingProfile, profile }) => {
             </div>
             <div>판매자님의 이야기</div>
             <div css={ProfileSaleList}>
-              {profile.storys.map((story) => (
+              {userData.storys.map((story) => (
                 <div key={story.id}>
                   <div css={ProfileSaleDetail}>
                     <div css={ProfileThumbnailImg}>{story.thumbnail_img}</div>
@@ -86,19 +86,19 @@ const Profile = ({ loadingProfile, profile }) => {
     return (
       <div>
         {loadingProfile && '로딩 중...'}
-        {!loadingProfile && profile && (
+        {!loadingProfile && userData && (
           <div>
             <div>구매자님의 프로필</div>
             <button onClick={updateProfileButton}>내 정보 수정</button>
             <div css={ProfileUser}>
-              <div css={ProfileUserImg}>{profile.profile_img}</div>
+              <div css={ProfileUserImg}>{userData.profile_img}</div>
               <div css={ProfileUserData}>
-                <div>이름:{profile.nickname}</div>
-                <div>주소:{profile.address}</div>
-                <div>연락처:{profile.phone}</div>
+                <div>이름:{userData.nickname}</div>
+                <div>주소:{userData.address}</div>
+                <div>연락처:{userData.phone}</div>
               </div>
             </div>
-            <button onClick={registButton}>판매자 등록하기</button>
+            <button onClick={registerButton}>판매자 등록하기</button>
           </div>
         )}
       </div>

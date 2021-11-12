@@ -14,14 +14,24 @@ const { useEffect } = React
 // 1. getProfile함수
 // 2. profile 초기상태
 // 3. loadingProfile
-const Seller = ({ getProfile, profiles, loadingProfile }) => {
+const ProfileContainer = ({ getProfile, userData, loadingProfile }) => {
   console.log('컨테이너')
+  // useEffect를 사용할 때에는 첫번째 파라미터에는 함수, 두번째 파라미터에는 의존값이 들어있는 배열을 넣는다.
+  // 만약 의존값이 들어있는 배열을 비우게 된다면, 컴포넌트가 처음 나타날때에만 useEffect에 등록한 함수가 호출된다.
+  // useEffect에서 반환하는 함수를 cleanup 함수라고 부르는데
+  // 의존값이 들어있는 배열이 비어있을 경우, 컴포넌트가 사라질 때 cleanup함수가 호출됨
+
+  // 컴포넌트가 처음 렌더링 될 때 해당 유저의 profile값을 가져와야 함
   useEffect(() => {
+    console.log(getProfile())
     getProfile()
+    return () => {
+      console.log('의존값 비어있음')
+    }
   }, [getProfile])
   return (
     <div>
-      <Profile profile={profiles} loadingProfile={loadingProfile} />
+      <Profile userData={userData} loadingProfile={loadingProfile} />
     </div>
   )
 }
@@ -34,10 +44,10 @@ const Seller = ({ getProfile, profiles, loadingProfile }) => {
 // 즉, 컴포넌트에서 액션을 디스패치한다.
 export default connect(
   ({ profile, loading }) => ({
-    profiles: profile.profiles,
+    userData: profile.userData,
     loadingProfile: loading['profile/GET_PROFILE'],
   }),
   {
     getProfile,
   },
-)(Seller)
+)(ProfileContainer)

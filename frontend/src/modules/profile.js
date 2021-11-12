@@ -1,16 +1,25 @@
-import { handleActions } from 'redux-actions'
-import * as api from '../lib/api/profile'
-import createRequestThunk from '../lib/createRequestThunk'
+import { takeLatest } from 'redux-saga/effects'
+import { createAction, handleActions } from 'redux-actions'
+import * as profileAPI from '../lib/api/profile'
+import createRequestSaga from '../lib/createRequestSaga'
 
 // 액션타입 정의
 const GET_PROFILE = 'profile/GET_PROFILE'
+
 const GET_PROFILE_SUCCESS = 'profile/GET_PROFILE_SUCCESS'
 
-// createRequestThunk : API요청을 해 주는 thunk 함수를 한 줄로 생성할 수 있게 해줌.
-export const getProfile = createRequestThunk(GET_PROFILE, api.getProfile)
+// 액션 생성 함수
+export const getProfile = createAction(GET_PROFILE)
+
+const getProfileSaga = createRequestSaga(GET_PROFILE, profileAPI.getProfile)
+
+// 제너레이터함수.
+export function* profileSaga() {
+  yield takeLatest(GET_PROFILE, getProfileSaga)
+}
 
 const initialState = {
-  profiles: null,
+  userData: null,
 }
 
 // handleActions함수를 사용하면 각 액션마다 업데이트 함수를 설정하는 형식으로 리듀서 작성 가능
@@ -24,14 +33,15 @@ const initialState = {
 // 모든 추가 데이터 값을 action.payload로 사용하기 때문에 나중에 리듀서 코드를 다시 볼 때
 // 헷갈릴 수 있다. 따라서 객체 비구조화 할당 문법으로 action값의 payload이름을 새로 설정해주면
 // action.payload가 정확히 어떤 값을 의미하는지 더 쉽게 파악할 수 있다.
+
+// 객체 비구조화 할당 문법을 통해 payload이름을 action에서 profile로 변경해주었다.
 const profile = handleActions(
   {
-    [GET_PROFILE_SUCCESS]: (state, action) => ({
+    [GET_PROFILE_SUCCESS]: (state, { payload: profile }) => ({
       ...state,
-      profiles: action.payload,
+      userData: profile.payload,
     }),
   },
   initialState,
 )
-console.log(initialState.email)
 export default profile
