@@ -26,7 +26,8 @@ swaager_items = openapi.Schema(
     type=openapi.TYPE_OBJECT,
     properties={
         'img' : openapi.Schema(type=openapi.TYPE_FILE),
-        'content': openapi.Schema(type=openapi.TYPE_STRING)
+        'content': openapi.Schema(type=openapi.TYPE_STRING),
+        'sequence': openapi.Schema(type=openapi.TYPE_INTEGER)
     }
 )
 @swagger_auto_schema(
@@ -43,7 +44,7 @@ swaager_items = openapi.Schema(
         type=openapi.TYPE_OBJECT,
         properties={
             'title': openapi.Schema(type=openapi.TYPE_STRING),
-            'price' : openapi.Schema(type=openapi.TYPE_STRING),
+            'price' : openapi.Schema(type=openapi.TYPE_INTEGER),
             'period': openapi.Schema(
                 type=openapi.TYPE_STRING,
                 format=openapi.FORMAT_DATETIME),
@@ -80,12 +81,12 @@ def markets(request):
             contents = request.data.get('contents')
             market = serializer.save(seller=user, thumbnail_img = contents[0]['img'])
             new = MarketSerializer(market)
-            for idx, content in enumerate(contents):
+            for content in contents:
                 MarketContent.objects.create(
                     market=market, 
                     img=content['img'],
                     content=content['content'], 
-                    sequence = idx)
+                    sequence = content['sequence'])
             return Response(new.data, status=status.HTTP_201_CREATED)
 
 
