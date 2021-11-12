@@ -11,9 +11,14 @@ import {
   createTheme,
   MenuItem,
 } from '@mui/material'
+import AdapterDateFns from '@mui/lab/AdapterDateFns'
+import LocalizationProvider from '@mui/lab/LocalizationProvider'
+import DateTimePicker from '@mui/lab/DateTimePicker'
 import Button from '../common/Button'
 import palette from '../../lib/styles/palette'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { changeField } from '../../modules/sale'
 
 /**
  * 스토리 또는 마켓 에디터를 보여줍니다.
@@ -56,6 +61,21 @@ const itemUnit = [
 
 const SaleForm = ({ type, form, onChange, onSubmit }) => {
   const text = textMap[type]
+  const [dateTime, setDateTime] = useState(new Date())
+  const dispatch = useDispatch()
+  const { dateForm } = useSelector(({ sale }) => ({
+    dateForm: sale.item,
+  }))
+
+  useEffect(() => {
+    dispatch(
+      changeField({
+        form: 'item',
+        key: 'period',
+        value: dateTime.toISOString(),
+      }),
+    )
+  }, [dateTime, dispatch])
 
   return (
     <div css={SaleFormWrapper}>
@@ -80,7 +100,7 @@ const SaleForm = ({ type, form, onChange, onSubmit }) => {
                   name="title"
                   label="상품명"
                   variant="outlined"
-                  value={form.name}
+                  value={form.title}
                   onChange={onChange}
                 />
                 <TextField
@@ -98,12 +118,56 @@ const SaleForm = ({ type, form, onChange, onSubmit }) => {
                     </MenuItem>
                   ))}
                 </TextField>
+                <TextField
+                  id="quantity"
+                  name="quantity"
+                  label="판매 수량"
+                  value={form.quantity}
+                  onChange={onChange}
+                  helperText="판매 수량을 입력해 주세요."
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="start">
+                        {form.unit}
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+                <TextField
+                  id="price"
+                  name="price"
+                  label="판매 수량"
+                  value={form.price}
+                  onChange={onChange}
+                  helperText="판매 가격을 입력해 주세요."
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="start">원</InputAdornment>
+                    ),
+                  }}
+                />
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <DateTimePicker
+                    label="판매 종료일"
+                    name="period"
+                    value={dateTime}
+                    onChange={(newDateTime) => {
+                      setDateTime(newDateTime)
+                    }}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        helperText="판매 종료일을 입력해 주세요."
+                      />
+                    )}
+                  />
+                </LocalizationProvider>
               </Box>
-              <Button orange fullWidth>
-                다음
-              </Button>
             </>
           )}
+          <Button orange fullWidth>
+            다음
+          </Button>
         </form>
       </ThemeProvider>
     </div>

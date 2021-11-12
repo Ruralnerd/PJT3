@@ -1,5 +1,4 @@
 import SaleForm from '../../components/sale/SaleForm'
-import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { changeField, post } from '../../modules/sale'
 /**
