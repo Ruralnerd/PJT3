@@ -51,7 +51,13 @@ swaager_items = openapi.Schema(
             'unit' : openapi.Schema(type=openapi.TYPE_STRING),
             'quantity' : openapi.Schema(type=openapi.TYPE_INTEGER),
             'contents': openapi.Schema(type=openapi.TYPE_ARRAY, items=swaager_items),
-            'storys': openapi.Schema(type=openapi.TYPE_ARRAY, items=openapi.Schema(type=openapi.TYPE_INTEGER))   
+            'storys': openapi.Schema(type=openapi.TYPE_ARRAY, items=openapi.Schema(type=openapi.TYPE_INTEGER)),
+            'categorys': openapi.Schema(
+                type=openapi.TYPE_ARRAY, 
+                items=openapi.Schema(
+                    type=openapi.TYPE_STRING,
+                )
+            ),   
     }),
     responses={status.HTTP_201_CREATED: MarketSerializer})
 @api_view(['GET', 'POST'])
@@ -79,6 +85,7 @@ def markets(request):
         serializer = MarketCreateSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             contents = request.data.get('contents')
+            categorys = request.data.get('categorys')
             market = serializer.save(seller=user, thumbnail_img = contents[0]['img'])
             new = MarketSerializer(market)
             for content in contents:
@@ -87,6 +94,7 @@ def markets(request):
                     img=content['img'],
                     content=content['content'], 
                     sequence = content['sequence'])
+            category_process(market, categorys)
             return Response(new.data, status=status.HTTP_201_CREATED)
 
 
