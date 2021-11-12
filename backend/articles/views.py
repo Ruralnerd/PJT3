@@ -73,7 +73,7 @@ def storys(request):
         serializer = StoryCreateSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             contents = request.data.get('contents')
-            tags = request.data.get('tags')
+            categorys = request.data.get('categorys')
             story = serializer.save(producer=user, thumbnail_img = contents[0]['img'])
             new = StorySerializer(story)
             for idx, content in enumerate(contents):
@@ -82,7 +82,7 @@ def storys(request):
                     img=content['img'],
                     content=content['content'], 
                     sequence = idx)
-            category_process(story, tags)
+            category_process(story, categorys)
             return Response(new.data, status=status.HTTP_201_CREATED)
 
 
