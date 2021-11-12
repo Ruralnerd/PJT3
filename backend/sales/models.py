@@ -15,7 +15,6 @@ def thumbnail_image_path(instance, filename):
 class Market(models.Model):
     seller = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='markets')
     title = models.CharField(max_length=100)
-    content = models.TextField()
     price = models.IntegerField()
     period = models.DateTimeField()
     unit = models.CharField(max_length=20)
@@ -44,17 +43,18 @@ class MarketComment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
 
-class MarketImg(models.Model):
-    market = models.ForeignKey(Market, on_delete=models.CASCADE, related_name='imgs')
+class MarketContent(models.Model):
+    market = models.ForeignKey(Market, on_delete=models.CASCADE, related_name='contents')
     img = ProcessedImageField(
         upload_to=market_image_path,
         processors=[ResizeToFill(150, 150)],
         format='JPEG',
         blank=True,
-        default='default_profile.jpeg'
     )
+    content = models.TextField(blank=True)
+    sequence = models.IntegerField(default=0)
     def delete(self, *args, **kwargs):
-        super(MarketImg, self).delete(*args, **kwargs)
+        super(MarketContent, self).delete(*args, **kwargs)
         os.remove(os.path.join(settings.MEDIA_ROOT, self.img.path))
 
 
