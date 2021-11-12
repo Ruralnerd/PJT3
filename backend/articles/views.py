@@ -43,6 +43,12 @@ swaager_items = openapi.Schema(
         properties={
             'title': openapi.Schema(type=openapi.TYPE_STRING),
             'contents': openapi.Schema(type=openapi.TYPE_ARRAY, items=swaager_items),
+            'tags': openapi.Schema(
+                type=openapi.TYPE_ARRAY, 
+                items=openapi.Schema(
+                    type=openapi.TYPE_STRING,
+                )
+            ),
     })
 )
 @api_view(['GET', 'POST'])
@@ -67,6 +73,7 @@ def storys(request):
         serializer = StoryCreateSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             contents = request.data.get('contents')
+            tags = request.data.get('tags')
             story = serializer.save(producer=user, thumbnail_img = contents[0]['img'])
             new = StorySerializer(story)
             for idx, content in enumerate(contents):
@@ -75,7 +82,7 @@ def storys(request):
                     img=content['img'],
                     content=content['content'], 
                     sequence = idx)
-                
+            category_process(story, tags)
             return Response(new.data, status=status.HTTP_201_CREATED)
 
 
