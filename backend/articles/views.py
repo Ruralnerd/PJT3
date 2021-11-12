@@ -43,7 +43,12 @@ swaager_items = openapi.Schema(
         properties={
             'title': openapi.Schema(type=openapi.TYPE_STRING),
             'contents': openapi.Schema(type=openapi.TYPE_ARRAY, items=swaager_items),
-            'tags': openapi.Schema(type=openapi.TYPE_ARRAY, items=swaager_items),
+            'tags': openapi.Schema(
+                type=openapi.TYPE_ARRAY, 
+                items=openapi.Schema(
+                    type=openapi.TYPE_STRING,
+                )
+            ),
     })
 )
 @api_view(['GET', 'POST'])
