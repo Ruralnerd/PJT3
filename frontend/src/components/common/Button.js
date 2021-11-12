@@ -11,7 +11,6 @@ const StyledButton = styled.button`
   color: white;
   outline: none;
   cursor: pointer;
-  /* text-align: center; */
 
   background: ${palette.gray[8]};
   &:hover {
@@ -41,17 +40,17 @@ const StyledButton = styled.button`
       background: ${palette.orange[5]};
       &:hover {
         background: ${palette.orange[3]};
-        transition: 0.3s ease-in;
+        transition: 0.2s ease-in;
       }
     `}
 
   ${(props) =>
     props.cyan &&
     css`
-      background: ${palette.cyan[9]};
+      background: ${palette.red[6]};
       &:hover {
-        background: ${palette.cyan[7]};
-        transition: 0.3s ease-in;
+        background: ${palette.red[8]};
+        transition: 0.2s ease-in;
       }
     `}
 `

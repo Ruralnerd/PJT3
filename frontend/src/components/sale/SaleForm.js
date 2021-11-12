@@ -16,8 +16,9 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider'
 import DateTimePicker from '@mui/lab/DateTimePicker'
 import Button from '../common/Button'
 import palette from '../../lib/styles/palette'
+import Spinner from '../common/Spinner'
 import { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { changeField } from '../../modules/sale'
 
 /**
@@ -68,8 +69,10 @@ const itemUnit = [
 const SaleForm = ({ type, form, onChange, onSubmit }) => {
   const text = textMap[type]
   const [dateTime, setDateTime] = useState(new Date())
+  const { loadingStatus } = useSelector(({ loading }) => ({
+    loadingStatus: loading,
+  }))
   const dispatch = useDispatch()
-  const a = false
 
   useEffect(() => {
     dispatch(
@@ -170,13 +173,12 @@ const SaleForm = ({ type, form, onChange, onSubmit }) => {
           <Button middleWidth orange>
             이전
           </Button>
-          <Button middleWidth cyan>
-            저장하기
+          <Button middleWidth cyan onClick={onSubmit}>
+            {loadingStatus['sale/POST'] === true ? <Spinner /> : '저장하기'}
           </Button>
           <Button middleWidth orange>
             다음
           </Button>
-          {a === true && <Button orange>다음</Button>}
         </div>
       </ThemeProvider>
     </div>
