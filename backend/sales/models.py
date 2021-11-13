@@ -24,10 +24,9 @@ class Market(models.Model):
         processors=[ResizeToFill(150, 150)],
         format='JPEG',
         blank=True,
-        default='default_profile.jpeg'
     )
     storys = models.ManyToManyField(Story, related_name='markets', blank=True)
-    categorys = models.ManyToManyField(Category, related_name='markets')
+    categorys = models.ManyToManyField(Category, related_name='markets', blank=True)
     hits = models.PositiveIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -45,16 +44,21 @@ class MarketComment(models.Model):
 
 class MarketContent(models.Model):
     market = models.ForeignKey(Market, on_delete=models.CASCADE, related_name='contents')
+    img = models.TextField(blank=True)
+    content = models.TextField(blank=True)
+    sequence = models.IntegerField(default=0)
+
+
+class MarketImg(models.Model):
+    market = models.ForeignKey(Market, on_delete=models.CASCADE, related_name='imgs')
     img = ProcessedImageField(
         upload_to=market_image_path,
         processors=[ResizeToFill(150, 150)],
         format='JPEG',
         blank=True,
     )
-    content = models.TextField(blank=True)
-    sequence = models.IntegerField(default=0)
     def delete(self, *args, **kwargs):
-        super(MarketContent, self).delete(*args, **kwargs)
+        super(MarketImg, self).delete(*args, **kwargs)
         os.remove(os.path.join(settings.MEDIA_ROOT, self.img.path))
 
 
