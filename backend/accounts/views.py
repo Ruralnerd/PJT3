@@ -34,7 +34,7 @@ def login(request):
     email = request.data['email']
     password = request.data['password']
 
-    res = requests.post(BASE_URL + 'accounts/token/', data={'email': email, 'password': password})
+    res = requests.post("http://localhost:8000/api/v1/" + 'accounts/token/', data={'email': email, 'password': password})
     if res.status_code == 200:
         user = get_object_or_404(User, email= email)
         token = res.json().get('token')
