@@ -22,14 +22,7 @@ from .models import User
 BASE_URL = "http://k5d201.p.ssafy.io/api/v1/"
 # BASE_URL = "http://localhost:8000/api/v1/"
 
-@swagger_auto_schema(
-    method='post',
-    request_body=UserLoginSerializer,
-    responses={
-        status.HTTP_404_NOT_FOUND:'존재하지 않는 이메일입니다',
-        status.HTTP_401_UNAUTHORIZED:'비밀번호가 잘못되었습니다'
-    }
-)
+
 # @api_view(['POST'])
 # def login(request):
 #     email = request.data['email']
@@ -46,7 +39,14 @@ BASE_URL = "http://k5d201.p.ssafy.io/api/v1/"
 #         return Response({'errors': '비밀번호가 잘못되었습니다'}, status=status.HTTP_401_UNAUTHORIZED)
 #     except:
 #         return Response({'errors': '존재하지 않는 이메일입니다'}, status=status.HTTP_404_NOT_FOUND)
-
+@swagger_auto_schema(
+    method='post',
+    request_body=UserLoginSerializer,
+    responses={
+        status.HTTP_404_NOT_FOUND:'존재하지 않는 이메일입니다',
+        status.HTTP_401_UNAUTHORIZED:'비밀번호가 잘못되었습니다'
+    }
+)
 def login(request):
     email = request.data['email']
     password = request.data['password']
@@ -59,9 +59,9 @@ def login(request):
             token = token.decode("utf-8")
             return Response({'id': user.id, 'token': token}, status=status.HTTP_200_OK)
         except:
-            return Response({'errors': '존재하지 않는 이메일입니다'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'errors': '비밀번호가 잘못되었습니다'}, status=status.HTTP_401_UNAUTHORIZED)
     else:
-        return Response({'errors': '비밀번호가 잘못되었습니다'}, status=status.HTTP_401_UNAUTHORIZED)
+        return Response({'errors': '존재하지 않는 이메일입니다'}, status=status.HTTP_404_NOT_FOUND)
 
     
 @swagger_auto_schema(method='post', request_body=UserSerializer)
