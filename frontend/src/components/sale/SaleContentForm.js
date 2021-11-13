@@ -1,6 +1,6 @@
 import { Box } from '@mui/system'
 
-const SaleContentForm = ({ onPostImage }) => {
+const SaleContentForm = ({ onPostImage, onPutChange }) => {
   return (
     <div>
       <Box
@@ -10,6 +10,12 @@ const SaleContentForm = ({ onPostImage }) => {
         }}
       >
         <input type="file" onChange={onPostImage} />
+        <textarea
+          name="content_text"
+          cols="30"
+          rows="10"
+          onChange={onPutChange}
+        ></textarea>
       </Box>
     </div>
   )

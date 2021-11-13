@@ -21,7 +21,6 @@ export const postSale = ({ title, unit, quantity, price, period }) => {
 export const postSaleImg = ({ img, market_pk }) => {
   let fd = new FormData()
   fd.append('img', img)
-  console.log(market_pk, 'api')
 
   const config = {
     headers: {
@@ -29,4 +28,23 @@ export const postSaleImg = ({ img, market_pk }) => {
     },
   }
   return client.post(`api/v1/sales/markets/${market_pk}/img/`, fd, config)
+}
+
+export const putSale = ({
+  title,
+  unit,
+  quantity,
+  price,
+  period,
+  contents,
+  market_pk,
+}) => {
+  return client.put(`api/v1/sales/markets/${market_pk}/`, {
+    title,
+    unit,
+    quantity,
+    price,
+    period,
+    contents,
+  })
 }

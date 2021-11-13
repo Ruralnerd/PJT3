@@ -1,6 +1,14 @@
 import SaleForm from '../../components/sale/SaleForm'
 import { useDispatch, useSelector } from 'react-redux'
-import { changeField, next, post, prev, postSaleImg } from '../../modules/sale'
+import {
+  changeField,
+  post,
+  postSaleImg,
+  put,
+  prev,
+  next,
+  putChangeField,
+} from '../../modules/sale'
 /**
  * SaleForm을 import해서 사용, 필요한 state 관리
  */
@@ -18,6 +26,17 @@ const MarketSaleForm = () => {
       changeField({
         form: 'item',
         key: name,
+        value,
+      }),
+    )
+  }
+
+  const onPutChange = (e) => {
+    const { value } = e.target
+    const { current_page } = form
+    dispatch(
+      putChangeField({
+        sequence: current_page - 2,
         value,
       }),
     )
@@ -45,13 +64,44 @@ const MarketSaleForm = () => {
     dispatch(postSaleImg({ img, market_pk: id }))
   }
 
+  const onPutSale = () => {
+    const {
+      title,
+      unit,
+      quantity,
+      price,
+      period,
+      contents,
+      storys,
+      categorys,
+      id,
+    } = form
+
+    dispatch(
+      put({
+        title,
+        unit,
+        quantity,
+        price,
+        period,
+        contents,
+        storys,
+        categorys,
+        market_pk: id,
+      }),
+    )
+  }
+
   // 컴포넌트 이동 핸들러
   const onPrev = () => {
     dispatch(prev())
   }
+
   const onNext = () => {
     dispatch(next())
   }
+
+  const onAddContent = () => {}
 
   return (
     <div>
@@ -60,8 +110,10 @@ const MarketSaleForm = () => {
         onPrev={onPrev}
         onNext={onNext}
         onChange={onChange}
+        onPutChange={onPutChange}
         onPostSale={onPostSale}
         onPostImage={onPostImage}
+        onPutSale={onPutSale}
       />
     </div>
   )

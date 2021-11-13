@@ -42,13 +42,14 @@ const theme = createTheme({
 })
 
 const SaleForm = ({
-  type,
   form,
   onPrev,
   onNext,
   onChange,
+  onPutChange,
   onPostSale,
   onPostImage,
+  onPutSale,
 }) => {
   const { loadingStatus } = useSelector(({ loading }) => ({
     loadingStatus: loading,
@@ -66,8 +67,8 @@ const SaleForm = ({
           <Button middleWidth orange onClick={onPrev}>
             이전
           </Button>
-          <Button middleWidth red onClick={onPostSale}>
-            {loadingStatus['sale/POST'] === true ? <Spinner /> : '저장하기'}
+          <Button middleWidth red onClick={onPutSale}>
+            {loadingStatus['sale/PUT'] === true ? <Spinner /> : '저장하기'}
           </Button>
           <Button middleWidth cyan>
             사진추가
@@ -108,7 +109,11 @@ const SaleForm = ({
               상품을 소개하는 이미지와 설명을 입력해 주세요.
             </div>
             <div css={SaleInfoBox}>
-              <SaleContentForm form={form} onPostImage={onPostImage} />
+              <SaleContentForm
+                form={form}
+                onPutChange={onPutChange}
+                onPostImage={onPostImage}
+              />
             </div>
           </>
         )}
