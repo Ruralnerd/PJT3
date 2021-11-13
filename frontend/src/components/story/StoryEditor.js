@@ -6,10 +6,59 @@ import { css } from '@emotion/react'
 import palette from '../../lib/styles/palette'
 import { useSelector, useDispatch } from 'react-redux'
 import { imageUpload } from '../../modules/write'
-import styled from 'styled-components'
-import Button from '../common/Button'
+// import styled from 'styled-components'
+// import Button from '../common/Button'
 
 const StoryEditor = ({ title, contents, onChangeField }) => {
+  const dispatch = useDispatch()
+  const { image, imageError } = useSelector(({ write }) => ({
+    image: write.image,
+    imageError: write.imageError,
+  }))
+
+  const [context, setContext] = useState('')
+  const [fileImage, setFileImage] = useState('')
+
+  const [test, setTest] = useState([])
+
+  const deleteFileImage = () => {
+    URL.revokeObjectURL(fileImage)
+    setFileImage('')
+  }
+  const onChangeTitle = (e) => {
+    onChangeField({ key: 'title', value: e.target.value })
+  }
+
+  const { id } = useSelector(({ write }) => ({
+    id: write.id.id,
+  }))
+
+  const onChangeImage = (e) => {
+    setFileImage(URL.createObjectURL(e.target.files[0]))
+    const formData = new FormData()
+    formData.append('image', e.target.files[0])
+    dispatch(imageUpload({ id, formData }))
+  }
+
+  const onChangeContext = (e) => {
+    setContext(e.target.value)
+  }
+
+  const NextButton1 = () => {
+    document.getElementById('context').value = null
+    document.getElementById('file').value = null
+    URL.revokeObjectURL(fileImage)
+    setFileImage('')
+    setTest((prevList) => [...prevList, { img: image.img, content: context }])
+  }
+
+  const Check = () => {
+    onChangeField({
+      key: 'contents',
+      value: test,
+    })
+  }
+
   const CreateStoryWrapper = css``
 
   const FileUploadArea = css`
@@ -42,83 +91,6 @@ const StoryEditor = ({ title, contents, onChangeField }) => {
     gap: 5%;
     align-items: center;
   `
-  const dispatch = useDispatch()
-  const { image, imageError } = useSelector(({ write }) => ({
-    image: write.image,
-    imageError: write.imageError,
-  }))
-
-  const [context, setContext] = useState('')
-  const [fileImage, setFileImage] = useState('')
-  const [imagePreview, setImagePreview] = useState('')
-
-  const [test, setTest] = useState([])
-
-  const deleteFileImage = () => {
-    URL.revokeObjectURL(fileImage)
-    setFileImage('')
-  }
-  const onChangeTitle = (e) => {
-    onChangeField({ key: 'title', value: e.target.value })
-  }
-
-  const { id } = useSelector(({ write }) => ({
-    id: write.id.id,
-  }))
-
-  const onChangeImage = (e) => {
-    const formData = new FormData()
-    formData.append('image', e.target.files[0])
-
-    setFileImage(URL.createObjectURL(e.target.files[0]))
-    // onChangeField({ key: 'img', value: e.target.files[0] })
-    setImagePreview(e.target.files[0])
-    dispatch(imageUpload({ id, formData }))
-  }
-
-  const onChangeContext = (e) => {
-    // onChangeField({ key: 'context', value: e.target.value })
-    setContext(e.target.value)
-  }
-
-  // const formData = new FormData()
-
-  const NextButton1 = () => {
-    // const formData = new FormData()
-    // formData.append('img', image)
-    // formData.append('context', context)
-    // formData.append('img', image)
-    // formData.append('context', context)
-    // formData.append('contents', image)
-
-    document.getElementById('context').value = null
-    document.getElementById('file').value = null
-    URL.revokeObjectURL(fileImage)
-    setFileImage('')
-    // for (let value of formData.values()) {
-    //   console.log(value)
-    // }
-
-    // onChangeField({
-    //   key: 'contents',
-    //   value: [{ image: fileImage, content: context }],
-    //   // value: 'gkgkzjsxpscm',
-    // })
-
-    setTest((prevList) => [...prevList, { img: image.img, content: context }])
-    // onChangeField({ key: 'contents', value: formData })
-  }
-
-  const Check = () => {
-    console.log(id)
-    onChangeField({
-      key: 'contents',
-      value: test,
-    })
-    // for (var pair of formData.entries()) {
-    //   console.log(pair)
-    // }
-  }
 
   const SearchFileButton = css`
     border: none;
@@ -136,17 +108,6 @@ const StoryEditor = ({ title, contents, onChangeField }) => {
       background: ${palette.gray[6]};
     } */
   `
-
-  const ImageDeleteButton = styled(Button)`
-    padding: 0.5rem;
-  `
-
-  const NextButton = styled(Button)`
-    padding: 0.5rem;
-    background-color: blue;
-    float: right;
-  `
-
   return (
     <div css={CreateStoryWrapper}>
       <TextField
@@ -173,9 +134,10 @@ const StoryEditor = ({ title, contents, onChangeField }) => {
         <label htmlFor="file" css={SearchFileButton}>
           파일 찾기
         </label>
-        <ImageDeleteButton onClick={() => deleteFileImage()}>
+        <button onClick={() => deleteFileImage()}>삭제</button>
+        {/* <ImageDeleteButton onClick={() => deleteFileImage()}>
           삭제
-        </ImageDeleteButton>
+        </ImageDeleteButton> */}
       </div>
 
       {fileImage && <img alt="sample" src={fileImage} css={PreviewImage} />}
@@ -189,7 +151,8 @@ const StoryEditor = ({ title, contents, onChangeField }) => {
         // value={content}
         onChange={onChangeContext}
       />
-      <NextButton onClick={NextButton1}>다음</NextButton>
+      <button onClick={NextButton1}>다음</button>
+      {/* <NextButton onClick={NextButton1}>다음</NextButton> */}
       <button onClick={Check}>확인</button>
     </div>
   )

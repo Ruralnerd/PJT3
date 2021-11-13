@@ -17,22 +17,14 @@ const WriteActionButtonsContainer = ({ history }) => {
     }),
   )
 
-  // 포스트 등록
-  // for (var value of contents.values()) {
-  //   console.log(value)
-  // }
   const onPublish = () => {
     dispatch(
-      writePut(
-        // 여기중괄호조심
-        {
-          id,
-          title,
-          contents,
-          categorys,
-        },
-        // formData,
-      ),
+      writePut({
+        id,
+        title,
+        contents,
+        categorys,
+      }),
     )
   }
 
@@ -44,9 +36,7 @@ const WriteActionButtonsContainer = ({ history }) => {
   // 성공 혹은 실패 시 할 작업
   useEffect(() => {
     if (post) {
-      // const { _id, user } = post
       history.push('/')
-      // history.push(`/@${user.username}/${_id}`)
     }
     if (postError) {
       console.log(postError)

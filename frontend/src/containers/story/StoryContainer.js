@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { connect } from 'react-redux'
 import StoryList from '../../components/story/StoryList'
 import { getStorys } from '../../modules/story'
@@ -21,7 +21,7 @@ const StoryContainer = ({ getStorys, storys }) => {
 
   const dispatch = useDispatch()
 
-  const title = 'fake'
+  const title = 'blank'
 
   const createStory = () => {
     dispatch(writePost({ title }))
@@ -36,8 +36,6 @@ const StoryContainer = ({ getStorys, storys }) => {
     justify-content: space-between;
     align-items: center;
   `
-
-  const StoryHeader = css``
 
   return (
     <>
