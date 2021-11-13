@@ -1,6 +1,7 @@
 from django.http import response, JsonResponse
 from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth import base_user, get_user_model
+from django.contrib.auth.hashers import check_password
 import requests
 import random
 
@@ -54,13 +55,13 @@ def login(request):
 
     user = User.objects.get(email = email)
     if user:
-        try:
-            user = get_object_or_404(User, email=email, password=password)
-            token = jwt.encode({"user_id": user.pk, "email":user.email}, config('SECRET_KEY'), algorithm="HS256")
-            token = token.decode("utf-8")
-            return Response({'id': user.id, 'token': token}, status=status.HTTP_200_OK)
-        except:
-            return Response({'errors': '비밀번호가 잘못되었습니다'}, status=status.HTTP_401_UNAUTHORIZED)
+        print(user.password)
+        if check_password(password, user.password):
+                token = jwt.encode({"user_id": user.pk, "email":user.email}, config('SECRET_KEY'), algorithm="HS256")
+                token = token.decode("utf-8")
+                return Response({'id': user.id, 'token': token}, status=status.HTTP_200_OK)
+        else:
+            return Response({'errors': '비밀번호가 잘못되었습니다'}, status=status.HTTP_401_UNAUTHORIZED) 
     else:
         return Response({'errors': '존재하지 않는 이메일입니다'}, status=status.HTTP_404_NOT_FOUND)
 
