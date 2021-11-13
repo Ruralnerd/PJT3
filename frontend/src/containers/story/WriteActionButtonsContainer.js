@@ -2,15 +2,15 @@ import React, { useEffect } from 'react'
 import WriteActionButtons from '../../components/write/WriteActionButtons'
 import { useSelector, useDispatch } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { writePost } from '../../modules/write'
+import { writePut } from '../../modules/write'
 
 const WriteActionButtonsContainer = ({ history }) => {
   const dispatch = useDispatch()
-  const { title, img, content, categorys, post, postError } = useSelector(
+  const { id, title, contents, categorys, post, postError } = useSelector(
     ({ write }) => ({
+      id: write.id.id,
       title: write.title,
-      img: write.img,
-      content: write.content,
+      contents: write.contents,
       categorys: write.categorys,
       post: write.post,
       postError: write.postError,
@@ -18,14 +18,21 @@ const WriteActionButtonsContainer = ({ history }) => {
   )
 
   // 포스트 등록
+  // for (var value of contents.values()) {
+  //   console.log(value)
+  // }
   const onPublish = () => {
     dispatch(
-      writePost({
-        title,
-        img,
-        content,
-        categorys,
-      }),
+      writePut(
+        // 여기중괄호조심
+        {
+          id,
+          title,
+          contents,
+          categorys,
+        },
+        // formData,
+      ),
     )
   }
 

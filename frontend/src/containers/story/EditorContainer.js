@@ -5,10 +5,9 @@ import { changeField, initialize } from '../../modules/write'
 
 const EditorContainer = () => {
   const dispatch = useDispatch()
-  const { title, img, content } = useSelector(({ write }) => ({
+  const { title, contents } = useSelector(({ write }) => ({
     title: write.title,
-    img: write.img,
-    content: write.content,
+    contents: write.contents,
   }))
 
   const onChangeField = useCallback(
@@ -27,8 +26,7 @@ const EditorContainer = () => {
     <StoryEditor
       onChangeField={onChangeField}
       title={title}
-      img={img}
-      content={content}
+      contents={contents}
     />
   )
 }

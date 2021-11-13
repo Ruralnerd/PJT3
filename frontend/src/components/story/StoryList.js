@@ -49,7 +49,7 @@ const StoryList = ({ storys }) => {
           {storys.map((story) => (
             <div key={story.id} css={test}>
               <p>{story.title}</p>
-              <img src={story.thumbnail_img} css={SaleImage} alt="" />
+              {/* <img src={story.thumbnail_img} css={SaleImage} alt="" /> */}
             </div>
           ))}
         </div>
