@@ -30,22 +30,38 @@ BASE_URL = "http://k5d201.p.ssafy.io/api/v1/"
         status.HTTP_401_UNAUTHORIZED:'비밀번호가 잘못되었습니다'
     }
 )
-@api_view(['POST'])
+# @api_view(['POST'])
+# def login(request):
+#     email = request.data['email']
+#     password = request.data['password']
+
+#     res = requests.post('http://localhost:8000/api/v1/' + 'accounts/token/', data={'email': email, 'password': password})
+#     if res.status_code == 200:
+#         user = get_object_or_404(User, email= email)
+#         token = res.json().get('token')
+#         return Response({'id' : user.id, 'token' : token }, status=status.HTTP_200_OK)
+    
+#     try:
+#         user = get_object_or_404(User, email= email)
+#         return Response({'errors': '비밀번호가 잘못되었습니다'}, status=status.HTTP_401_UNAUTHORIZED)
+#     except:
+#         return Response({'errors': '존재하지 않는 이메일입니다'}, status=status.HTTP_404_NOT_FOUND)
+
 def login(request):
     email = request.data['email']
     password = request.data['password']
 
-    res = requests.post('http://localhost:8000/api/v1/' + 'accounts/token/', data={'email': email, 'password': password})
-    if res.status_code == 200:
-        user = get_object_or_404(User, email= email)
-        token = res.json().get('token')
-        return Response({'id' : user.id, 'token' : token }, status=status.HTTP_200_OK)
-    
-    try:
-        user = get_object_or_404(User, email= email)
+    user = User.objects.get(email = email)
+    if user:
+        try:
+            user = get_object_or_404(User, email=email, password=password)
+            token = jwt.encode({"user_id": user.pk, "email":user.email}, config('SECRET_KEY'), algorithm="HS256")
+            token = token.decode("utf-8")
+            return Response({'id': user.id, 'token': token}, status=status.HTTP_200_OK)
+        except:
+            return Response({'errors': '존재하지 않는 이메일입니다'}, status=status.HTTP_404_NOT_FOUND)
+    else:
         return Response({'errors': '비밀번호가 잘못되었습니다'}, status=status.HTTP_401_UNAUTHORIZED)
-    except:
-        return Response({'errors': '존재하지 않는 이메일입니다'}, status=status.HTTP_404_NOT_FOUND)
 
     
 @swagger_auto_schema(method='post', request_body=UserSerializer)
