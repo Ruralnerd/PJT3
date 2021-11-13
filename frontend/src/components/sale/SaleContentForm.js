@@ -1,6 +1,8 @@
 import { Box } from '@mui/system'
 
-const SaleContentForm = ({ onPostImage, onPutChange }) => {
+const SaleContentForm = ({ form, onPostImage, onPutChange }) => {
+  const imgNameArray = form.contents[form.current_page - 2].img.split('/')
+  const lenINA = imgNameArray.length
   return (
     <div>
       <Box
@@ -9,13 +11,15 @@ const SaleContentForm = ({ onPostImage, onPutChange }) => {
           gap: 2,
         }}
       >
-        <input type="file" onChange={onPostImage} />
+        <label htmlFor="content_img">파일명: {imgNameArray[lenINA - 1]}</label>
+        <input name="content_img" type="file" onChange={onPostImage} />
         <textarea
           name="content_text"
           cols="30"
-          rows="10"
+          rows="5"
           onChange={onPutChange}
-        ></textarea>
+          value={form.contents[form.current_page - 2].content}
+        />
       </Box>
     </div>
   )

@@ -8,6 +8,7 @@ import {
   prev,
   next,
   putChangeField,
+  addContent,
 } from '../../modules/sale'
 /**
  * SaleForm을 import해서 사용, 필요한 state 관리
@@ -101,7 +102,9 @@ const MarketSaleForm = () => {
     dispatch(next())
   }
 
-  const onAddContent = () => {}
+  const onAddContent = () => {
+    dispatch(addContent())
+  }
 
   return (
     <div>
@@ -114,6 +117,7 @@ const MarketSaleForm = () => {
         onPostSale={onPostSale}
         onPostImage={onPostImage}
         onPutSale={onPutSale}
+        onAddContent={onAddContent}
       />
     </div>
   )

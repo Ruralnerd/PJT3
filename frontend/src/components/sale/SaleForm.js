@@ -50,6 +50,7 @@ const SaleForm = ({
   onPostSale,
   onPostImage,
   onPutSale,
+  onAddContent,
 }) => {
   const { loadingStatus } = useSelector(({ loading }) => ({
     loadingStatus: loading,
@@ -70,7 +71,7 @@ const SaleForm = ({
           <Button middleWidth red onClick={onPutSale}>
             {loadingStatus['sale/PUT'] === true ? <Spinner /> : '저장하기'}
           </Button>
-          <Button middleWidth cyan>
+          <Button middleWidth cyan onClick={onAddContent}>
             사진추가
           </Button>
         </>

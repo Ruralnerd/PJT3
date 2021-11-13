@@ -6,12 +6,13 @@ import createRequestSaga, {
 } from '../lib/createRequestSaga'
 import * as saleAPI from '../lib/api/sale'
 
+// 액션 타입 정의
 const CHANGE_FIELD = 'sale/CHANGE_FIELD'
 const PREV = 'sale/PREV'
 const NEXT = 'sale/NEXT'
 const PUT_CHANGE_FIELD = 'sale/PUT_CHANGE_FIELD'
+const ADD_CONTENT = 'sale/ADD_CONTENT'
 
-// 액션 타입 정의
 const [GET, GET_SUCCESS, GET_FAILURE] = createRequestActionTypes('sale/GET')
 const [POST, POST_SUCCESS, POST_FAILURE] = createRequestActionTypes('sale/POST')
 const [PUT, PUT_SUCCESS, PUT_FAILURE] = createRequestActionTypes('sale/PUT')
@@ -75,6 +76,7 @@ export const postSaleImg = createAction(POST_IMG, ({ img, market_pk }) => ({
 }))
 export const prev = createAction(PREV)
 export const next = createAction(NEXT)
+export const addContent = createAction(ADD_CONTENT)
 
 // Saga
 const getListSaga = createRequestSaga(GET, saleAPI.getSaleList)
@@ -101,7 +103,7 @@ const initialState = {
       {
         img: '',
         sequence: 0,
-        content: 'test',
+        content: '',
       },
     ],
     storys: [0],
@@ -169,7 +171,7 @@ const sale = handleActions(
             {
               img: '',
               sequence: 0,
-              content: 'test',
+              content: '',
             },
           ],
           storys: [0],
@@ -190,6 +192,17 @@ const sale = handleActions(
       ...state,
       error,
     }),
+    [ADD_CONTENT]: (state) =>
+      produce(state, (draft) => {
+        const content = {
+          img: '',
+          sequence: [state.item.current_page] - 1,
+          content: '',
+        }
+        draft['item']['contents'] = draft['item']['contents'].concat(content)
+        draft['item']['current_page'] = draft['item']['current_page'] + 1
+        draft['item']['all_page'] = draft['item']['all_page'] + 1
+      }),
   },
   initialState,
 )
