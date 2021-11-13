@@ -13,6 +13,7 @@ import SearchPage from './pages/SearchPage'
 import ProfilePage from './pages/ProfilePage'
 import MarketPage from './pages/MarketPage'
 import MarketDetailPage from './pages/MarketDetailPage'
+import StoryDetailPage from './pages/StoryDetailPage'
 import StoryEditorPage from './pages/StoryEditorPage'
 import MarketSalePage from './pages/MarketSalePage'
 
@@ -26,7 +27,7 @@ const App = () => {
       <TopNav />
       <Route exact path={'/'} component={HomePage} />
       <Route exact path={'/market'} component={MarketPage} />
-      <Route path={'/story'} component={StoryPage} />
+      <Route exact path={'/story'} component={StoryPage} />
       <Route path={'/farm'} component={FarmPagePage} />
       <Route path={'/search'} component={SearchPage} />
       <Route path={'/profile'} component={ProfilePage} />
@@ -34,6 +35,7 @@ const App = () => {
       <Route path={'/login'} component={LoginPage} />
       <Route path={'/register'} component={RegisterPage} />
       <Route path={'/editor/story'} component={StoryEditorPage} />
+      <Route path={'/story/:id'} component={StoryDetailPage} />
       <Route path={'/sale'} component={MarketSalePage} />
       <Footer />
       <BottomNav />

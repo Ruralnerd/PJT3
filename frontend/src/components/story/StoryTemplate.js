@@ -1,9 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 
-/**
- * 스마트 에디터의 레이아웃을 담당하는 컴포넌트입니다.
- */
 // const sizes = {
 //   desktop: '1024px',
 //   tablet: '768px',
@@ -19,12 +16,12 @@ const StoryTemplateWrapper = css`
   margin: 4%;
 `
 
-const EditorTemplate = ({ children }) => {
+const StoryTemplate = ({ children }) => {
   return (
-    <>
+    <div>
       <div css={StoryTemplateWrapper}>{children}</div>
-    </>
+    </div>
   )
 }
 
-export default EditorTemplate
+export default StoryTemplate

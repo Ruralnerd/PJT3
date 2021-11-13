@@ -8,14 +8,15 @@ import { takeLatest } from 'redux-saga/effects'
 const INITIALIZE = 'write/INITIALIZE' // 모든 내용 초기화
 const CHANGE_FIELD = 'write/CHANGE_FIELD' // 특정 key 값 바꾸기
 
-// 페이크 게시글작성
+// 게시글 작성 1단계(POST)
 const [WRITE_POST, WRITE_POST_SUCCESS, WRITE_POST_FAILURE] =
   createRequestActionTypes('write/WRITE_POST') // 포스트 작성
 
-// 얘가 진짜게시글작성PUT
+// 게시글 작성 2단계(PUT)
 const [WRITE_PUT, WRITE_PUT_SUCCESS, WRITE_PUT_FAILURE] =
   createRequestActionTypes('write/WRITE_PUT') // 포스트 작성
 
+// 이미지 업로드
 const [IMAGE_UPLOAD, IMAGE_UPLOAD_SUCCESS, IMAGE_UPLOAD_FAILURE] =
   createRequestActionTypes('write/IMAGE_UPLOAD')
 

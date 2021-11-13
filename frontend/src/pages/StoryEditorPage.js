@@ -2,15 +2,15 @@ import React from 'react'
 import EditorContainer from '../containers/story/EditorContainer'
 import TagBoxContainer from '../containers/story/TagBoxContainer'
 import WriteActionButtonsContainer from '../containers/story/WriteActionButtonsContainer'
-import StoryTemplate from '../components/write/StoryTemplate'
+import StoryEditorTemplate from '../components/write/StoryEditorTemplate'
 
 const StoryEditorPage = () => {
   return (
-    <StoryTemplate>
+    <StoryEditorTemplate>
       <EditorContainer />
       <TagBoxContainer />
       <WriteActionButtonsContainer />
-    </StoryTemplate>
+    </StoryEditorTemplate>
   )
 }
 

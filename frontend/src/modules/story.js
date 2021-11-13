@@ -1,25 +1,58 @@
-import { handleActions } from 'redux-actions'
-import * as api from '../lib/api/story'
-import createRequestThunk from '../lib/createRequestThunk'
+import { createAction, handleActions } from 'redux-actions'
+import createRequestSaga, {
+  createRequestActionTypes,
+} from '../lib/createRequestSaga'
+import * as postsAPI from '../lib/api/story'
+import { takeLatest } from 'redux-saga/effects'
 
-const GET_STORYS = `story/GET_STORYS`
-const GET_STORYS_SUCCESS = `story/GET_STORYS_SUCCESS`
+// 전체 스토리 가져오기
+const [GET_STORYS, GET_STORYS_SUCCESS, GET_STORYS_FAILURE] =
+  createRequestActionTypes('story/GET_STORYS')
 
-export const getStorys = createRequestThunk(GET_STORYS, api.getStorys)
+const [GET_STORY, GET_STORY_SUCCESS, GET_STORY_FAILURE] =
+  createRequestActionTypes('story/GET_STORY')
+
+export const getStorys = createAction(GET_STORYS)
+export const getStory = createAction(GET_STORY)
+
+// 사가 생성
+const getStorysSaga = createRequestSaga(GET_STORYS, postsAPI.getStorys)
+const getStorySaga = createRequestSaga(GET_STORY, postsAPI.getStory)
+
+export function* storySaga() {
+  yield takeLatest(GET_STORYS, getStorysSaga)
+  yield takeLatest(GET_STORY, getStorySaga)
+}
 
 const initialState = {
-  storys: null,
+  storys: [],
+  story: '',
+  error: '',
 }
 
 const story = handleActions(
   {
-    [GET_STORYS_SUCCESS]: (state, action) => ({
+    [GET_STORYS]: (state) => ({
       ...state,
-      loading: {
-        ...state.loading,
-        GET_STORYS: false, // 요청 완료
-      },
-      storys: action.payload,
+    }),
+    [GET_STORYS_SUCCESS]: (state, { payload: storys }) => ({
+      ...state,
+      storys,
+    }),
+    [GET_STORYS_FAILURE]: (state, { payload: error }) => ({
+      ...state,
+      error,
+    }),
+    [GET_STORY]: (state) => ({
+      ...state,
+    }),
+    [GET_STORY_SUCCESS]: (state, { payload: story }) => ({
+      ...state,
+      story,
+    }),
+    [GET_STORY_FAILURE]: (state, { payload: error }) => ({
+      ...state,
+      error,
     }),
   },
   initialState,

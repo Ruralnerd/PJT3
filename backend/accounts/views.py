@@ -1,10 +1,16 @@
 from django.http import response, JsonResponse
 from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth import base_user, get_user_model
+from django.contrib.auth.hashers import check_password
 import requests
 import random
 
 from requests.api import request
+
+from rest_framework_jwt.settings import api_settings 
+jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
+jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
+
 
 import jwt
 from decouple import config
@@ -22,6 +28,31 @@ from .models import User
 BASE_URL = "http://k5d201.p.ssafy.io/api/v1/"
 # BASE_URL = "http://localhost:8000/api/v1/"
 
+# @swagger_auto_schema(
+#     method='post',
+#     request_body=UserLoginSerializer,
+#     responses={
+#         status.HTTP_404_NOT_FOUND:'존재하지 않는 이메일입니다',
+#         status.HTTP_401_UNAUTHORIZED:'비밀번호가 잘못되었습니다'
+#     }
+# )
+# @api_view(['POST'])
+# def login(request):
+#     email = request.data['email']
+#     password = request.data['password']
+
+#     res = requests.post('http://127.0.0.1:8000/api/v1/' + 'accounts/token/', data={'email': email, 'password': password})
+#     if res.status_code == 200:
+#         user = get_object_or_404(User, email= email)
+#         token = res.json().get('token')
+#         return Response({'id' : user.id, 'token' : token }, status=status.HTTP_200_OK)
+    
+#     try:
+#         user = get_object_or_404(User, email= email)
+#         return Response({'errors': '비밀번호가 잘못되었습니다'}, status=status.HTTP_401_UNAUTHORIZED)
+#     except:
+#         return Response({'errors': '존재하지 않는 이메일입니다'}, status=status.HTTP_404_NOT_FOUND)
+
 @swagger_auto_schema(
     method='post',
     request_body=UserLoginSerializer,
@@ -35,19 +66,23 @@ def login(request):
     email = request.data['email']
     password = request.data['password']
 
-    res = requests.post(BASE_URL + 'accounts/token/', data={'email': email, 'password': password})
-    if res.status_code == 200:
-        user = get_object_or_404(User, email= email)
-        token = res.json().get('token')
-        return Response({'id' : user.id, 'token' : token }, status=status.HTTP_200_OK)
-    
-    try:
-        user = get_object_or_404(User, email= email)
-        return Response({'errors': '비밀번호가 잘못되었습니다'}, status=status.HTTP_401_UNAUTHORIZED)
-    except:
+    user = User.objects.get(email = email)
+    if user:
+        print(user.password)
+        if check_password(password, user.password):
+                # token = jwt.encode({"user_id": user.pk, "email":user.email}, config('SECRET_KEY'), algorithm="HS256")
+                # token = token.decode("utf-8")
+                # return Response({'id': user.id, 'token': token}, status=status.HTTP_200_OK)
+                payload = jwt_payload_handler(user)
+                token = jwt_encode_handler(payload)
+                return Response({'id': user.id, 'token': token}, status=status.HTTP_200_OK)
+
+        else:
+            return Response({'errors': '비밀번호가 잘못되었습니다'}, status=status.HTTP_401_UNAUTHORIZED) 
+    else:
         return Response({'errors': '존재하지 않는 이메일입니다'}, status=status.HTTP_404_NOT_FOUND)
 
-    
+
 @swagger_auto_schema(method='post', request_body=UserSerializer)
 @api_view(['POST'])
 def signup(request):

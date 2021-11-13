@@ -121,7 +121,7 @@ def story_detail(request, story_pk):
         if serializer.is_valid(raise_exception=True):
             contents = request.data.get('contents')
             categorys = request.data.get('categorys')
-            story = serializer.save(producer=user, thumbnail_img = contents[0]['img'])
+            story = serializer.save(producer=user, thumbnail_img = contents[0]['image'])
             new = StorySerializer(story)
             for idx, content in enumerate(contents):
                 StoryContent.objects.create(

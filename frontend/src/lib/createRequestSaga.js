@@ -1,4 +1,4 @@
-import { call, put } from 'redux-saga/effects'
+import { call, put, delay } from 'redux-saga/effects'
 import { startLoading, finishLoading } from '../modules/loading'
 
 export const createRequestActionTypes = (type) => {
@@ -20,8 +20,8 @@ export default function createRequestSaga(type, request) {
 
         예시) authAPI.register({email, nickname, password})
       */
+      yield delay(500)
       const response = yield call(request, action.payload)
-      console.log('리턴', response)
       yield put({
         type: SUCCESS,
         payload: response.data,

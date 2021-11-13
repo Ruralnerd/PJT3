@@ -1,56 +1,25 @@
 /** @jsxImportSource @emotion/react */
 
 import { css } from '@emotion/react'
-// import { Link } from 'react-router-dom'
-
-const SaleWrapper = css``
-
-/*
-const SaleCard = css`
-  display: flex;
-  flex-direction: column;
-  box-shadow: 1px 1px 2px 1px #9e9e9e;
-  text-decoration: none;
-`
-
-
-const SaleTitle = css`
-  flex: 1;
-  padding: 0 4%;
-  text-align: center;
-  background-color: #f4f4f4;
-`
-
-const TitleText = css`
-  overflow: hidden;
-  text-overflow: clip;
-  display: -webkit-box;
-  -webkit-line-clamp: 1; // 라인수
-  -webkit-box-orient: vertical;
-  word-wrap: break-word;
-`
-*/
-const SaleImage = css`
-  width: 100%;
-  height: 20vh;
-  object-fit: cover;
-  text-decoration: none;
-`
-
-const test = css`
-  display: flex;
-`
+import { Link } from 'react-router-dom'
 
 const StoryList = ({ storys }) => {
+  const trueStorys = storys.filter((story) => story.thumbnail_img.length > 1)
+
   return (
     <div>
-      {storys && (
-        <div css={SaleWrapper}>
-          {storys.map((story) => (
-            <div key={story.id} css={test}>
-              <p>{story.title}</p>
-              {/* <img src={story.thumbnail_img} css={SaleImage} alt="" /> */}
-            </div>
+      {trueStorys && (
+        <div
+          css={css`
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2%;
+          `}
+        >
+          {trueStorys.map((story) => (
+            <Link key={story.id} to={`/story/${story.id}`}>
+              <img src={story.thumbnail_img} alt=""></img>
+            </Link>
           ))}
         </div>
       )}

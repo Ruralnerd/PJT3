@@ -3,7 +3,7 @@ import { combineReducers } from 'redux'
 import auth, { authSaga } from './auth'
 import loading from './loading'
 import market from './market'
-import story from './story'
+import story, { storySaga } from './story'
 import write, { writeSaga } from './write'
 import sale, { saleSaga } from './sale'
 
@@ -17,7 +17,7 @@ const rootReducer = combineReducers({
 })
 
 export function* rootSaga() {
-  yield all([authSaga(), saleSaga(), writeSaga()])
+  yield all([authSaga(), saleSaga(), writeSaga(), storySaga()])
 }
 
 export default rootReducer
