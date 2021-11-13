@@ -2,7 +2,7 @@ from rest_framework import serializers
 
 from searches.serializer import CategorySerializer
 from accounts.serializer import UserOrderSerializer, UserSmallSerializer, StorySmallSerializer, MarketSmallSerializer
-from .models import Request, MarketComment, MarketContent, Market
+from .models import Request, MarketComment, MarketContent, Market, MarketImg
 
 # Comment Serializers
 class MarketCommentSerializer(serializers.ModelSerializer):
@@ -16,7 +16,14 @@ class MarketCommentCreateSerializer(serializers.ModelSerializer):
         model = MarketComment
         fields = ['content'] 
 
-# Story Image Serializer
+# Market Image Serializer
+class MarketImgSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = MarketImg
+        fields = ['img']
+
+# Market Content Serializer
 class MarketContentSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -39,12 +46,13 @@ class MarketCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Market
-        fields = ['title','price','period','unit','quantity', 'storys']
+        fields = ['title','price','period','unit','quantity']
 
-class MarketEditSerializer(serializers.ModelSerializer):    
+class MarketEditSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Market
-        fields = ['title','price','period','unit','quantity', 'thumbnail_img', 'storys']
+        fields = ['title','price','period','unit','quantity', 'thumbnail_img', 'storys', 'categorys']
 
 # Request Serializers
 class RequestBuyerSerializer(serializers.ModelSerializer):

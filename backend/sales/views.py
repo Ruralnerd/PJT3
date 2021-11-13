@@ -18,14 +18,14 @@ from searches.serializer import CategorySerializer
 from searches.views import category_process
 from .serializer import RequestBuyerSerializer, RequestSerializer, RequestSellerSerializer
 from .serializer import MarketCreateSerializer, MarketSerializer, MarketEditSerializer
-from .serializer import MarketContentSerializer
+from .serializer import MarketImgSerializer, MarketContentSerializer
 from .serializer import MarketCommentCreateSerializer, MarketCommentSerializer
-from .models import Market, Request, MarketContent, MarketComment
+from .models import Market, Request, MarketContent, MarketComment, MarketImg, thumbnail_image_path
 
 swaager_items = openapi.Schema(
     type=openapi.TYPE_OBJECT,
     properties={
-        'img' : openapi.Schema(type=openapi.TYPE_FILE),
+        'img' : openapi.Schema(type=openapi.TYPE_STRING),
         'content': openapi.Schema(type=openapi.TYPE_STRING),
         'sequence': openapi.Schema(type=openapi.TYPE_INTEGER)
     }
@@ -50,14 +50,6 @@ swaager_items = openapi.Schema(
                 format=openapi.FORMAT_DATETIME),
             'unit' : openapi.Schema(type=openapi.TYPE_STRING),
             'quantity' : openapi.Schema(type=openapi.TYPE_INTEGER),
-            'contents': openapi.Schema(type=openapi.TYPE_ARRAY, items=swaager_items),
-            'storys': openapi.Schema(type=openapi.TYPE_ARRAY, items=openapi.Schema(type=openapi.TYPE_INTEGER)),
-            'categorys': openapi.Schema(
-                type=openapi.TYPE_ARRAY, 
-                items=openapi.Schema(
-                    type=openapi.TYPE_STRING,
-                )
-            ),   
     }),
     responses={status.HTTP_201_CREATED: MarketSerializer})
 @api_view(['GET', 'POST'])
@@ -84,22 +76,35 @@ def markets(request):
         user = request.user
         serializer = MarketCreateSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
-            contents = request.data.get('contents')
-            categorys = request.data.get('categorys')
-            market = serializer.save(seller=user, thumbnail_img = contents[0]['img'])
+            market = serializer.save(seller=user)
             new = MarketSerializer(market)
-            for content in contents:
-                MarketContent.objects.create(
-                    market=market, 
-                    img=content['img'],
-                    content=content['content'], 
-                    sequence = content['sequence'])
-            category_process(market, categorys)
             return Response(new.data, status=status.HTTP_201_CREATED)
 
 
 @swagger_auto_schema(method='get', responses={status.HTTP_200_OK: MarketSerializer})
-@swagger_auto_schema(method='put', request_body=MarketEditSerializer, responses={status.HTTP_201_CREATED: MarketSerializer, status.HTTP_403_FORBIDDEN:'HTTP_403_FORBIDDEN'})
+@swagger_auto_schema(
+    method='put', 
+    request_body=openapi.Schema(
+        type=openapi.TYPE_OBJECT,
+        properties={
+            'title': openapi.Schema(type=openapi.TYPE_STRING),
+            'price' : openapi.Schema(type=openapi.TYPE_INTEGER),
+            'period': openapi.Schema(
+                type=openapi.TYPE_STRING,
+                format=openapi.FORMAT_DATETIME),
+            'unit' : openapi.Schema(type=openapi.TYPE_STRING),
+            'quantity' : openapi.Schema(type=openapi.TYPE_INTEGER),
+            'contents': openapi.Schema(type=openapi.TYPE_ARRAY, items=swaager_items),
+            'storys': openapi.Schema(type=openapi.TYPE_ARRAY, items=openapi.Schema(type=openapi.TYPE_INTEGER)),
+            'categorys': openapi.Schema(
+                type=openapi.TYPE_ARRAY, 
+                items=openapi.Schema(
+                    type=openapi.TYPE_STRING,
+                )
+            ),   
+    }), 
+    responses={status.HTTP_201_CREATED: MarketSerializer, status.HTTP_403_FORBIDDEN:'HTTP_403_FORBIDDEN'
+})
 @swagger_auto_schema(method='delete', responses={status.HTTP_204_NO_CONTENT:'HTTP_204_NO_CONTENT',status.HTTP_403_FORBIDDEN:'HTTP_403_FORBIDDEN'})
 @api_view(['GET', 'PUT', 'DELETE'])
 @permission_classes([IsAuthenticated])
@@ -131,7 +136,16 @@ def market_detail(request, market_pk):
     elif request.method == 'PUT':
         serializer = MarketEditSerializer(market, data=request.data)
         if serializer.is_valid(raise_exception=True):
-            market = serializer.save()
+            contents = request.data.get('contents')
+            categorys = request.data.get('categorys')
+            market = serializer.save(thumbnail_img = contents[0]['img'])
+            for content in contents:
+                MarketContent.objects.create(
+                    market=market, 
+                    img=content['img'],
+                    content=content['content'], 
+                    sequence = content['sequence'])
+            category_process(market, categorys)
             new = MarketSerializer(market)
             return Response(new.data, status=status.HTTP_201_CREATED)
     elif request.method == 'DELETE':
@@ -150,18 +164,27 @@ def market_categorys(request, market_pk):
     new = MarketSerializer(market)
     return Response(new.data, status=status.HTTP_201_CREATED)
 
-# @swagger_auto_schema(method='post', responses={status.HTTP_201_CREATED: MarketContentSerializer, status.HTTP_403_FORBIDDEN:'HTTP_403_FORBIDDEN'})
-# @api_view(['POST'])
-# @permission_classes([IsAuthenticated])
-# @authentication_classes([JSONWebTokenAuthentication])
-# def market_img(request, market_pk):
-#     market = get_object_or_404(Market, id=market_pk)
-#     if market.seller != request.user:
-#         return Response(status=status.HTTP_403_FORBIDDEN)
-#     else:
-#         img = MarketContent.objects.create(market=market, img=request.data['img'])
-#         serialzer = MarketContentSerializer(img)
-#         return Response(serialzer.data, status=status.HTTP_201_CREATED)
+@swagger_auto_schema(
+    method='post', 
+    responses={status.HTTP_201_CREATED: MarketImgSerializer, status.HTTP_403_FORBIDDEN:'HTTP_403_FORBIDDEN'},
+    request_body=openapi.Schema(
+        type = openapi.TYPE_OBJECT,
+        properties = {
+            'img' : openapi.Schema(type=openapi.TYPE_FILE)
+        }
+    ))
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+@authentication_classes([JSONWebTokenAuthentication])
+def market_img(request, market_pk):
+    market = get_object_or_404(Market, id=market_pk)
+    if market.seller != request.user:
+        return Response(status=status.HTTP_403_FORBIDDEN)
+    else:
+        img = MarketImg.objects.create(market=market, img=request.data['img'])
+        serialzer = MarketImgSerializer(img)
+        print(serialzer.data['img'])
+        return Response(serialzer.data, status=status.HTTP_201_CREATED)
 
 # @swagger_auto_schema(method='delete', responses={status.HTTP_204_NO_CONTENT:'HTTP_204_NO_CONTENT',status.HTTP_403_FORBIDDEN:'HTTP_403_FORBIDDEN'})
 # @api_view(['DELETE'])
@@ -231,7 +254,7 @@ def market_request(request, market_pk):
             'address' : request.data['address'],
             'phone' : request.data['phone']
         }
-        
+
         serializer = RequestBuyerSerializer(data = data)
         if serializer.is_valid(raise_exception=True):
             request_data = serializer.save()
