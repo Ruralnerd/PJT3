@@ -26,9 +26,32 @@ const MarketSaleForm = () => {
   // 폼 등록 이벤트 핸들러
   const onSubmit = (e) => {
     e.preventDefault()
-    const { title, unit, quantity, price, period } = form
-    dispatch(post({ title, unit, quantity, price, period }))
+    const {
+      title,
+      unit,
+      quantity,
+      price,
+      period,
+      contents,
+      storys,
+      categorys,
+    } = form
+    dispatch(
+      post({
+        title,
+        unit,
+        quantity,
+        price,
+        period,
+        contents,
+        storys,
+        categorys,
+      }),
+    )
   }
+
+  // 컴포넌트 이동 핸들러
+  const onPrev = () => {}
 
   return (
     <div>

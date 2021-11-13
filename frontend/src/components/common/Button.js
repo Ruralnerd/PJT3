@@ -39,13 +39,23 @@ const StyledButton = styled.button`
     css`
       background: ${palette.orange[5]};
       &:hover {
-        background: ${palette.orange[3]};
+        background: ${palette.orange[7]};
         transition: 0.2s ease-in;
       }
     `}
 
   ${(props) =>
     props.cyan &&
+    css`
+      background: ${palette.cyan[5]};
+      &:hover {
+        background: ${palette.cyan[7]};
+        transition: 0.2s ease-in;
+      }
+    `}
+
+  ${(props) =>
+    props.red &&
     css`
       background: ${palette.red[6]};
       &:hover {
