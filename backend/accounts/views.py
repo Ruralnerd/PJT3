@@ -20,7 +20,7 @@ from .serializer import GetUserSerializer, UserSerializer, UserLoginSerializer
 from .models import User
 
 BASE_URL = "http://k5d201.p.ssafy.io/api/v1/"
-BASE_URL = "http://localhost:8000/api/v1/"
+# BASE_URL = "http://localhost:8000/api/v1/"
 
 @swagger_auto_schema(
     method='post',
