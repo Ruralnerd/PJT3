@@ -3,6 +3,7 @@ from django.conf import settings
 from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFill
 import os
+import shutil
 
 from articles.models import Category, Story
 
@@ -19,12 +20,7 @@ class Market(models.Model):
     period = models.DateTimeField()
     unit = models.CharField(max_length=20)
     quantity = models.IntegerField()
-    thumbnail_img = ProcessedImageField(
-        upload_to=thumbnail_image_path,
-        processors=[ResizeToFill(150, 150)],
-        format='JPEG',
-        blank=True,
-    )
+    thumbnail_img = models.TextField(blank=True)
     storys = models.ManyToManyField(Story, related_name='markets', blank=True)
     categorys = models.ManyToManyField(Category, related_name='markets', blank=True)
     hits = models.PositiveIntegerField(default=0)
@@ -32,8 +28,9 @@ class Market(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def delete(self, *args, **kwargs):
+        url = f'sales/markets/{self.pk}'
         super(Market, self).delete(*args, **kwargs)
-        os.remove(os.path.join(settings.MEDIA_ROOT, self.thumbnail_img.path))
+        shutil.rmtree(os.path.join(settings.MEDIA_ROOT, url))
 
 class MarketComment(models.Model):
     market = models.ForeignKey(Market, on_delete=models.CASCADE, related_name='comments')
