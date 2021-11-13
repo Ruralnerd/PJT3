@@ -15,7 +15,6 @@ def thumbnail_image_path(instance, filename):
 class Market(models.Model):
     seller = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='markets')
     title = models.CharField(max_length=100)
-    content = models.TextField()
     price = models.IntegerField()
     period = models.DateTimeField()
     unit = models.CharField(max_length=20)
@@ -25,10 +24,9 @@ class Market(models.Model):
         processors=[ResizeToFill(150, 150)],
         format='JPEG',
         blank=True,
-        default='default_profile.jpeg'
     )
     storys = models.ManyToManyField(Story, related_name='markets', blank=True)
-    categorys = models.ManyToManyField(Category, related_name='markets')
+    categorys = models.ManyToManyField(Category, related_name='markets', blank=True)
     hits = models.PositiveIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -44,6 +42,13 @@ class MarketComment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
 
+class MarketContent(models.Model):
+    market = models.ForeignKey(Market, on_delete=models.CASCADE, related_name='contents')
+    img = models.TextField(blank=True)
+    content = models.TextField(blank=True)
+    sequence = models.IntegerField(default=0)
+
+
 class MarketImg(models.Model):
     market = models.ForeignKey(Market, on_delete=models.CASCADE, related_name='imgs')
     img = ProcessedImageField(
@@ -51,7 +56,6 @@ class MarketImg(models.Model):
         processors=[ResizeToFill(150, 150)],
         format='JPEG',
         blank=True,
-        default='default_profile.jpeg'
     )
     def delete(self, *args, **kwargs):
         super(MarketImg, self).delete(*args, **kwargs)
