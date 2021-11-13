@@ -3,6 +3,7 @@ from django.conf import settings
 from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFill
 import os
+import shutil
 
 from articles.models import Category, Story
 
@@ -15,33 +16,34 @@ def thumbnail_image_path(instance, filename):
 class Market(models.Model):
     seller = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='markets')
     title = models.CharField(max_length=100)
-    content = models.TextField()
     price = models.IntegerField()
     period = models.DateTimeField()
     unit = models.CharField(max_length=20)
     quantity = models.IntegerField()
-    thumbnail_img = ProcessedImageField(
-        upload_to=thumbnail_image_path,
-        processors=[ResizeToFill(150, 150)],
-        format='JPEG',
-        blank=True,
-        default='default_profile.jpeg'
-    )
+    thumbnail_img = models.TextField(blank=True)
     storys = models.ManyToManyField(Story, related_name='markets', blank=True)
-    categorys = models.ManyToManyField(Category, related_name='markets')
+    categorys = models.ManyToManyField(Category, related_name='markets', blank=True)
     hits = models.PositiveIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def delete(self, *args, **kwargs):
+        url = f'sales/markets/{self.pk}'
         super(Market, self).delete(*args, **kwargs)
-        os.remove(os.path.join(settings.MEDIA_ROOT, self.thumbnail_img.path))
+        shutil.rmtree(os.path.join(settings.MEDIA_ROOT, url))
 
 class MarketComment(models.Model):
     market = models.ForeignKey(Market, on_delete=models.CASCADE, related_name='comments')
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='market_comments')
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
+
+
+class MarketContent(models.Model):
+    market = models.ForeignKey(Market, on_delete=models.CASCADE, related_name='contents')
+    img = models.TextField(blank=True)
+    content = models.TextField(blank=True)
+    sequence = models.IntegerField(default=0)
 
 
 class MarketImg(models.Model):
@@ -51,7 +53,6 @@ class MarketImg(models.Model):
         processors=[ResizeToFill(150, 150)],
         format='JPEG',
         blank=True,
-        default='default_profile.jpeg'
     )
     def delete(self, *args, **kwargs):
         super(MarketImg, self).delete(*args, **kwargs)
