@@ -23,7 +23,7 @@ class Story(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     def delete(self, *args, **kwargs): 
-        url = f'sales/markets/{self.pk}' 
+        url = f'articles/storys/{self.pk}' 
         super(Story, self).delete(*args, **kwargs) 
         shutil.rmtree(os.path.join(settings.MEDIA_ROOT, url))
 
