@@ -39,15 +39,19 @@ class StoryComment(models.Model):
 
 class StoryContent(models.Model):
     story = models.ForeignKey(Story, on_delete=models.CASCADE, related_name='contents')
+    img = models.TextField(blank=True)
+    content = models.TextField(blank=True)
+    sequence = models.IntegerField(default=0)
+
+
+class StoryImg(models.Model):
+    story = models.ForeignKey(Story, on_delete=models.CASCADE, related_name='imgs')
     img = ProcessedImageField(
         upload_to=story_image_path,
         processors=[ResizeToFill(150, 150)],
         format='JPEG',
         blank=True,
-        default='default_profile.jpeg'
     )
-    content = models.TextField(blank=True)
-    sequence = models.IntegerField(default=0)
     def delete(self, *args, **kwargs):
         super(StoryContent, self).delete(*args, **kwargs)
         os.remove(os.path.join(settings.MEDIA_ROOT, self.img.path))
