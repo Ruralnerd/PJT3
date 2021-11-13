@@ -18,10 +18,18 @@ from searches.serializer import CategorySerializer
 from searches.views import category_process
 from .serializer import RequestBuyerSerializer, RequestSerializer, RequestSellerSerializer
 from .serializer import MarketCreateSerializer, MarketSerializer, MarketEditSerializer
-from .serializer import MarketImgSerializer
+from .serializer import MarketContentSerializer
 from .serializer import MarketCommentCreateSerializer, MarketCommentSerializer
-from .models import Market, Request, MarketImg, MarketComment
+from .models import Market, Request, MarketContent, MarketComment
 
+swaager_items = openapi.Schema(
+    type=openapi.TYPE_OBJECT,
+    properties={
+        'img' : openapi.Schema(type=openapi.TYPE_FILE),
+        'content': openapi.Schema(type=openapi.TYPE_STRING),
+        'sequence': openapi.Schema(type=openapi.TYPE_INTEGER)
+    }
+)
 @swagger_auto_schema(
     method='get', 
     manual_parameters=[
@@ -30,7 +38,28 @@ from .models import Market, Request, MarketImg, MarketComment
     ], 
     responses={status.HTTP_200_OK: MarketSmallSerializer(many=True), status.HTTP_400_BAD_REQUEST:'HTTP_400_BAD_REQUEST'}
 )
-@swagger_auto_schema(method='post', request_body=MarketCreateSerializer, responses={status.HTTP_201_CREATED: MarketSerializer})
+@swagger_auto_schema(
+    method='post', 
+    request_body=openapi.Schema(
+        type=openapi.TYPE_OBJECT,
+        properties={
+            'title': openapi.Schema(type=openapi.TYPE_STRING),
+            'price' : openapi.Schema(type=openapi.TYPE_INTEGER),
+            'period': openapi.Schema(
+                type=openapi.TYPE_STRING,
+                format=openapi.FORMAT_DATETIME),
+            'unit' : openapi.Schema(type=openapi.TYPE_STRING),
+            'quantity' : openapi.Schema(type=openapi.TYPE_INTEGER),
+            'contents': openapi.Schema(type=openapi.TYPE_ARRAY, items=swaager_items),
+            'storys': openapi.Schema(type=openapi.TYPE_ARRAY, items=openapi.Schema(type=openapi.TYPE_INTEGER)),
+            'categorys': openapi.Schema(
+                type=openapi.TYPE_ARRAY, 
+                items=openapi.Schema(
+                    type=openapi.TYPE_STRING,
+                )
+            ),   
+    }),
+    responses={status.HTTP_201_CREATED: MarketSerializer})
 @api_view(['GET', 'POST'])
 @permission_classes([IsAuthenticated])
 @authentication_classes([JSONWebTokenAuthentication])
@@ -55,8 +84,17 @@ def markets(request):
         user = request.user
         serializer = MarketCreateSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
-            market = serializer.save(seller=user)
-            new=MarketSerializer(market)
+            contents = request.data.get('contents')
+            categorys = request.data.get('categorys')
+            market = serializer.save(seller=user, thumbnail_img = contents[0]['img'])
+            new = MarketSerializer(market)
+            for content in contents:
+                MarketContent.objects.create(
+                    market=market, 
+                    img=content['img'],
+                    content=content['content'], 
+                    sequence = content['sequence'])
+            category_process(market, categorys)
             return Response(new.data, status=status.HTTP_201_CREATED)
 
 
@@ -112,31 +150,31 @@ def market_categorys(request, market_pk):
     new = MarketSerializer(market)
     return Response(new.data, status=status.HTTP_201_CREATED)
 
-@swagger_auto_schema(method='post', responses={status.HTTP_201_CREATED: MarketImgSerializer, status.HTTP_403_FORBIDDEN:'HTTP_403_FORBIDDEN'})
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])
-@authentication_classes([JSONWebTokenAuthentication])
-def market_img(request, market_pk):
-    market = get_object_or_404(Market, id=market_pk)
-    if market.seller != request.user:
-        return Response(status=status.HTTP_403_FORBIDDEN)
-    else:
-        img = MarketImg.objects.create(market=market, img=request.data['img'])
-        serialzer = MarketImgSerializer(img)
-        return Response(serialzer.data, status=status.HTTP_201_CREATED)
+# @swagger_auto_schema(method='post', responses={status.HTTP_201_CREATED: MarketContentSerializer, status.HTTP_403_FORBIDDEN:'HTTP_403_FORBIDDEN'})
+# @api_view(['POST'])
+# @permission_classes([IsAuthenticated])
+# @authentication_classes([JSONWebTokenAuthentication])
+# def market_img(request, market_pk):
+#     market = get_object_or_404(Market, id=market_pk)
+#     if market.seller != request.user:
+#         return Response(status=status.HTTP_403_FORBIDDEN)
+#     else:
+#         img = MarketContent.objects.create(market=market, img=request.data['img'])
+#         serialzer = MarketContentSerializer(img)
+#         return Response(serialzer.data, status=status.HTTP_201_CREATED)
 
-@swagger_auto_schema(method='delete', responses={status.HTTP_204_NO_CONTENT:'HTTP_204_NO_CONTENT',status.HTTP_403_FORBIDDEN:'HTTP_403_FORBIDDEN'})
-@api_view(['DELETE'])
-@permission_classes([IsAuthenticated])
-@authentication_classes([JSONWebTokenAuthentication])
-def market_img_delete(request, market_pk, img_pk):
-    market = get_object_or_404(Market, id=market_pk)
-    if market.seller != request.user:
-        return Response(status=status.HTTP_403_FORBIDDEN)
-    else:
-        img = get_object_or_404(MarketImg, id=img_pk)
-        img.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+# @swagger_auto_schema(method='delete', responses={status.HTTP_204_NO_CONTENT:'HTTP_204_NO_CONTENT',status.HTTP_403_FORBIDDEN:'HTTP_403_FORBIDDEN'})
+# @api_view(['DELETE'])
+# @permission_classes([IsAuthenticated])
+# @authentication_classes([JSONWebTokenAuthentication])
+# def market_img_delete(request, market_pk, img_pk):
+#     market = get_object_or_404(Market, id=market_pk)
+#     if market.seller != request.user:
+#         return Response(status=status.HTTP_403_FORBIDDEN)
+#     else:
+#         img = get_object_or_404(MarketContent, id=img_pk)
+#         img.delete()
+#         return Response(status=status.HTTP_204_NO_CONTENT)
 
 @swagger_auto_schema(method='get', responses={status.HTTP_200_OK:  MarketCommentSerializer})
 @swagger_auto_schema(method='post', request_body= MarketCommentCreateSerializer, responses={status.HTTP_201_CREATED: MarketCommentSerializer})
