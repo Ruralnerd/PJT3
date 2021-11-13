@@ -47,6 +47,7 @@ BASE_URL = "http://k5d201.p.ssafy.io/api/v1/"
         status.HTTP_401_UNAUTHORIZED:'비밀번호가 잘못되었습니다'
     }
 )
+@api_view(['POST'])
 def login(request):
     email = request.data['email']
     password = request.data['password']
