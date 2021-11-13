@@ -8,38 +8,25 @@ if (ACCESS_TOKEN) {
 export const getSaleList = ({ num, option }) =>
   client.get('api/v1/sales/markets/', { params: { num, option } })
 
-export const postSale = ({
-  title,
-  unit,
-  quantity,
-  price,
-  period,
-  contents,
-  storys,
-  categorys,
-}) => {
-  let fd = new FormData()
-  fd.append('title', title)
-  fd.append('unit', unit)
-  fd.append('quantity', quantity)
-  fd.append('price', price)
-  fd.append('period', period)
-
-  const jsonContents = []
-  contents.forEach((element) => {
-    jsonContents.push(JSON.stringify(element))
+export const postSale = ({ title, unit, quantity, price, period }) => {
+  return client.post('api/v1/sales/markets/', {
+    title,
+    unit,
+    quantity,
+    price,
+    period,
   })
-
-  fd.append('contents', jsonContents)
-  fd.append('storys', storys)
-  fd.append('categorys', categorys)
-
-  const headers = {
-    'Content-Type': 'multipart/form-data',
-  }
-
-  return client.post('api/v1/sales/markets/', fd, { headers })
 }
 
-export const putSale = ({ market_pk }) =>
-  client.put(`api/v1/sales/markets/${market_pk}`)
+export const postSaleImg = ({ img, market_pk }) => {
+  let fd = new FormData()
+  fd.append('img', img)
+  console.log(market_pk, 'api')
+
+  const config = {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  }
+  return client.post(`api/v1/sales/markets/${market_pk}/img/`, fd, config)
+}

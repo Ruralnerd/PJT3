@@ -7,11 +7,14 @@ import createRequestSaga, {
 import * as saleAPI from '../lib/api/sale'
 
 const CHANGE_FIELD = 'sale/CHANGE_FIELD'
+const PREV = 'sale/PREV'
+const NEXT = 'sale/NEXT'
 
 // 액션 타입 정의
 const [GET, GET_SUCCESS, GET_FAILURE] = createRequestActionTypes('sale/GET')
 const [POST, POST_SUCCESS, POST_FAILURE] = createRequestActionTypes('sale/POST')
-const [PUT, PUT_SUCCESS, PUT_FAILURE] = createRequestActionTypes('sale/PUT')
+const [POST_IMG, POST_IMG_SUCCESS, POST_IMG_FAILURE] =
+  createRequestActionTypes('sale/POST_IMG')
 
 // 액션 생성 함수
 export const changeField = createAction(
@@ -25,30 +28,32 @@ export const changeField = createAction(
 )
 
 export const getList = createAction(GET, ({ num, option }) => ({ num, option }))
-
 export const post = createAction(
   POST,
-  ({ title, unit, quantity, price, period, contents, storys, categorys }) => ({
+  ({ title, unit, quantity, price, period }) => ({
     title,
     unit,
     quantity,
     price,
     period,
-    contents,
-    storys,
-    categorys,
   }),
 )
+export const postSaleImg = createAction(POST_IMG, ({ img, market_pk }) => ({
+  img,
+  market_pk,
+}))
+export const prev = createAction(PREV)
+export const next = createAction(NEXT)
 
 // Saga
 const getListSaga = createRequestSaga(GET, saleAPI.getSaleList)
 const postSaga = createRequestSaga(POST, saleAPI.postSale)
-const putSaga = createRequestSaga(PUT, saleAPI.putSale)
+const postImageSaga = createRequestSaga(POST_IMG, saleAPI.postSaleImg)
 
 export function* saleSaga() {
   yield takeLatest(GET, getListSaga)
   yield takeLatest(POST, postSaga)
-  yield takeLatest(PUT, putSaga)
+  yield takeLatest(POST_IMG, postImageSaga)
 }
 
 const initialState = {
@@ -73,7 +78,7 @@ const initialState = {
      * 상세 글, 사진 하나 올리는 페이지가 기본으로 존재하기 때문에 최소 2페이지
      * current_page 값으로 contents의 값을 넣을 때에는 -2(첫 페이지, index 특성)를 해 주어야 함
      */
-    current_page: 2,
+    current_page: 1,
     all_page: 2,
   },
   /**
@@ -83,6 +88,8 @@ const initialState = {
    */
   num: 25,
   option: 'created_at',
+  error: null,
+  data: null,
 }
 
 const sale = handleActions(
@@ -91,15 +98,32 @@ const sale = handleActions(
       produce(state, (draft) => {
         draft[form][key] = value
       }),
+    [PREV]: (state) =>
+      produce(state, (draft) => {
+        draft['item']['current_page'] = draft['item']['current_page'] - 1
+      }),
+    [NEXT]: (state) =>
+      produce(state, (draft) => {
+        draft['item']['current_page'] = draft['item']['current_page'] + 1
+      }),
     [GET_SUCCESS]: (state, { payload: data }) => ({
       ...state,
       data,
     }),
-    [POST_SUCCESS]: (state, { payload: data }) => ({
-      ...state,
-      data,
-    }),
+    [POST_SUCCESS]: (state, { payload: data }) =>
+      produce(state, (draft) => {
+        draft['item']['id'] = data.id
+        draft['item']['current_page'] = draft['item']['current_page'] + 1
+      }),
     [POST_FAILURE]: (state, { payload: error }) => ({
+      ...state,
+      error,
+    }),
+    [POST_IMG_SUCCESS]: (state, { payload: img }) =>
+      produce(state, (draft) => {
+        draft['item']['contents'][state.item.current_page - 2]['img'] = img.img
+      }),
+    [POST_IMG_FAILURE]: (state, { payload: error }) => ({
       ...state,
       error,
     }),

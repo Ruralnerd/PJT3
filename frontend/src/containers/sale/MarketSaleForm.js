@@ -1,6 +1,6 @@
 import SaleForm from '../../components/sale/SaleForm'
 import { useDispatch, useSelector } from 'react-redux'
-import { changeField, post } from '../../modules/sale'
+import { changeField, next, post, prev, postSaleImg } from '../../modules/sale'
 /**
  * SaleForm을 import해서 사용, 필요한 state 관리
  */
@@ -24,18 +24,9 @@ const MarketSaleForm = () => {
   }
 
   // 폼 등록 이벤트 핸들러
-  const onSubmit = (e) => {
+  const onPostSale = (e) => {
     e.preventDefault()
-    const {
-      title,
-      unit,
-      quantity,
-      price,
-      period,
-      contents,
-      storys,
-      categorys,
-    } = form
+    const { title, unit, quantity, price, period } = form
     dispatch(
       post({
         title,
@@ -43,23 +34,34 @@ const MarketSaleForm = () => {
         quantity,
         price,
         period,
-        contents,
-        storys,
-        categorys,
       }),
+      next(),
     )
   }
 
+  const onPostImage = (e) => {
+    const img = e.target.files[0]
+    const { id } = form
+    dispatch(postSaleImg({ img, market_pk: id }))
+  }
+
   // 컴포넌트 이동 핸들러
-  const onPrev = () => {}
+  const onPrev = () => {
+    dispatch(prev())
+  }
+  const onNext = () => {
+    dispatch(next())
+  }
 
   return (
     <div>
       <SaleForm
-        type="market"
         form={form}
+        onPrev={onPrev}
+        onNext={onNext}
         onChange={onChange}
-        onSubmit={onSubmit}
+        onPostSale={onPostSale}
+        onPostImage={onPostImage}
       />
     </div>
   )
