@@ -10,36 +10,57 @@ const [GET_PROFILE, GET_PROFILE_SUCCESS, GET_PROFILE_FAILURE] =
   createRequestActionTypes('profile/GET')
 const [PUT_PROFILE, PUT_PROFILE_SUCCESS, PUT_PROFILE_FAILURE] =
   createRequestActionTypes('profile/PUT')
-
 const UNLOAD_PROFILE = 'profile/UNLOAD' //포스트 페이지에서 벗어날 때 데이터 비우기
 
 // 액션 생성 함수
 export const getProfile = createAction(GET_PROFILE)
-export const updateProfile = createAction(PUT_PROFILE)
+export const putProfile = createAction(
+  PUT_PROFILE,
+  ({
+    email,
+    nickname,
+    password,
+    address,
+    phone,
+    is_seller,
+    ac_number,
+    ac_bank,
+  }) => ({
+    email,
+    nickname,
+    password,
+    address,
+    phone,
+    is_seller,
+    ac_number,
+    ac_bank,
+  }),
+)
+
 export const unloadProfile = createAction(UNLOAD_PROFILE)
 
 // Saga
 const getProfileSaga = createRequestSaga(GET_PROFILE, profileAPI.getProfile)
-const updateProfileSaga = createRequestSaga(PUT_PROFILE, profileAPI.putProfile)
+const putProfileSaga = createRequestSaga(PUT_PROFILE, profileAPI.putProfile)
 
 // 제너레이터함수
 export function* profileSaga() {
   yield takeLatest(GET_PROFILE, getProfileSaga)
-  yield takeLatest(PUT_PROFILE, updateProfileSaga)
+  yield takeLatest(PUT_PROFILE, putProfileSaga)
 }
 
 const initialState = {
-  userData: null,
-  error: null,
+  userData: 'null',
+  error: 'null',
   updateUserData: {
-    email: null,
-    password: null,
-    nickname: null,
-    phone: null,
-    address: null,
-    is_seller: null,
-    ac_number: null,
-    ac_bank: null,
+    email: 'null',
+    password: 'null',
+    nickname: 'null',
+    phone: 'null',
+    address: 'null',
+    is_seller: 'null',
+    ac_number: 'null',
+    ac_bank: 'null',
   },
 }
 
@@ -63,6 +84,14 @@ const profile = handleActions(
       userData,
     }),
     [GET_PROFILE_FAILURE]: (state, { payload: error }) => ({
+      ...state,
+      error,
+    }),
+    [PUT_PROFILE_SUCCESS]: (state, { payload: userData }) => ({
+      ...state,
+      userData,
+    }),
+    [PUT_PROFILE_FAILURE]: (state, { payload: error }) => ({
       ...state,
       error,
     }),
