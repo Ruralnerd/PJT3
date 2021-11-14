@@ -8,7 +8,7 @@ import { css } from '@emotion/react'
 // }
 
 /* 화면 전체 */
-const Wrapper = css`
+const StoryTemplateWrapper = css`
   left: 0;
   right: 0;
   top: 0;
@@ -16,12 +16,12 @@ const Wrapper = css`
   margin: 4%;
 `
 
-const SaleTemplate = ({ children }) => {
+const StoryTemplate = ({ children }) => {
   return (
     <div>
-      <div css={Wrapper}>{children}</div>
+      <div css={StoryTemplateWrapper}>{children}</div>
     </div>
   )
 }
 
-export default SaleTemplate
+export default StoryTemplate

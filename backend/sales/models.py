@@ -31,7 +31,10 @@ class Market(models.Model):
     def delete(self, *args, **kwargs):
         url = f'sales/markets/{self.pk}'
         super(Market, self).delete(*args, **kwargs)
-        shutil.rmtree(os.path.join(settings.MEDIA_ROOT, url))
+        try:
+            shutil.rmtree(os.path.join(settings.MEDIA_ROOT, url))
+        except:
+            pass
 
 class MarketComment(models.Model):
     market = models.ForeignKey(Market, on_delete=models.CASCADE, related_name='comments')

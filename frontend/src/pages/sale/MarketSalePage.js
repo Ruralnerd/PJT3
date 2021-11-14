@@ -1,5 +1,5 @@
-import SaleTemplate from '../components/sale/SaleTemplate'
-import MarketSaleForm from '../containers/sale/MarketSaleForm'
+import SaleTemplate from '../../components/sale/SaleTemplate'
+import MarketSaleForm from '../../containers/sale/MarketSaleForm'
 
 const MarketSalePage = () => {
   return (
