@@ -5,7 +5,8 @@ from imagekit.processors import ResizeToFill
 import os
 import shutil
 
-from articles.models import Category, Story
+from articles.models import Story
+from searches.models import Category
 
 def market_image_path(instance, filename):
     return 'sales/markets/{}/{}'.format(instance.market.pk, filename)
