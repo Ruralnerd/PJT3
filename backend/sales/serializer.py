@@ -52,7 +52,7 @@ class MarketEditSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Market
-        fields = ['title','price','period','unit','quantity', 'thumbnail_img', 'storys', 'categorys']
+        fields = ['title','price','period','unit','quantity', 'thumbnail_img', 'storys']
 
 # Request Serializers
 class RequestBuyerSerializer(serializers.ModelSerializer):

@@ -48,3 +48,6 @@ export const putSale = ({
     contents,
   })
 }
+
+export const deleteSale = ({ market_pk }) =>
+  client.delete(`api/v1/sales/markets/${market_pk}/`)
