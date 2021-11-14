@@ -12,6 +12,7 @@ const PREV = 'sale/PREV'
 const NEXT = 'sale/NEXT'
 const PUT_CHANGE_FIELD = 'sale/PUT_CHANGE_FIELD'
 const ADD_CONTENT = 'sale/ADD_CONTENT'
+const DELETE_SALE = 'sale/DELETE_SALE'
 
 const [GET, GET_SUCCESS, GET_FAILURE] = createRequestActionTypes('sale/GET')
 const [POST, POST_SUCCESS, POST_FAILURE] = createRequestActionTypes('sale/POST')
@@ -77,18 +78,41 @@ export const postSaleImg = createAction(POST_IMG, ({ img, market_pk }) => ({
 export const prev = createAction(PREV)
 export const next = createAction(NEXT)
 export const addContent = createAction(ADD_CONTENT)
+export const deleteSale = createAction(DELETE_SALE)
 
 // Saga
 const getListSaga = createRequestSaga(GET, saleAPI.getSaleList)
 const postSaga = createRequestSaga(POST, saleAPI.postSale)
 const postImageSaga = createRequestSaga(POST_IMG, saleAPI.postSaleImg)
 const putSaga = createRequestSaga(PUT, saleAPI.putSale)
+const deleteSaga = createRequestSaga(DELETE_SALE, saleAPI.deleteSale)
 
 export function* saleSaga() {
   yield takeLatest(GET, getListSaga)
   yield takeLatest(POST, postSaga)
   yield takeLatest(POST_IMG, postImageSaga)
   yield takeLatest(PUT, putSaga)
+  yield takeLatest(DELETE_SALE, deleteSaga)
+}
+
+const initialItemState = {
+  id: 0,
+  title: '',
+  unit: '개',
+  quantity: 0,
+  price: 100,
+  period: '2021-11-11T01:24:15.393Z',
+  contents: [
+    {
+      img: '',
+      sequence: 0,
+      content: '',
+    },
+  ],
+  storys: [0],
+  categorys: ['string'],
+  current_page: 1,
+  all_page: 2,
 }
 
 const initialState = {
@@ -158,27 +182,9 @@ const sale = handleActions(
       ...state,
       error,
     }),
-    [PUT_SUCCESS]: (state, { payload: data }) =>
+    [PUT_SUCCESS]: (state) =>
       produce(state, (draft) => {
-        draft['item'] = {
-          id: 0,
-          title: '',
-          unit: '개',
-          quantity: 0,
-          price: 100,
-          period: '2021-11-11T01:24:15.393Z',
-          contents: [
-            {
-              img: '',
-              sequence: 0,
-              content: '',
-            },
-          ],
-          storys: [0],
-          categorys: ['string'],
-          current_page: 1,
-          all_page: 2,
-        }
+        draft['item'] = initialItemState
       }),
     [PUT_FAILURE]: (state, { payload: error }) => ({
       ...state,
@@ -202,6 +208,10 @@ const sale = handleActions(
         draft['item']['contents'] = draft['item']['contents'].concat(content)
         draft['item']['current_page'] = draft['item']['current_page'] + 1
         draft['item']['all_page'] = draft['item']['all_page'] + 1
+      }),
+    [DELETE_SALE]: (state) =>
+      produce(state, (draft) => {
+        draft['item'] = initialItemState
       }),
   },
   initialState,
