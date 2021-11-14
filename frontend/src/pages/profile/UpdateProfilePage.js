@@ -1,5 +1,5 @@
-import ProfileTemplate from '../components/home/HomeTemplate'
-import UpdateProfile from '../containers/profile/UpdateProfile'
+import ProfileTemplate from '../../components/home/HomeTemplate'
+import UpdateProfile from '../../containers/profile/UpdateProfile'
 
 const ProfileUpdatePage = () => {
   return (

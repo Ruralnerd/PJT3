@@ -185,7 +185,6 @@ const StoryEditor = ({ title, onChangeField }) => {
         onChange={onChangeContext}
       />
       <NextPageButton onClick={NextButton}>다음</NextPageButton>
-      {/* <button onClick={Check}>확인</button> */}
     </div>
   )
 }

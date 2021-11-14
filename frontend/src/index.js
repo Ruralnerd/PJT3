@@ -10,13 +10,12 @@ import { createStore, applyMiddleware } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import rootReducer, { rootSaga } from './modules'
 import createSagaMiddleware from 'redux-saga'
-import ReduxThunk from 'redux-thunk'
 import { check } from './modules/auth'
 
 const sagaMiddleware = createSagaMiddleware()
 const store = createStore(
   rootReducer,
-  composeWithDevTools(applyMiddleware(sagaMiddleware, ReduxThunk)),
+  composeWithDevTools(applyMiddleware(sagaMiddleware)),
 )
 
 function loadUser() {

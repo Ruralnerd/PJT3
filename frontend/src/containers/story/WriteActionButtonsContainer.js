@@ -36,7 +36,7 @@ const WriteActionButtonsContainer = ({ history }) => {
   // 성공 혹은 실패 시 할 작업
   useEffect(() => {
     if (post) {
-      history.push('/')
+      history.push('/story')
     }
     if (postError) {
       console.log(postError)
