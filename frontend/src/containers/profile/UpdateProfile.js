@@ -16,7 +16,6 @@ const UpdateProfileContainer = () => {
     userData: profile.userData,
   }))
   const dispatch = useDispatch()
-  console.log('컨테이너')
   useEffect(() => {
     dispatch(getProfile())
   }, [dispatch])
