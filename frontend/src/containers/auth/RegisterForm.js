@@ -56,7 +56,7 @@ const RegisterForm = ({ history }) => {
     }
     if (user) {
       alert('회원가입 되었습니다.')
-      history.push('/')
+      history.push('/login')
     }
     if (auth) {
       history.push('/')

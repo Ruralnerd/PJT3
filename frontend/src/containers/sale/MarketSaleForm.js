@@ -9,6 +9,7 @@ import {
   next,
   putChangeField,
   addContent,
+  deleteSale,
 } from '../../modules/sale'
 /**
  * SaleForm을 import해서 사용, 필요한 state 관리
@@ -93,6 +94,11 @@ const MarketSaleForm = () => {
     )
   }
 
+  const onDeleteSale = () => {
+    const { id } = form
+    dispatch(deleteSale({ market_pk: id }))
+  }
+
   // 컴포넌트 이동 핸들러
   const onPrev = () => {
     dispatch(prev())
@@ -117,6 +123,7 @@ const MarketSaleForm = () => {
         onPostSale={onPostSale}
         onPostImage={onPostImage}
         onPutSale={onPutSale}
+        onDeleteSale={onDeleteSale}
         onAddContent={onAddContent}
       />
     </div>
