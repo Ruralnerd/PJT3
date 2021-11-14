@@ -51,6 +51,7 @@ const SaleForm = ({
   onPostImage,
   onPutSale,
   onAddContent,
+  onDeleteSale,
 }) => {
   const { loadingStatus } = useSelector(({ loading }) => ({
     loadingStatus: loading,
@@ -62,6 +63,33 @@ const SaleForm = ({
           {loadingStatus['sale/POST'] === true ? <Spinner /> : '다음'}
         </Button>
       )
+    } else if (form.current_page === 2) {
+      if (form.current_page === form.all_page) {
+        return (
+          <>
+            <Button middleWidth orange onClick={onDeleteSale}>
+              새로운 글 작성하기
+            </Button>
+            <Button middleWidth red onClick={onPutSale}>
+              {loadingStatus['sale/PUT'] === true ? <Spinner /> : '저장하기'}
+            </Button>
+            <Button middleWidth cyan onClick={onAddContent}>
+              사진추가
+            </Button>
+          </>
+        )
+      } else {
+        return (
+          <>
+            <Button middleWidth orange onClick={onDeleteSale}>
+              새로운 글 작성하기
+            </Button>
+            <Button middleWidth orange onClick={onNext}>
+              다음
+            </Button>
+          </>
+        )
+      }
     } else if (form.current_page === form.all_page) {
       return (
         <>
