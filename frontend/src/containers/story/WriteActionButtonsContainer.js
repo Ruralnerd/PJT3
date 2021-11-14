@@ -1,25 +1,25 @@
 import React, { useEffect } from 'react'
-import WriteActionButtons from '../../components/write/WriteActionButtons'
+import WriteActionButtons from '../../components/story/WriteActionButtons'
 import { useSelector, useDispatch } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { writePut } from '../../modules/write'
+import { putStory } from '../../modules/story'
 
 const WriteActionButtonsContainer = ({ history }) => {
   const dispatch = useDispatch()
   const { id, title, contents, categorys, post, postError } = useSelector(
-    ({ write }) => ({
-      id: write.id.id,
-      title: write.title,
-      contents: write.contents,
-      categorys: write.categorys,
-      post: write.post,
-      postError: write.postError,
+    ({ story }) => ({
+      id: story.id.id,
+      title: story.title,
+      contents: story.contents,
+      categorys: story.categorys,
+      post: story.post,
+      postError: story.postError,
     }),
   )
 
   const onPublish = () => {
     dispatch(
-      writePut({
+      putStory({
         id,
         title,
         contents,

@@ -1,19 +1,28 @@
 /** @jsxImportSource @emotion/react */
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { TextField } from '@mui/material'
 import { css } from '@emotion/react'
 import palette from '../../lib/styles/palette'
 import { useSelector, useDispatch } from 'react-redux'
-import { imageUpload } from '../../modules/write'
-// import styled from 'styled-components'
-// import Button from '../common/Button'
+import { imageUpload } from '../../modules/story'
+import styled from 'styled-components'
+import Button from '../common/Button'
 
-const StoryEditor = ({ title, contents, onChangeField }) => {
+const ImageDeleteButton = styled(Button)`
+  padding: 0.5rem 0.7rem;
+  background-color: red;
+`
+
+const NextPageButton = styled(Button)`
+  padding: 0.5rem 0.7rem;
+  float: right;
+`
+
+const StoryEditor = ({ title, onChangeField }) => {
   const dispatch = useDispatch()
-  const { image, imageError } = useSelector(({ write }) => ({
-    image: write.image,
-    imageError: write.imageError,
+  const { image } = useSelector(({ story }) => ({
+    image: story.image,
   }))
 
   const [context, setContext] = useState('')
@@ -29,12 +38,13 @@ const StoryEditor = ({ title, contents, onChangeField }) => {
     onChangeField({ key: 'title', value: e.target.value })
   }
 
-  const { id } = useSelector(({ write }) => ({
-    id: write.id.id,
+  const { id } = useSelector(({ story }) => ({
+    id: story.id.id,
   }))
 
   const onChangeImage = (e) => {
     setFileImage(URL.createObjectURL(e.target.files[0]))
+
     const formData = new FormData()
     formData.append('image', e.target.files[0])
     dispatch(imageUpload({ id, formData }))
@@ -44,7 +54,7 @@ const StoryEditor = ({ title, contents, onChangeField }) => {
     setContext(e.target.value)
   }
 
-  const NextButton1 = () => {
+  const NextButton = () => {
     document.getElementById('context').value = null
     document.getElementById('file').value = null
     URL.revokeObjectURL(fileImage)
@@ -52,12 +62,15 @@ const StoryEditor = ({ title, contents, onChangeField }) => {
     setTest((prevList) => [...prevList, { img: image.img, content: context }])
   }
 
-  const Check = () => {
+  useEffect(() => {
     onChangeField({
       key: 'contents',
       value: test,
     })
-  }
+    return () => {
+      //unmount
+    }
+  }, [onChangeField, test])
 
   const CreateStoryWrapper = css``
 
@@ -84,11 +97,12 @@ const StoryEditor = ({ title, contents, onChangeField }) => {
 
   const PreviewImage = css`
     width: 100%;
+    border-radius: 4%;
   `
 
   const FileUploadWrapper = css`
     display: flex;
-    gap: 5%;
+    gap: 3%;
     align-items: center;
   `
 
@@ -98,7 +112,7 @@ const StoryEditor = ({ title, contents, onChangeField }) => {
     font-size: 1rem;
     font-weight: bold;
     margin-left: 0.5rem;
-    padding: 0.5rem;
+    padding: 0.4rem 0.6rem;
     color: white;
     outline: none;
     cursor: pointer;
@@ -108,6 +122,26 @@ const StoryEditor = ({ title, contents, onChangeField }) => {
       background: ${palette.gray[6]};
     } */
   `
+
+  const FilePathText = css`
+    background-color: white;
+    width: 40%;
+    position: absolute;
+    margin-left: 3%;
+    overflow: hidden;
+    text-overflow: clip;
+    display: -webkit-box;
+    -webkit-line-clamp: 1; /* 라인수 */
+    -webkit-box-orient: vertical;
+    word-wrap: break-word;
+  `
+
+  let filePath
+  if (document.getElementById('file')) {
+    var file = document.getElementById('file')
+    filePath = file.value.slice(12)
+  }
+
   return (
     <div css={CreateStoryWrapper}>
       <TextField
@@ -134,12 +168,12 @@ const StoryEditor = ({ title, contents, onChangeField }) => {
         <label htmlFor="file" css={SearchFileButton}>
           파일 찾기
         </label>
-        <button onClick={() => deleteFileImage()}>삭제</button>
-        {/* <ImageDeleteButton onClick={() => deleteFileImage()}>
-          삭제
-        </ImageDeleteButton> */}
-      </div>
+        {filePath && <span css={FilePathText}>{filePath}</span>}
 
+        <ImageDeleteButton onClick={() => deleteFileImage()}>
+          삭제
+        </ImageDeleteButton>
+      </div>
       {fileImage && <img alt="sample" src={fileImage} css={PreviewImage} />}
       <TextField
         id="context"
@@ -148,12 +182,10 @@ const StoryEditor = ({ title, contents, onChangeField }) => {
         fullWidth
         multiline
         rows={4}
-        // value={content}
         onChange={onChangeContext}
       />
-      <button onClick={NextButton1}>다음</button>
-      {/* <NextButton onClick={NextButton1}>다음</NextButton> */}
-      <button onClick={Check}>확인</button>
+      <NextPageButton onClick={NextButton}>다음</NextPageButton>
+      {/* <button onClick={Check}>확인</button> */}
     </div>
   )
 }

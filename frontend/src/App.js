@@ -7,14 +7,14 @@ import Footer from './components/common/Footer'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
 import HomePage from './pages/HomePage'
-import StoryPage from './pages/StoryPage'
 import FarmPagePage from './pages/FarmPage'
 import SearchPage from './pages/SearchPage'
 import ProfilePage from './pages/ProfilePage'
 import MarketPage from './pages/MarketPage'
 import MarketDetailPage from './pages/MarketDetailPage'
-import StoryDetailPage from './pages/StoryDetailPage'
-import StoryEditorPage from './pages/StoryEditorPage'
+import StoryListPage from './pages/story/StoryListPage'
+import StoryDetailPage from './pages/story/StoryDetailPage'
+import StoryEditorPage from './pages/story/StoryEditorPage'
 import MarketSalePage from './pages/MarketSalePage'
 
 const App = () => {
@@ -27,16 +27,16 @@ const App = () => {
       <TopNav />
       <Route exact path={'/'} component={HomePage} />
       <Route exact path={'/market'} component={MarketPage} />
-      <Route exact path={'/story'} component={StoryPage} />
       <Route path={'/farm'} component={FarmPagePage} />
       <Route path={'/search'} component={SearchPage} />
       <Route path={'/profile'} component={ProfilePage} />
       <Route path={'/market/:id'} component={MarketDetailPage} />
       <Route path={'/login'} component={LoginPage} />
       <Route path={'/register'} component={RegisterPage} />
-      <Route path={'/editor/story'} component={StoryEditorPage} />
-      <Route path={'/story/:id'} component={StoryDetailPage} />
       <Route path={'/sale'} component={MarketSalePage} />
+      <Route exact path={'/story'} component={StoryListPage} />
+      <Route exact path={'/editor/story'} component={StoryEditorPage} />
+      <Route exact path={'/story/:id'} component={StoryDetailPage} />
       <Footer />
       <BottomNav />
     </>

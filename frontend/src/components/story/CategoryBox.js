@@ -4,6 +4,17 @@ import { css } from '@emotion/react'
 import React, { useState, useCallback, useEffect } from 'react'
 import styled from 'styled-components'
 import palette from '../../lib/styles/palette'
+import { TextField } from '@mui/material'
+import Button from '../common/Button'
+
+const TagTextInput = styled(TextField)`
+  width: 80%;
+`
+
+const AddTagButton = styled(Button)`
+  padding: 0.6rem 0.5rem;
+  margin-left: 1.1rem;
+`
 
 const CategoryBoxBlock = styled.div`
   width: 100%;
@@ -21,34 +32,9 @@ const CategoryForm = styled.form`
   border-radius: 4px;
   overflow: hidden;
   display: flex;
-  width: 256px;
-  border: 1px solid ${palette.gray[9]}; /* 스타일 초기화 */
-
-  input,
-  button {
-    outline: none;
-    border: none;
-    font-size: 1rem;
-  }
-
-  input {
-    padding: 0.5rem;
-    flex: 1;
-    min-width: 0;
-  }
-
-  button {
-    cursor: pointer;
-    padding-right: 1rem;
-    padding-left: 1rem;
-    border: none;
-    background: ${palette.gray[8]};
-    color: white;
-    font-weight: bold;
-    /* &:hover {
-      background: ${palette.gray[6]};
-    } */
-  }
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
 `
 
 const Category = styled.div`
@@ -79,7 +65,7 @@ const CategoryList = React.memo(({ categorys, onRemove }) => (
   </CategoryListBlock>
 ))
 
-const TagBox = ({ categorys, onChangeCategorys }) => {
+const CategoryBox = ({ categorys, onChangeCategorys }) => {
   const [input, setInput] = useState('')
   const [localCategorys, setLocalCategorys] = useState([])
 
@@ -139,16 +125,21 @@ const TagBox = ({ categorys, onChangeCategorys }) => {
         <p css={test2}>(입력된 태그를 클릭하여 지울 수 있습니다.)</p>
       </div>
       <CategoryForm onSubmit={onSubmit}>
-        <input
-          placeholder="태그를 입력하세요."
-          value={input}
+        <TagTextInput
+          className="title"
+          size="small"
+          id="outlined-basic"
+          label="태그"
           onChange={onChange}
+          value={input}
+          variant="outlined"
+          fullWidth
         />
-        <button type="submit">추가</button>
+        <AddTagButton type="submit">추가</AddTagButton>
       </CategoryForm>
       <CategoryList categorys={localCategorys} onRemove={onRemove} />
     </CategoryBoxBlock>
   )
 }
 
-export default TagBox
+export default CategoryBox

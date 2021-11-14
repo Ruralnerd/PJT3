@@ -1,5 +1,5 @@
-import StoryTemplate from '../components/story/StoryTemplate'
-import StoryDetailContainer from '../containers/story/StoryDetailContainer'
+import StoryTemplate from '../../components/story/StoryTemplate'
+import StoryDetailContainer from '../../containers/story/StoryDetailContainer'
 
 const StoryDetailPage = ({ match }) => {
   return (

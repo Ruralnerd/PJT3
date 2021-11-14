@@ -11,8 +11,8 @@ const StoryList = ({ storys }) => {
       {trueStorys && (
         <div
           css={css`
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            display: flex;
+            flex-wrap: wrap;
             gap: 2%;
           `}
         >

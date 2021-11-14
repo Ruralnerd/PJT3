@@ -1,13 +1,13 @@
 import React, { useEffect, useCallback } from 'react'
 import StoryEditor from '../../components/story/StoryEditor'
 import { useSelector, useDispatch } from 'react-redux'
-import { changeField, initialize } from '../../modules/write'
+import { changeField, initialize } from '../../modules/story'
 
-const EditorContainer = () => {
+const StoryEditorContainer = () => {
   const dispatch = useDispatch()
-  const { title, contents } = useSelector(({ write }) => ({
-    title: write.title,
-    contents: write.contents,
+  const { title, contents } = useSelector(({ story }) => ({
+    title: story.title,
+    contents: story.contents,
   }))
 
   const onChangeField = useCallback(
@@ -31,4 +31,4 @@ const EditorContainer = () => {
   )
 }
 
-export default EditorContainer
+export default StoryEditorContainer
