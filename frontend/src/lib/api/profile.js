@@ -1,4 +1,3 @@
-import axios from 'axios'
 import client from './client'
 
 const ACCESS_TOKEN = localStorage.getItem('token')

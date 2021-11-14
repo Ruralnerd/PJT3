@@ -1,5 +1,5 @@
-import ProfileTemplate from '../components/home/HomeTemplate'
-import Profile from '../containers/profile/Profile'
+import ProfileTemplate from '../../components/home/HomeTemplate'
+import Profile from '../../containers/profile/Profile'
 
 const ProfilePage = () => {
   return (
