@@ -8,8 +8,6 @@ const ProfileUser = css`
   border: 3px solid blue;
 `
 const ProfileUserImg = css`
-  max-width: 50%;
-  flex-wrap: wrap;
   border: 3px solid red;
 `
 const ProfileUserData = css`
@@ -17,9 +15,9 @@ const ProfileUserData = css`
 `
 
 const Profile = ({ loadingProfile, userData }) => {
-  console.log('3.수정컴포넌트')
+  console.log('3.수정컴포넌트 진입')
   console.log(userData)
-  console.log('3-1수정컴포넌트에서 userData값을 불러와야함 ㅠㅠ')
+  console.log('3-1수정컴포넌트에서 userData값을 불러왔다!')
   const ProfileUpdateButton = () => {
     console.log('수정완료 버튼 클릭함')
   }
