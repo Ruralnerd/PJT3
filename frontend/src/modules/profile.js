@@ -69,6 +69,5 @@ const profile = handleActions(
     [UNLOAD_PROFILE]: () => initialState,
   },
   initialState,
-  console.log('1.리듀서'),
 )
 export default profile

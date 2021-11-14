@@ -15,12 +15,7 @@ const ProfileUserData = css`
 `
 
 const Profile = ({ loadingProfile, userData }) => {
-  console.log('3.수정컴포넌트 진입')
-  console.log(userData)
-  console.log('3-1수정컴포넌트에서 userData값을 불러왔다!')
-  const ProfileUpdateButton = () => {
-    console.log('수정완료 버튼 클릭함')
-  }
+  const ProfileUpdateButton = () => {}
   return (
     <div>
       {loadingProfile && '로딩 중...'}
