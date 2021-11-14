@@ -152,7 +152,7 @@ def story_img(request, story_pk):
     if story.producer != request.user:
         return Response(status=status.HTTP_403_FORBIDDEN)
     else:
-        img = StoryImg.objects.create(story=story, img=request.data['img'])
+        img = StoryImg.objects.create(story=story, img=request.data['image'])
         serialzer = StoryImgSerializer(img)
         return Response(serialzer.data, status=status.HTTP_201_CREATED)
 

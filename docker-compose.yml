@@ -12,7 +12,7 @@ services:
                 build:
                         context: ./backend
                         dockerfile: Dockerfile
-                command: sh -c "yes | python manage.py makemigrations && yes | python manage.py migrate && gunicorn final_pjt.wsgi:application --bind 0.0.0.0:8000"
+                command: sh -c "yes | python manage.py makemigrations && yes | python manage.py migrate && gunicorn final_pjt.wsgi:application --bind 0.0.0.0:8000 --error-logfile error.log --access-logfile access.log"
                 volumes:
                         - ./backend:/code
                         - ../media:/code/media
