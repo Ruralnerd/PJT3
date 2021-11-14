@@ -121,7 +121,7 @@ def story_detail(request, story_pk):
         if serializer.is_valid(raise_exception=True):
             contents = request.data.get('contents')
             categorys = request.data.get('categorys')
-            story = serializer.save(producer=user, thumbnail_img = contents[0]['image'])
+            story = serializer.save(producer=user, thumbnail_img = contents[0]['img'])
             new = StorySerializer(story)
             for idx, content in enumerate(contents):
                 StoryContent.objects.create(
@@ -152,7 +152,7 @@ def story_img(request, story_pk):
     if story.producer != request.user:
         return Response(status=status.HTTP_403_FORBIDDEN)
     else:
-        img = StoryImg.objects.create(story=story, img=request.data['img'])
+        img = StoryImg.objects.create(story=story, img=request.data['image'])
         serialzer = StoryImgSerializer(img)
         return Response(serialzer.data, status=status.HTTP_201_CREATED)
 
