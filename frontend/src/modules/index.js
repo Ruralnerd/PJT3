@@ -1,11 +1,15 @@
 import { all } from '@redux-saga/core/effects'
 import { combineReducers } from 'redux'
+import home from './home'
+import profile, { profileSaga } from './profile'
+import market from './market'
 import auth, { authSaga } from './auth'
 import loading from './loading'
-import market from './market'
 import sale, { saleSaga } from './sale'
 
 const rootReducer = combineReducers({
+  home,
+  profile,
   auth,
   sale,
   market,
@@ -13,7 +17,7 @@ const rootReducer = combineReducers({
 })
 
 export function* rootSaga() {
-  yield all([authSaga(), saleSaga()])
+  yield all([authSaga(), saleSaga(), profileSaga()])
 }
 
 export default rootReducer

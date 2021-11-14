@@ -3,26 +3,50 @@
     {
       "id": 1,
       "marketId": 1,
-      "thumbnail_img": "img/product/product01.jpg",
+      "thumbnail_img": "images/product/product01.jpg",
       "title": "설향 딸기"
     },
     {
       "id": 2,
       "marketId": 2,
-      "thumbnail_img": "img/product/product02.jpg",
+      "thumbnail_img": "images/product/product02.jpg",
       "title": "안녕하세요 여러분 이건 꿀입니다. 아마 맞을거에요. 아닐 수도 있지만, 꿀은 우두령이 맛있습니다."
     },
     {
       "id": 3,
       "marketId": 3,
-      "thumbnail_img": "img/product/product03.jpg",
+      "thumbnail_img": "images/product/product03.jpg",
       "title": "해당 작물은 고추입니다. 이렇게 설명을 길게 해놓으면.. 계속 설명이 길어지죠"
     },
     {
       "id": 4,
       "marketId": 4,
-      "thumbnail_img": "img/product/product04.jpg",
+      "thumbnail_img": "images/product/product04.jpg",
       "title": "ㅁㄴㄹ"
+    },
+    {
+      "id": 5,
+      "marketId": 5,
+      "thumbnail_img": "images/product/product05.jpg",
+      "title": "주먹감자"
+    },
+    {
+      "id": 6,
+      "marketId": 6,
+      "thumbnail_img": "images/product/product06.jpg",
+      "title": "고구마는 영어로 sweet potato"
+    },
+    {
+      "id": 7,
+      "marketId": 7,
+      "thumbnail_img": "images/product/product07.jpg",
+      "title": "삼미자 사미자 오미자"
+    },
+    {
+      "id": 8,
+      "marketId": 8,
+      "thumbnail_img": "images/product/product08.jpg",
+      "title": "토 맛 토마토"
     }
   ],
   "posts": [
@@ -117,190 +141,144 @@
       "body": "reprehenderit quos placeat\nvelit minima officia dolores impedit repudiandae molestiae nam\nvoluptas recusandae quis delectus\nofficiis harum fugiat vitae"
     }
   ],
-  "users": [
+  "profiles": [
     {
       "id": 1,
-      "name": "Leanne Graham",
-      "username": "Bret",
-      "email": "Sincere@april.biz",
-      "address": {
-        "street": "Kulas Light",
-        "suite": "Apt. 556",
-        "city": "Gwenborough",
-        "zipcode": "92998-3874",
-        "geo": {
-          "lat": "-37.3159",
-          "lng": "81.1496"
+      "email": "aaa111@naver.com",
+      "nickname": "AAA",
+      "phone": "010-1111-1111",
+      "address": "지역A",
+      "profile_img": "프로필이미지A",
+      "created_at": "생성날자 및 시간A",
+      "is_seller": true,
+      "is_admin": false,
+      "markets": [
+        {
+          "id": 1,
+          "title": "상품제목A1",
+          "thumbnail_img": "상품썸네일A1"
+        },
+        {
+          "id": 2,
+          "title": "상품제목A2",
+          "thumbnail_img": "상품썸네일A2"
+        },
+        {
+          "id": 3,
+          "title": "상품제목A3",
+          "thumbnail_img": "상품썸네일A3"
+        },
+        {
+          "id": 4,
+          "title": "상품제목A4",
+          "thumbnail_img": "상품썸네일A4"
         }
-      },
-      "phone": "1-770-736-8031 x56442",
-      "website": "hildegard.org",
-      "company": {
-        "name": "Romaguera-Crona",
-        "catchPhrase": "Multi-layered client-server neural-net",
-        "bs": "harness real-time e-markets"
-      }
+      ],
+      "storys": [
+        {
+          "id": 1,
+          "title": "이야기제목A1",
+          "thumbnail_img": "이야기썸네일A1"
+        },
+        {
+          "id": 2,
+          "title": "이야기제목A2",
+          "thumbnail_img": "이야기썸네일A1"
+        },
+        {
+          "id": 3,
+          "title": "이야기제목A3",
+          "thumbnail_img": "이야기썸네일A3"
+        },
+        {
+          "id": 4,
+          "title": "이야기제목A4",
+          "thumbnail_img": "이야기썸네일A4"
+        }
+      ],
+      "followers": ["user_id"]
     },
     {
       "id": 2,
-      "name": "Ervin Howell",
-      "username": "Antonette",
-      "email": "Shanna@melissa.tv",
-      "address": {
-        "street": "Victor Plains",
-        "suite": "Suite 879",
-        "city": "Wisokyburgh",
-        "zipcode": "90566-7771",
-        "geo": {
-          "lat": "-43.9509",
-          "lng": "-34.4618"
+      "email": "bbb222@naver.com",
+      "nickname": "BBB",
+      "phone": "010-2222-2222",
+      "address": "지역B",
+      "profile_img": "프로필이미지B",
+      "created_at": "생성날자 및 시간B",
+      "is_seller": false,
+      "is_admin": false,
+      "markets": [
+        {
+          "id": 1,
+          "title": "상품제목B1",
+          "thumbnail_img": "상품썸네일B1"
+        },
+        {
+          "id": 2,
+          "title": "상품제목B2",
+          "thumbnail_img": "상품썸네일B2"
+        },
+        {
+          "id": 3,
+          "title": "상품제목B3",
+          "thumbnail_img": "상품썸네일B3"
+        },
+        {
+          "id": 4,
+          "title": "상품제목B4",
+          "thumbnail_img": "상품썸네일B4"
         }
-      },
-      "phone": "010-692-6593 x09125",
-      "website": "anastasia.net",
-      "company": {
-        "name": "Deckow-Crist",
-        "catchPhrase": "Proactive didactic contingency",
-        "bs": "synergize scalable supply-chains"
-      }
+      ],
+      "storys": [
+        {
+          "id": 1,
+          "title": "이야기제목B1",
+          "thumbnail_img": "이야기썸네일B1"
+        },
+        {
+          "id": 2,
+          "title": "이야기제목B2",
+          "thumbnail_img": "이야기썸네일B2"
+        },
+        {
+          "id": 3,
+          "title": "이야기제목B3",
+          "thumbnail_img": "이야기썸네일B3"
+        },
+        {
+          "id": 4,
+          "title": "이야기제목B4",
+          "thumbnail_img": "이야기썸네일B4"
+        }
+      ],
+      "followers": ["user_id"]
     },
     {
       "id": 3,
-      "name": "Clementine Bauch",
-      "username": "Samantha",
-      "email": "Nathan@yesenia.net",
-      "address": {
-        "street": "Douglas Extension",
-        "suite": "Suite 847",
-        "city": "McKenziehaven",
-        "zipcode": "59590-4157",
-        "geo": {
-          "lat": "-68.6102",
-          "lng": "-47.0653"
+      "email": "ccc333@naver.com",
+      "nickname": "CCC",
+      "phone": "010-3333-3333",
+      "address": "지역",
+      "profile_img": "프로필이미지C",
+      "created_at": "생성날자 및 시간C",
+      "is_seller": true,
+      "is_admin": false,
+      "markets": [
+        {
+          "id": 3,
+          "title": "상품제목C",
+          "thumbnail_img": "상품썸네일C"
         }
-      },
-      "phone": "1-463-123-4447",
-      "website": "ramiro.info",
-      "company": {
-        "name": "Romaguera-Jacobson",
-        "catchPhrase": "Face to face bifurcated interface",
-        "bs": "e-enable strategic applications"
-      }
-    },
-    {
-      "id": 4,
-      "name": "Patricia Lebsack",
-      "username": "Karianne",
-      "email": "Julianne.OConner@kory.org",
-      "address": {
-        "street": "Hoeger Mall",
-        "suite": "Apt. 692",
-        "city": "South Elvis",
-        "zipcode": "53919-4257",
-        "geo": {
-          "lat": "29.4572",
-          "lng": "-164.2990"
+      ],
+      "storys": [
+        {
+          "id": 3,
+          "title": "이야기제목C",
+          "thumbnail_img": "이야기썸네일C"
         }
-      },
-      "phone": "493-170-9623 x156",
-      "website": "kale.biz",
-      "company": {
-        "name": "Robel-Corkery",
-        "catchPhrase": "Multi-tiered zero tolerance productivity",
-        "bs": "transition cutting-edge web services"
-      }
-    },
-    {
-      "id": 5,
-      "name": "Chelsey Dietrich",
-      "username": "Kamren",
-      "email": "Lucio_Hettinger@annie.ca",
-      "address": {
-        "street": "Skiles Walks",
-        "suite": "Suite 351",
-        "city": "Roscoeview",
-        "zipcode": "33263",
-        "geo": {
-          "lat": "-31.8129",
-          "lng": "62.5342"
-        }
-      },
-      "phone": "(254)954-1289",
-      "website": "demarco.info",
-      "company": {
-        "name": "Keebler LLC",
-        "catchPhrase": "User-centric fault-tolerant solution",
-        "bs": "revolutionize end-to-end systems"
-      }
-    },
-    {
-      "id": 6,
-      "name": "Mrs. Dennis Schulist",
-      "username": "Leopoldo_Corkery",
-      "email": "Karley_Dach@jasper.info",
-      "address": {
-        "street": "Norberto Crossing",
-        "suite": "Apt. 950",
-        "city": "South Christy",
-        "zipcode": "23505-1337",
-        "geo": {
-          "lat": "-71.4197",
-          "lng": "71.7478"
-        }
-      },
-      "phone": "1-477-935-8478 x6430",
-      "website": "ola.org",
-      "company": {
-        "name": "Considine-Lockman",
-        "catchPhrase": "Synchronised bottom-line interface",
-        "bs": "e-enable innovative applications"
-      }
-    },
-    {
-      "id": 7,
-      "name": "Kurtis Weissnat",
-      "username": "Elwyn.Skiles",
-      "email": "Telly.Hoeger@billy.biz",
-      "address": {
-        "street": "Rex Trail",
-        "suite": "Suite 280",
-        "city": "Howemouth",
-        "zipcode": "58804-1099",
-        "geo": {
-          "lat": "24.8918",
-          "lng": "21.8984"
-        }
-      },
-      "phone": "210.067.6132",
-      "website": "elvis.io",
-      "company": {
-        "name": "Johns Group",
-        "catchPhrase": "Configurable multimedia task-force",
-        "bs": "generate enterprise e-tailers"
-      }
-    },
-    {
-      "id": 8,
-      "name": "Nicholas Runolfsdottir V",
-      "username": "Maxime_Nienow",
-      "email": "Sherwood@rosamond.me",
-      "address": {
-        "street": "Ellsworth Summit",
-        "suite": "Suite 729",
-        "city": "Aliyaview",
-        "zipcode": "45169",
-        "geo": {
-          "lat": "-14.3990",
-          "lng": "-120.7677"
-        }
-      },
-      "phone": "586.493.6943 x140",
-      "website": "jacynthe.com",
-      "company": {
-        "name": "Abernathy Group",
-        "catchPhrase": "Implemented secondary concept",
-        "bs": "e-enable extensible e-tailers"
-      }
+      ],
+      "followers": ["user_id"]
     }
   ]
 }
