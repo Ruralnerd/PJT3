@@ -24,8 +24,11 @@ class Story(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     def delete(self, *args, **kwargs): 
         url = f'articles/storys/{self.pk}' 
-        super(Story, self).delete(*args, **kwargs) 
-        shutil.rmtree(os.path.join(settings.MEDIA_ROOT, url))
+        super(Story, self).delete(*args, **kwargs)
+        try: 
+            shutil.rmtree(os.path.join(settings.MEDIA_ROOT, url))
+        except:
+            pass
 
 class StoryComment(models.Model):
     story = models.ForeignKey(Story, on_delete=models.CASCADE, related_name='comments')
