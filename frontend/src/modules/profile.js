@@ -1,25 +1,46 @@
 import { takeLatest } from 'redux-saga/effects'
 import { createAction, handleActions } from 'redux-actions'
 import * as profileAPI from '../lib/api/profile'
-import createRequestSaga from '../lib/createRequestSaga'
+import createRequestSaga, {
+  createRequestActionTypes,
+} from '../lib/createRequestSaga'
 
 // 액션타입 정의
-const GET_PROFILE = 'profile/GET_PROFILE'
+const [GET_PROFILE, GET_PROFILE_SUCCESS, GET_PROFILE_FAILURE] =
+  createRequestActionTypes('profile/GET')
+const [PUT_PROFILE, PUT_PROFILE_SUCCESS, PUT_PROFILE_FAILURE] =
+  createRequestActionTypes('profile/PUT')
 
-const GET_PROFILE_SUCCESS = 'profile/GET_PROFILE_SUCCESS'
+const UNLOAD_PROFILE = 'profile/UNLOAD' //포스트 페이지에서 벗어날 때 데이터 비우기
 
 // 액션 생성 함수
 export const getProfile = createAction(GET_PROFILE)
+export const updateProfile = createAction(PUT_PROFILE)
+export const unloadProfile = createAction(UNLOAD_PROFILE)
 
+// Saga
 const getProfileSaga = createRequestSaga(GET_PROFILE, profileAPI.getProfile)
+const updateProfileSaga = createRequestSaga(PUT_PROFILE, profileAPI.putProfile)
 
-// 제너레이터함수.
+// 제너레이터함수
 export function* profileSaga() {
   yield takeLatest(GET_PROFILE, getProfileSaga)
+  yield takeLatest(PUT_PROFILE, updateProfileSaga)
 }
 
 const initialState = {
   userData: null,
+  error: null,
+  updateUserData: {
+    email: null,
+    password: null,
+    nickname: null,
+    phone: null,
+    address: null,
+    is_seller: null,
+    ac_number: null,
+    ac_bank: null,
+  },
 }
 
 // handleActions함수를 사용하면 각 액션마다 업데이트 함수를 설정하는 형식으로 리듀서 작성 가능
@@ -37,11 +58,17 @@ const initialState = {
 // 객체 비구조화 할당 문법을 통해 payload이름을 action에서 profile로 변경해주었다.
 const profile = handleActions(
   {
-    [GET_PROFILE_SUCCESS]: (state, { payload: profile }) => ({
+    [GET_PROFILE_SUCCESS]: (state, { payload: userData }) => ({
       ...state,
-      userData: profile.payload,
+      userData,
     }),
+    [GET_PROFILE_FAILURE]: (state, { payload: error }) => ({
+      ...state,
+      error,
+    }),
+    [UNLOAD_PROFILE]: () => initialState,
   },
   initialState,
+  console.log('1.리듀서'),
 )
 export default profile

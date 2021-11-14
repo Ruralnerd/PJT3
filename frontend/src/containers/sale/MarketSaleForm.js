@@ -7,7 +7,7 @@ import { changeField, post } from '../../modules/sale'
  */
 const MarketSaleForm = () => {
   const dispatch = useDispatch()
-  const { form } = useSelector(({ sale }) => ({
+  const form = useSelector(({ sale }) => ({
     form: sale.item,
   }))
 

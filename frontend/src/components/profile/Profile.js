@@ -28,8 +28,9 @@ const ProfileTitle = css`
 `
 
 const Profile = ({ loadingProfile, userData }) => {
-  console.log('컴포넌트')
-  console.log(userData && userData.is_seller)
+  console.log('3.컴포넌트')
+  console.log(userData)
+  console.log('3-1컴포넌트에서 userData값을 불러와야함 ㅠㅠ')
   const updateProfileButton = () => {
     console.log('내정보 수정 버튼 클릭함')
   }

@@ -5,7 +5,6 @@ import profile, { profileSaga } from './profile'
 import market from './market'
 import auth, { authSaga } from './auth'
 import loading from './loading'
-import market from './market'
 import sale, { saleSaga } from './sale'
 
 const rootReducer = combineReducers({

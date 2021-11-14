@@ -1,27 +1,47 @@
 /** @jsxImportSource @emotion/react */
 
 import { css } from '@emotion/react'
+import { Link } from 'react-router-dom'
 
-const Profile = ({ loadingProfile, profile }) => {
-  console.log('컴포넌트')
+const ProfileUser = css`
+  display: flex;
+  border: 3px solid blue;
+`
+const ProfileUserImg = css`
+  max-width: 50%;
+  flex-wrap: wrap;
+  border: 3px solid red;
+`
+const ProfileUserData = css`
+  border: 3px solid green;
+`
 
-  // profile이 빈 값이 아니고 profile.is_seller가 true일떄
-
+const Profile = ({ loadingProfile, userData }) => {
+  console.log('3.수정컴포넌트')
+  console.log(userData)
+  console.log('3-1수정컴포넌트에서 userData값을 불러와야함 ㅠㅠ')
+  const ProfileUpdateButton = () => {
+    console.log('수정완료 버튼 클릭함')
+  }
   return (
     <div>
-      <div>
-        <div>프로필 수정 페이지</div>
-        <div>이메일은 변경 불가</div>
-        <div>비밀번호 수정</div>
-        <div>닉네임 수정</div>
-        <div>전화번호 수정</div>
-        <div>주소 수정</div>
-        <div>은행명 수정</div>
-        <div>계좌번호 수정</div>
-
-        <div>수정완료 버튼 누르면 다시 회원정보 조회 페이지로 이동</div>
-      </div>
+      {loadingProfile && '로딩 중...'}
+      {!loadingProfile && userData && (
+        <div>
+          <div>구매자님의 프로필</div>
+          <div css={ProfileUser}>
+            <div css={ProfileUserImg}>{userData.profile_img}</div>
+            <div css={ProfileUserData}>
+              <div>이름:{userData.nickname}</div>
+              <div>주소:{userData.address}</div>
+              <div>연락처:{userData.phone}</div>
+            </div>
+          </div>
+          <button onClick={ProfileUpdateButton}>수정 완료</button>
+        </div>
+      )}
     </div>
   )
 }
+
 export default Profile
