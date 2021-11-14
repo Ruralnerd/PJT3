@@ -1,8 +1,11 @@
+import HomeTemplate from '../components/home/HomeTemplate'
+import Home from '../containers/home/Home'
+
 const HomePage = () => {
   return (
-    <div>
-      <p>홈입니다</p>
-    </div>
+    <HomeTemplate>
+      <Home />
+    </HomeTemplate>
   )
 }
 

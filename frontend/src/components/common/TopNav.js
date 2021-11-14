@@ -28,7 +28,11 @@ const TopNav = () => {
   return (
     <div>
       <Link to="/">
-        <img src="img/logo.png" alt="로고" css={Logo} />
+        <img
+          src="/images/logo/logo_white_horizontal.png"
+          alt="로고"
+          css={Logo}
+        />
       </Link>
       <div css={TopNavWrapper}>
         <Link to="/market" css={LinkText}>
