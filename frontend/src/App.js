@@ -10,6 +10,7 @@ import RegisterPage from './pages/auth/RegisterPage'
 import FarmPagePage from './pages/common/FarmPage'
 import SaleFormPage from './pages/sale/SaleFormPage'
 import SaleDetailPage from './pages/sale/SaleDetailPage'
+import SaleListPage from './pages/sale/SaleListPage'
 import StoryListPage from './pages/story/StoryListPage'
 import StoryEditorPage from './pages/story/StoryEditorPage'
 import StoryDetailPage from './pages/story/StoryDetailPage'
@@ -28,6 +29,7 @@ const App = () => {
       <Route exact path={'/'} component={HomePage} />
       <Route path={'/login'} component={LoginPage} />
       <Route path={'/register'} component={RegisterPage} />
+      <Route exact path={'/market'} component={SaleListPage} />
       <Route exact path={'/market/:market_pk'} component={SaleDetailPage} />
       <Route path={'/sale'} component={SaleFormPage} />
       <Route exact path={'/story'} component={StoryListPage} />
