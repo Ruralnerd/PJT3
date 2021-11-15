@@ -40,7 +40,7 @@ export const getStorys = createAction(GET_STORYS)
 
 export const getStory = createAction(GET_STORY)
 
-export const postStory = createAction(POST_STORY, (title) => title)
+export const postStory = createAction(POST_STORY, ({ title }) => ({ title }))
 
 export const putStory = createAction(
   PUT_STORY,
@@ -84,7 +84,7 @@ const initialState = {
   postError: null,
   image: '',
   imageError: null,
-  id: '',
+  id: 0,
   storys: [],
   story: '',
   error: '',
@@ -124,9 +124,9 @@ const story = handleActions(
       post: null,
       postError: null,
     }),
-    [POST_STORY_SUCCESS]: (state, { payload: id }) => ({
+    [POST_STORY_SUCCESS]: (state, { payload: data }) => ({
       ...state,
-      id,
+      id: data.id,
     }),
     [POST_STORY_FAILURE]: (state, { payload: postError }) => ({
       ...state,

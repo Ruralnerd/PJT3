@@ -47,7 +47,7 @@ class StoryImg(models.Model):
     story = models.ForeignKey(Story, on_delete=models.CASCADE, related_name='imgs')
     img = ProcessedImageField(
         upload_to=story_image_path,
-        processors=[ResizeToFill(150, 150)],
+        # processors=[ResizeToFill(150, 150)],
         format='JPEG',
         blank=True,
     )

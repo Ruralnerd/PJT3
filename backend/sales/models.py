@@ -54,7 +54,7 @@ class MarketImg(models.Model):
     market = models.ForeignKey(Market, on_delete=models.CASCADE, related_name='imgs')
     img = ProcessedImageField(
         upload_to=market_image_path,
-        processors=[ResizeToFill(150, 150)],
+        # processors=[ResizeToFill(150, 150)],
         format='JPEG',
         blank=True,
     )
