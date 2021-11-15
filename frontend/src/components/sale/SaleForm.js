@@ -4,9 +4,9 @@ import { ThemeProvider, createTheme } from '@mui/material'
 import Button from '../common/Button'
 import palette from '../../lib/styles/palette'
 import Spinner from '../common/Spinner'
-import SaleItemForm from './SaleItemForm'
+import SaleFormItem from './SaleFormItem'
 import { useSelector } from 'react-redux'
-import SaleContentForm from './SaleContentForm'
+import SaleFormContent from './SaleFormContent'
 
 /**
  * 스토리 또는 마켓 에디터를 보여줍니다.
@@ -68,10 +68,10 @@ const SaleForm = ({
         return (
           <>
             <Button middleWidth orange onClick={onDeleteSale}>
-              새로운 글 작성하기
+              삭제
             </Button>
             <Button middleWidth red onClick={onPutSale}>
-              {loadingStatus['sale/PUT'] === true ? <Spinner /> : '저장하기'}
+              {loadingStatus['sale/PUT'] === true ? <Spinner /> : '저장'}
             </Button>
             <Button middleWidth cyan onClick={onAddContent}>
               사진추가
@@ -82,7 +82,7 @@ const SaleForm = ({
         return (
           <>
             <Button middleWidth orange onClick={onDeleteSale}>
-              새로운 글 작성하기
+              삭제
             </Button>
             <Button middleWidth orange onClick={onNext}>
               다음
@@ -97,10 +97,10 @@ const SaleForm = ({
             이전
           </Button>
           <Button middleWidth red onClick={onPutSale}>
-            {loadingStatus['sale/PUT'] === true ? <Spinner /> : '저장하기'}
+            {loadingStatus['sale/PUT'] === true ? <Spinner /> : '저장'}
           </Button>
           <Button middleWidth cyan onClick={onAddContent}>
-            사진추가
+            추가
           </Button>
         </>
       )
@@ -128,7 +128,7 @@ const SaleForm = ({
             {/* 맨 앞 페이지 */}
             <div css={SaleInfoText}>판매할 상품의 정보를 입력해 주세요.</div>
             <div css={SaleInfoBox}>
-              <SaleItemForm form={form} onChange={onChange} />
+              <SaleFormItem form={form} onChange={onChange} />
             </div>
           </>
         ) : (
@@ -138,7 +138,7 @@ const SaleForm = ({
               상품을 소개하는 이미지와 설명을 입력해 주세요.
             </div>
             <div css={SaleInfoBox}>
-              <SaleContentForm
+              <SaleFormContent
                 form={form}
                 onPutChange={onPutChange}
                 onPostImage={onPostImage}
