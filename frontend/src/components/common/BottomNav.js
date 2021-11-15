@@ -1,15 +1,16 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import { Link } from 'react-router-dom'
-import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined'
-import SearchIcon from '@mui/icons-material/Search'
-import PermIdentityOutlinedIcon from '@mui/icons-material/PermIdentityOutlined'
 
 const BottomNavWrapper = css`
+  background-color: white;
+  position: fixed;
+  width: 100%;
+  top: 88%;
   display: flex;
   justify-content: space-evenly;
   text-align: center;
-  border: 1px solid black;
+  border-top: 1px solid black;
 `
 
 const IconGroup = css`
@@ -17,35 +18,55 @@ const IconGroup = css`
   color: black;
 `
 
-const Icon = css`
-  font-size: 3rem;
-`
-
 const IconText = css`
   font-size: 0.8rem;
   margin: 0 auto;
 `
 
+const toggle = () => {
+  if (localStorage.getItem('token')) {
+    ;<Link to="/profile" css={IconGroup}>
+      <img src="/images/icon/person.svg" alt="" />
+      <p css={IconText}>내 정보</p>
+    </Link>
+  } else {
+    ;<Link to="/login" css={IconGroup}>
+      <img src="/images/icon/person.svg" alt="" />
+      <p css={IconText}>내 정보</p>
+    </Link>
+  }
+}
+
 const BottomNav = () => {
+  const token = localStorage.getItem('token')
+
   return (
     <div css={BottomNavWrapper}>
       <div>
         <Link to="/" css={IconGroup}>
-          <HomeOutlinedIcon css={Icon}></HomeOutlinedIcon>
+          <img src="/images/icon/home.svg" alt="" />
           <p css={IconText}>홈</p>
         </Link>
       </div>
       <div>
         <Link to="/search" css={IconGroup}>
-          <SearchIcon css={Icon}></SearchIcon>
+          <img src="/images/icon/search.svg" alt="" />
           <p css={IconText}>검색</p>
         </Link>
       </div>
       <div>
-        <Link to="/profile" css={IconGroup}>
-          <PermIdentityOutlinedIcon css={Icon}></PermIdentityOutlinedIcon>
-          <p css={IconText}>내 정보</p>
-        </Link>
+        {token && (
+          <Link to="/profile" css={IconGroup}>
+            <img src="/images/icon/person.svg" alt="" />
+            <p css={IconText}>내 정보</p>
+          </Link>
+        )}
+        {!token && (
+          <Link to="/login" css={IconGroup}>
+            <img src="/images/icon/person.svg" alt="" />
+            <p css={IconText}>내 정보</p>
+          </Link>
+        )}
       </div>
     </div>
   )
