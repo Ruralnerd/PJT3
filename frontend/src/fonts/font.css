@@ -4,7 +4,7 @@
      Modern Browsers => woff
      IE6-IE8 => eot
   */
-@font-face {
+/* @font-face {
   font-family: 'Noto Sans KR';
   font-style: normal;
   font-weight: 300;
@@ -24,4 +24,4 @@
   font-weight: bold;
   src: url('./NotoSansKR-Bold.otf') format('opentype'),
     url('./NotoSansKR-Bold.woff') format('woff');
-}
+} */
