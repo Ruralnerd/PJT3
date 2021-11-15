@@ -184,19 +184,19 @@ const sale = handleActions(
       }),
     [GET_SUCCESS]: (state, { payload: detail }) => ({
       ...state,
-      detail: detail,
+      detail,
     }),
     [GET_FAILURE]: (state, { payload: error }) => ({
       ...state,
-      error: error,
+      error,
     }),
     [GET_LIST_SUCCESS]: (state, { payload: list }) => ({
       ...state,
-      list: list,
+      list,
     }),
     [GET_LIST_FAILURE]: (state, { payload: error }) => ({
       ...state,
-      error: error,
+      error,
     }),
     [UNLOAD_POST]: () => initialState,
     [POST_SUCCESS]: (state, { payload: data }) =>
@@ -206,7 +206,7 @@ const sale = handleActions(
       }),
     [POST_FAILURE]: (state, { payload: error }) => ({
       ...state,
-      error: error,
+      error,
     }),
     [PUT_SUCCESS]: (state) =>
       produce(state, (draft) => {
@@ -214,7 +214,7 @@ const sale = handleActions(
       }),
     [PUT_FAILURE]: (state, { payload: error }) => ({
       ...state,
-      error: error,
+      error,
     }),
     [POST_IMG_SUCCESS]: (state, { payload: img }) =>
       produce(state, (draft) => {
@@ -222,7 +222,7 @@ const sale = handleActions(
       }),
     [POST_IMG_FAILURE]: (state, { payload: error }) => ({
       ...state,
-      error: error,
+      error,
     }),
     [ADD_CONTENT]: (state) =>
       produce(state, (draft) => {

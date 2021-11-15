@@ -22,7 +22,7 @@ const SaleFormContainer = () => {
 
   // 인풋 변경 이벤트 핸들러
   const onChange = (e) => {
-    const { value, name } = e.target.value
+    const { value, name } = e.target
 
     dispatch(
       changeField({

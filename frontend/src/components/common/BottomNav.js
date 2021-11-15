@@ -6,7 +6,8 @@ const BottomNavWrapper = css`
   background-color: white;
   position: fixed;
   width: 100%;
-  top: 88%;
+  height: 5rem;
+  bottom: 0;
   display: flex;
   justify-content: space-evenly;
   text-align: center;
