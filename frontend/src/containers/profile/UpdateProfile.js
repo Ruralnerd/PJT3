@@ -5,50 +5,44 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import UpdateProfileForm from '../../components/profile/UpdateProfileForm'
-import { getProfile, putProfile } from '../../modules/profile'
+import { changeField, getProfile } from '../../modules/profile'
 
 // UpdateProfileForm을 import해서 사용, 필요한 state 관리
 const UpdateProfileContainer = () => {
+  const dispatch = useDispatch()
   const { form } = useSelector(({ profile }) => ({
     form: profile.userData,
   }))
-  const dispatch = useDispatch()
-  useEffect(() => {
-    dispatch(getProfile())
-  }, [dispatch])
 
-  const onPutProfile = () => {
-    const {
-      email,
-      nickname,
-      password,
-      address,
-      phone,
-      is_seller,
-      ac_number,
-      ac_bank,
-    } = form
+  // 인풋 변경 이벤트 핸들러
+  const onChange = (e) => {
+    const { value, name } = e.target
 
     dispatch(
-      putProfile({
-        email,
-        nickname,
-        password,
-        address,
-        phone,
-        is_seller,
-        ac_number,
-        ac_bank,
+      changeField({
+        form: 'userData',
+        key: name,
+        value,
       }),
     )
   }
 
+  const onSubmit = (e) => {
+    e.preventDefault()
+  }
+
+  useEffect(() => {
+    dispatch(getProfile())
+  }, [dispatch])
+
   return (
     <div>
       <UpdateProfileForm
-        userData={form}
+        type="userData"
+        form={form}
         getProfile={getProfile}
-        putProfile={onPutProfile}
+        onChange={onChange}
+        onSubmit={onSubmit}
       />
     </div>
   )

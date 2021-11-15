@@ -8,34 +8,27 @@ import createRequestSaga, {
 // 액션타입 정의
 const [GET_PROFILE, GET_PROFILE_SUCCESS, GET_PROFILE_FAILURE] =
   createRequestActionTypes('profile/GET')
+const CHANGE_FIELD = 'profile/CHANGE_FIELD'
+const PUT_CHANGE_FIELD = 'profile/PUT_CHANGE_FIELD'
 const [PUT_PROFILE, PUT_PROFILE_SUCCESS, PUT_PROFILE_FAILURE] =
   createRequestActionTypes('profile/PUT')
 const UNLOAD_PROFILE = 'profile/UNLOAD' //포스트 페이지에서 벗어날 때 데이터 비우기
 
 // 액션 생성 함수
 export const getProfile = createAction(GET_PROFILE)
-export const putProfile = createAction(
-  PUT_PROFILE,
-  ({
-    email,
-    nickname,
-    password,
-    address,
-    phone,
-    is_seller,
-    ac_number,
-    ac_bank,
-  }) => ({
-    email,
-    nickname,
-    password,
-    address,
-    phone,
-    is_seller,
-    ac_number,
-    ac_bank,
+// 액션 생성 함수
+export const changeField = createAction(
+  CHANGE_FIELD,
+
+  ({ form, key, value }) => ({
+    form,
+    key,
+    value, // 실제 바꾸려는 값
   }),
 )
+export const putChangeField = createAction(PUT_CHANGE_FIELD, ({ value }) => ({
+  value,
+}))
 
 export const unloadProfile = createAction(UNLOAD_PROFILE)
 
@@ -50,17 +43,17 @@ export function* profileSaga() {
 }
 
 const initialState = {
-  userData: 'null',
-  error: 'null',
-  updateUserData: {
-    email: 'null',
-    password: 'null',
-    nickname: 'null',
-    phone: 'null',
-    address: 'null',
-    is_seller: 'null',
-    ac_number: 'null',
-    ac_bank: 'null',
+  userData: {
+    error: 'null',
+    email: '',
+    nickname: '',
+    password: '',
+    address: '',
+    phone: '',
+    is_seller: false,
+    ac_number: '',
+    ac_bank: '',
+    profile_img: 'url',
   },
 }
 
@@ -79,6 +72,12 @@ const initialState = {
 // 객체 비구조화 할당 문법을 통해 payload이름을 action에서 profile로 변경해주었다.
 const profile = handleActions(
   {
+    [CHANGE_FIELD]: (state, { payload: { form, key, value } }) => ({
+      ...state,
+      form,
+      key,
+      value,
+    }),
     [GET_PROFILE_SUCCESS]: (state, { payload: userData }) => ({
       ...state,
       userData,
