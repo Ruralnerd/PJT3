@@ -4,24 +4,46 @@
 // modules/profile.js에서 작성했던 액션 생성 함수와 상태 안에 있던 값을 컴포넌트의 props로 전달
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import UpdateProfile from '../../components/profile/UpdateProfile'
-import { getProfile } from '../../modules/profile'
+import UpdateProfileForm from '../../components/profile/UpdateProfileForm'
+import { changeField, getProfile } from '../../modules/profile'
 
-// modules/profile.js에서 3개단위로 끊어서 가져와야 함
-// 1. getProfile함수
-// 2. profile 초기상태
-// 3. loadingProfile
+// UpdateProfileForm을 import해서 사용, 필요한 state 관리
 const UpdateProfileContainer = () => {
-  const { userData } = useSelector(({ profile }) => ({
-    userData: profile.userData,
-  }))
   const dispatch = useDispatch()
+  const { form } = useSelector(({ profile }) => ({
+    form: profile.userData,
+  }))
+
+  // 인풋 변경 이벤트 핸들러
+  const onChange = (e) => {
+    const { value, name } = e.target
+
+    dispatch(
+      changeField({
+        form: 'userData',
+        key: name,
+        value,
+      }),
+    )
+  }
+
+  const onSubmit = (e) => {
+    e.preventDefault()
+  }
+
   useEffect(() => {
     dispatch(getProfile())
   }, [dispatch])
+
   return (
     <div>
-      <UpdateProfile userData={userData} getProfile={getProfile} />
+      <UpdateProfileForm
+        type="userData"
+        form={form}
+        getProfile={getProfile}
+        onChange={onChange}
+        onSubmit={onSubmit}
+      />
     </div>
   )
 }
