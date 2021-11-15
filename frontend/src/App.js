@@ -16,7 +16,7 @@ import StoryEditorPage from './pages/story/StoryEditorPage'
 import StoryDetailPage from './pages/story/StoryDetailPage'
 import SearchPage from './pages/common/SearchPage'
 import ProfilePage from './pages/profile/ProfilePage'
-import UpdateProfilePage from './pages/profile/UpdateProfilePage'
+import ProfileUpdatePage from './pages/profile/ProfileUpdatePage'
 
 const App = () => {
   // 이 아래 두 줄을 이용해서 내 현재 url을 확인할 수 있다.
@@ -38,7 +38,7 @@ const App = () => {
       <Route path={'/farm'} component={FarmPagePage} />
       <Route path={'/search'} component={SearchPage} />
       <Route exact path={'/profile'} component={ProfilePage} />
-      <Route exact path={'/profile/update'} component={UpdateProfilePage} />
+      <Route exact path={'/profile/update'} component={ProfileUpdatePage} />
       <Footer />
       <BottomNav />
     </>
