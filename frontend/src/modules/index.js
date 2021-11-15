@@ -7,6 +7,7 @@ import loading from './loading'
 import story, { storySaga } from './story'
 import sale, { saleSaga } from './sale'
 import search, { searchSaga } from './search'
+import pay, { paySaga } from './pay'
 
 const rootReducer = combineReducers({
   home,
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   loading,
   story,
   search,
+  pay,
 })
 
 export function* rootSaga() {
@@ -26,6 +28,7 @@ export function* rootSaga() {
     storySaga(),
     profileSaga(),
     searchSaga(),
+    paySaga(),
   ])
 }
 
