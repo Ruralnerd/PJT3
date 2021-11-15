@@ -41,8 +41,6 @@ def categorys(request):
     responses={status.HTTP_200_OK: StorySmallSerializer, status.HTTP_400_BAD_REQUEST:'HTTP_400_BAD_REQUEST'}
 )
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
-@authentication_classes([JSONWebTokenAuthentication])
 def storys(request):
     try:
             name = request.GET['category_name']
@@ -67,8 +65,6 @@ def storys(request):
     responses={status.HTTP_200_OK: MarketSmallSerializer, status.HTTP_400_BAD_REQUEST:'HTTP_400_BAD_REQUEST'}
 )
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
-@authentication_classes([JSONWebTokenAuthentication])
 def markets(request):
     try:
             name = request.GET['category_name']
