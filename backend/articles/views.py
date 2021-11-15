@@ -37,8 +37,6 @@ swaager_items = openapi.Schema(
 )
 @swagger_auto_schema(method='post', responses={status.HTTP_201_CREATED: StorySerializer},request_body=StoryCreateSerializer)
 @api_view(['GET', 'POST'])
-@permission_classes([IsAuthenticated])
-@authentication_classes([JSONWebTokenAuthentication])
 def storys(request):
     if request.method == 'GET':
         try:
@@ -53,14 +51,14 @@ def storys(request):
 
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
-    if request.method == 'POST':
+    if request.method == 'POST' and request.user.is_authenticated:
         user = request.user
         serializer = StoryCreateSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             story = serializer.save(producer=user)
             new = StorySerializer(story)
             return Response(new.data, status=status.HTTP_201_CREATED)
-
+    return Response(status=status.HTTP_401_UNAUTHORIZED)
 
 @swagger_auto_schema(method='get', responses={status.HTTP_200_OK: StorySerializer})
 @swagger_auto_schema(
@@ -89,8 +87,6 @@ def storys(request):
 )
 @swagger_auto_schema(method='delete', responses={status.HTTP_204_NO_CONTENT:'HTTP_204_NO_CONTENT',status.HTTP_403_FORBIDDEN:'HTTP_403_FORBIDDEN'})
 @api_view(['GET', 'PUT', 'DELETE'])
-@permission_classes([IsAuthenticated])
-@authentication_classes([JSONWebTokenAuthentication])
 def story_detail(request, story_pk):
     story = get_object_or_404(Story, id=story_pk)
     user = get_object_or_404(get_user_model(), pk=story.producer.pk)
@@ -113,8 +109,10 @@ def story_detail(request, story_pk):
             story.save()
 
         return responseData
-        
-    if story.producer != request.user:
+    
+    if not request.user.is_authenticated:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    elif story.producer != request.user:
         return Response(status=status.HTTP_403_FORBIDDEN)
     elif request.method == 'PUT':
         serializer = StoryEditSerializer(story, data=request.data)
@@ -193,21 +191,21 @@ def story_img(request, story_pk):
 @swagger_auto_schema(method='get', responses={status.HTTP_200_OK:  StoryCommentSerializer})
 @swagger_auto_schema(method='post', request_body= StoryCommentCreateSerializer, responses={status.HTTP_201_CREATED: StoryCommentSerializer})
 @api_view(['GET','POST'])
-@permission_classes([IsAuthenticated])
-@authentication_classes([JSONWebTokenAuthentication])
 def comment(request, story_pk):
     story = get_object_or_404(Story, pk=story_pk)
     if request.method == 'GET':
         comments = story.comments.filter(story=story).order_by('-created_at')
         serializers = StoryCommentSerializer(comments, many=True)
         return Response(serializers.data, status=status.HTTP_200_OK)
-    elif request.method == 'POST':
+    elif request.method == 'POST' and request.user.is_authenticated:
         user = request.user
         serializer = StoryCommentCreateSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             comment = serializer.save(story=story,user=user)
             new = StoryCommentSerializer(comment)
             return Response(new.data,status=status.HTTP_201_CREATED)
+    return Response(status=status.HTTP_401_UNAUTHORIZED)
+
 
 @swagger_auto_schema(method='delete', responses={status.HTTP_204_NO_CONTENT:'HTTP_204_NO_CONTENT',status.HTTP_403_FORBIDDEN:'HTTP_403_FORBIDDEN'})
 @api_view(['DELETE'])
