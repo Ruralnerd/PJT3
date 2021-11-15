@@ -8,7 +8,7 @@ const WriteActionButtonsContainer = ({ history }) => {
   const dispatch = useDispatch()
   const { id, title, contents, categorys, post, postError } = useSelector(
     ({ story }) => ({
-      id: story.id.id,
+      id: story.id,
       title: story.title,
       contents: story.contents,
       categorys: story.categorys,
@@ -18,6 +18,7 @@ const WriteActionButtonsContainer = ({ history }) => {
   )
 
   const onPublish = () => {
+    console.log(id)
     dispatch(
       putStory({
         id,

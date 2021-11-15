@@ -7,7 +7,7 @@ const HomeWrapper = css`
   right: 0;
   top: 0;
   bottom: 0;
-  margin: 0;
+  margin-bottom: 5rem; // BottomNav 공간
 `
 
 const HomeTemplate = ({ children }) => {

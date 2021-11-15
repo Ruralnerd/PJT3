@@ -5,6 +5,7 @@ import SubInfo from '../common/SubInfo'
 
 const SaleViewerWrapper = styled.div`
   padding: 0.5rem;
+  margin-bottom: 5rem;
 `
 
 const SaleHeader = styled.div`
