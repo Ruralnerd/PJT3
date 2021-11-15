@@ -39,7 +39,7 @@ const StoryEditor = ({ title, onChangeField }) => {
   }
 
   const { id } = useSelector(({ story }) => ({
-    id: story.id.id,
+    id: story.id,
   }))
 
   const onChangeImage = (e) => {
@@ -59,7 +59,7 @@ const StoryEditor = ({ title, onChangeField }) => {
     document.getElementById('file').value = null
     URL.revokeObjectURL(fileImage)
     setFileImage('')
-    setTest((prevList) => [...prevList, { img: image.img, content: context }])
+    setTest((test) => [...test, { img: image.img, content: context }])
   }
 
   useEffect(() => {
