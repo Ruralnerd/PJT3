@@ -61,7 +61,7 @@ const SaleList = ({ list, error, loading, auth }) => {
   return (
     <SaleListWrapper>
       <SaleListButtonWrapper>
-        {auth && (
+        {auth !== null && (
           <Button red to="/sale">
             판매 글 작성하기
           </Button>
