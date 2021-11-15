@@ -14,7 +14,7 @@ import {
 /**
  * SaleForm을 import해서 사용, 필요한 state 관리
  */
-const MarketSaleForm = () => {
+const SaleFormContainer = () => {
   const dispatch = useDispatch()
   const { form } = useSelector(({ sale }) => ({
     form: sale.item,
@@ -130,4 +130,4 @@ const MarketSaleForm = () => {
   )
 }
 
-export default MarketSaleForm
+export default SaleFormContainer

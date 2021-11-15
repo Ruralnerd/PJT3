@@ -2,12 +2,13 @@
 
 import { css } from '@emotion/react'
 import { Link } from 'react-router-dom'
+import palette from '../../lib/styles/palette'
 
 const FooterWrapper = css`
   color: white;
   text-align: center;
-  background-color: #bc6e3d;
-  padding: 0;
+  background-color: ${palette.yellow[9]};
+  padding: 0.5rem;
 `
 
 const FooterTop = css`
@@ -21,8 +22,8 @@ const LinkText = css`
 `
 
 const FooterBottom = css`
-  margin-top: 0;
-  padding-bottom: 1rem;
+  margin-top: 0.5rem;
+  font-weight: 200;
 `
 
 const Footer = () => {
@@ -30,18 +31,18 @@ const Footer = () => {
     <div css={FooterWrapper}>
       <div css={FooterTop}>
         <Link to="/" css={LinkText}>
-          <p>고객센터</p>
+          <div>고객센터</div>
         </Link>
-        <p>|</p>
+        <div>|</div>
         <Link to="/" css={LinkText}>
-          <p>공지사항</p>
+          <div>공지사항</div>
         </Link>
-        <p>|</p>
+        <div>|</div>
         <Link to="/" css={LinkText}>
-          <p>문의하기</p>
+          <div>문의하기</div>
         </Link>
       </div>
-      <p css={FooterBottom}>copyright 농사직걸</p>
+      <div css={FooterBottom}>Copyright© D201 All rights reserved.</div>
     </div>
   )
 }
