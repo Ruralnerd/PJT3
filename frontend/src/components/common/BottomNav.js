@@ -24,20 +24,6 @@ const IconText = css`
   margin: 0 auto;
 `
 
-const toggle = () => {
-  if (localStorage.getItem('token')) {
-    ;<Link to="/profile" css={IconGroup}>
-      <img src="/images/icon/person.svg" alt="" />
-      <p css={IconText}>내 정보</p>
-    </Link>
-  } else {
-    ;<Link to="/login" css={IconGroup}>
-      <img src="/images/icon/person.svg" alt="" />
-      <p css={IconText}>내 정보</p>
-    </Link>
-  }
-}
-
 const BottomNav = () => {
   const token = localStorage.getItem('token')
 
