@@ -7,6 +7,5 @@ if (ACCESS_TOKEN) {
 
 export const getProfile = (id) => client.get(`/api/v1/accounts/users/${id}/`)
 
-export const putProfile = ({ form }) => {
-  return client.put(`/api/v1/accounts/users/${form.id}/`, { form })
-}
+export const putProfile = ({ form }) =>
+  client.put(`/api/v1/accounts/users/${form.id}/`, { form })

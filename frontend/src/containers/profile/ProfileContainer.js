@@ -10,13 +10,11 @@ const ProfileContainer = ({ history }) => {
     userData: profile.userData,
   }))
 
-  // const { id } = useSelector(({ auth }) => ({
-  //   id: auth.auth.id,
-  // }))
+  const { id } = useSelector(({ auth }) => ({
+    id: auth.auth.id,
+  }))
 
   const dispatch = useDispatch()
-
-  const id = localStorage.getItem('id')
 
   useEffect(() => {
     console.log(id)

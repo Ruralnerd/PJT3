@@ -1,88 +1,100 @@
 /** @jsxImportSource @emotion/react */
 
-import { css } from '@emotion/react'
+import styled, { css } from 'styled-components'
+// import { css } from '@emotion/react'
 import Button from '../common/Button'
 import { Link } from 'react-router-dom'
+
+const HeaderWrapper = css`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* margin: 2% 10%; */
+`
+
+const InfoWrapper = css`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2%;
+`
+
+const ProfileImage = css`
+  width: 50%;
+`
+
+const SaleImage = css`
+  width: 50%;
+`
+const StoryImage = css`
+  width: 50%;
+`
+
+const LogoutButton = styled(Button)``
 
 const ProfileForm = ({ userData, onLogout }) => {
   return (
     <>
       {userData && (
         <div>
-          <p>프로필임ㅋㅋ</p>
-          <Button onClick={onLogout}>로그아웃</Button>
-          <Link to="/profile/update">
-            <Button>내 정보 수정</Button>
-          </Link>
+          <div css={HeaderWrapper}>
+            <h2>{userData.nickname}님의 프로필</h2>
+            <LogoutButton onClick={onLogout}>로그아웃</LogoutButton>
+          </div>
+
+          <div css={InfoWrapper}>
+            <img css={ProfileImage} src={userData.profile_img} alt="" />
+            <div>
+              <p>이메일 : {userData.email}</p>
+              <p>전화번호 : {userData.phone}</p>
+              <p>주소 :{userData.address}</p>
+            </div>
+          </div>
+          <div>
+            <h2>{userData.nickname}님의 판매상품</h2>
+            <div
+              css={css`
+                display: flex;
+              `}
+            >
+              {userData.markets &&
+                userData.markets.map((item) => (
+                  <div key={item.id}>
+                    <Link to={`/market/${item.id}`}>
+                      <img css={SaleImage} src={item.thumbnail_img} alt="" />
+                    </Link>
+                    <p>{item.title}</p>
+                  </div>
+                ))}
+            </div>
+            <div>
+              <h2>{userData.nickname}님의 이야기</h2>
+              <div
+                css={css`
+                  display: flex;
+                `}
+              >
+                {userData.storys &&
+                  userData.storys.map((story) => (
+                    <div key={story.id}>
+                      <Link to={`/storys/${story.id}`}>
+                        <img
+                          css={StoryImage}
+                          src={story.thumbnail_img}
+                          alt=""
+                        />
+                      </Link>
+                      <p>{story.title}</p>
+                    </div>
+                  ))}
+              </div>
+            </div>
+          </div>
         </div>
       )}
+      {/* <Link to="/profile/update">
+            <Button>내 정보 수정</Button>
+          </Link> */}
     </>
-    //     <div>
-    //       {loadingProfile && '로딩 중...'}
-    //       {!loadingProfile && userData && (
-    //         <div>
-    //           <div>판매자님의 프로필</div>
-    //           <div>
-    //             <div>{userData.profile_img}</div>
-    //             <div>
-    //               <div>이름:{userData.nickname}</div>
-    //               <div>주소:{userData.address}</div>
-    //               <div>연락처:{userData.phone}</div>
-    //             </div>
-    //           </div>
-    //           <div>판매자님의 판매상품</div>
-    //           <div>
-    //             {userData.markets.map((market) => (
-    //               <div key={market.id}>
-    //                 <div>
-    //                   <div>{market.thumbnail_img}</div>
-    //                   <div>{market.title}</div>
-    //                 </div>
-    //               </div>
-    //             ))}
-    //           </div>
-    //           <div>판매자님의 이야기</div>
-    //           <div>
-    //             {userData.storys.map((story) => (
-    //               <div key={story.id}>
-    //                 <div>
-    //                   <div>{story.thumbnail_img}</div>
-    //                   <div>{story.title}</div>
-    //                 </div>
-    //               </div>
-    //             ))}
-    //           </div>
-    //         </div>
-    //       )}
-    //     </div>
-    //   )
-    // }
-    // // 판매자가 아닐 경우
-    // else {
-    //   return (
-    //     <div>
-    //       {loadingProfile && '로딩 중...'}
-    //       {!loadingProfile && userData && (
-    //         <div>
-    //           <Button onClick={onLogout}>로그아웃</Button>
-    //           <div>구매자님의 프로필</div>
-    //           <Link to="/profile/update">
-    //             <Button>내 정보 수정</Button>
-    //           </Link>
-    //           <div>
-    //             <div>{userData.profile_img}</div>
-    //             <div>
-    //               <div>이름:{userData.nickname}</div>
-    //               <div>주소:{userData.address}</div>
-    //               <div>연락처:{userData.phone}</div>
-    //             </div>
-    //           </div>
-    //           <button onClick={registerButton}>판매자 등록하기</button>
-    //         </div>
-    //       )}
-    //     </div>
-    //   )
-    // }
   )
 }
 export default ProfileForm

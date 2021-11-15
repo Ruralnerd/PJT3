@@ -13,7 +13,7 @@ const Wrapper = css`
   right: 0;
   top: 0;
   bottom: 0;
-  margin: 4%;
+  margin: 5%;
 `
 
 const ProfileTemplate = ({ children }) => {
