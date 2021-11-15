@@ -7,7 +7,7 @@ const HomeWrapper = css`
   right: 0;
   top: 0;
   bottom: 0;
-  margin: 0 3%;
+  margin: 0;
 `
 
 const HomeTemplate = ({ children }) => {

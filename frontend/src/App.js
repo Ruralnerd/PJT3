@@ -8,7 +8,9 @@ import HomePage from './pages/common/HomePage'
 import LoginPage from './pages/auth/LoginPage'
 import RegisterPage from './pages/auth/RegisterPage'
 import FarmPagePage from './pages/common/FarmPage'
-import MarketSalePage from './pages/sale/MarketSalePage'
+import SaleFormPage from './pages/sale/SaleFormPage'
+import SaleDetailPage from './pages/sale/SaleDetailPage'
+import SaleListPage from './pages/sale/SaleListPage'
 import StoryListPage from './pages/story/StoryListPage'
 import StoryEditorPage from './pages/story/StoryEditorPage'
 import StoryDetailPage from './pages/story/StoryDetailPage'
@@ -27,7 +29,9 @@ const App = () => {
       <Route exact path={'/'} component={HomePage} />
       <Route path={'/login'} component={LoginPage} />
       <Route path={'/register'} component={RegisterPage} />
-      <Route path={'/sale'} component={MarketSalePage} />
+      <Route exact path={'/market'} component={SaleListPage} />
+      <Route exact path={'/market/:market_pk'} component={SaleDetailPage} />
+      <Route path={'/sale'} component={SaleFormPage} />
       <Route exact path={'/story'} component={StoryListPage} />
       <Route exact path={'/editor/story'} component={StoryEditorPage} />
       <Route exact path={'/story/:id'} component={StoryDetailPage} />

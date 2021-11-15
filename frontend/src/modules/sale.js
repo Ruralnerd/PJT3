@@ -15,6 +15,9 @@ const ADD_CONTENT = 'sale/ADD_CONTENT'
 const DELETE_SALE = 'sale/DELETE_SALE'
 
 const [GET, GET_SUCCESS, GET_FAILURE] = createRequestActionTypes('sale/GET')
+const UNLOAD_POST = 'sale/UNLOAD_POST' // 포스트 페이지에서 벗어날 때 데이터 비우기
+const [GET_LIST, GET_LIST_SUCCESS, GET_LIST_FAILURE] =
+  createRequestActionTypes('sale/GET_LIST')
 const [POST, POST_SUCCESS, POST_FAILURE] = createRequestActionTypes('sale/POST')
 const [PUT, PUT_SUCCESS, PUT_FAILURE] = createRequestActionTypes('sale/PUT')
 const [POST_IMG, POST_IMG_SUCCESS, POST_IMG_FAILURE] =
@@ -36,7 +39,13 @@ export const putChangeField = createAction(
   ({ sequence, value }) => ({ sequence, value }),
 )
 
-export const getList = createAction(GET, ({ num, option }) => ({ num, option }))
+export const get = createAction(GET, ({ market_pk }) => ({ market_pk }))
+export const unloadSale = createAction(UNLOAD_POST)
+export const getList = createAction(GET_LIST, ({ num, option }) => ({
+  num,
+  option,
+}))
+
 export const post = createAction(
   POST,
   ({ title, unit, quantity, price, period }) => ({
@@ -81,14 +90,16 @@ export const addContent = createAction(ADD_CONTENT)
 export const deleteSale = createAction(DELETE_SALE)
 
 // Saga
-const getListSaga = createRequestSaga(GET, saleAPI.getSaleList)
+const getSaga = createRequestSaga(GET, saleAPI.getSale)
+const getListSaga = createRequestSaga(GET_LIST, saleAPI.getSaleList)
 const postSaga = createRequestSaga(POST, saleAPI.postSale)
 const postImageSaga = createRequestSaga(POST_IMG, saleAPI.postSaleImg)
 const putSaga = createRequestSaga(PUT, saleAPI.putSale)
 const deleteSaga = createRequestSaga(DELETE_SALE, saleAPI.deleteSale)
 
 export function* saleSaga() {
-  yield takeLatest(GET, getListSaga)
+  yield takeLatest(GET, getSaga)
+  yield takeLatest(GET_LIST, getListSaga)
   yield takeLatest(POST, postSaga)
   yield takeLatest(POST_IMG, postImageSaga)
   yield takeLatest(PUT, putSaga)
@@ -141,14 +152,16 @@ const initialState = {
     all_page: 2,
   },
   /**
-   * 판매글 리스트를 위한 파라미터
+   * 판매글 상세, 리스트 페이지를 위한 파라미터
    * num: 글 개수
    * option: created_at, popular, manyorder
+   * data: GET 한 글
    */
   num: 25,
   option: 'created_at',
+  detail: null,
+  list: null,
   error: null,
-  data: null,
 }
 
 const sale = handleActions(
@@ -169,10 +182,23 @@ const sale = handleActions(
       produce(state, (draft) => {
         draft['item']['current_page'] = draft['item']['current_page'] + 1
       }),
-    [GET_SUCCESS]: (state, { payload: data }) => ({
+    [GET_SUCCESS]: (state, { payload: detail }) => ({
       ...state,
-      data,
+      detail: detail,
     }),
+    [GET_FAILURE]: (state, { payload: error }) => ({
+      ...state,
+      error: error,
+    }),
+    [GET_LIST_SUCCESS]: (state, { payload: list }) => ({
+      ...state,
+      list: list,
+    }),
+    [GET_LIST_FAILURE]: (state, { payload: error }) => ({
+      ...state,
+      error: error,
+    }),
+    [UNLOAD_POST]: () => initialState,
     [POST_SUCCESS]: (state, { payload: data }) =>
       produce(state, (draft) => {
         draft['item']['id'] = data.id
@@ -180,7 +206,7 @@ const sale = handleActions(
       }),
     [POST_FAILURE]: (state, { payload: error }) => ({
       ...state,
-      error,
+      error: error,
     }),
     [PUT_SUCCESS]: (state) =>
       produce(state, (draft) => {
@@ -188,7 +214,7 @@ const sale = handleActions(
       }),
     [PUT_FAILURE]: (state, { payload: error }) => ({
       ...state,
-      error,
+      error: error,
     }),
     [POST_IMG_SUCCESS]: (state, { payload: img }) =>
       produce(state, (draft) => {
@@ -196,7 +222,7 @@ const sale = handleActions(
       }),
     [POST_IMG_FAILURE]: (state, { payload: error }) => ({
       ...state,
-      error,
+      error: error,
     }),
     [ADD_CONTENT]: (state) =>
       produce(state, (draft) => {

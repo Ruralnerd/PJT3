@@ -18,7 +18,7 @@ const itemUnit = [
   },
 ]
 
-const SaleItemForm = ({ form, onChange }) => {
+const SaleFormItem = ({ form, onChange }) => {
   const [dateTime, setDateTime] = useState(new Date())
   const dispatch = useDispatch()
 
@@ -79,7 +79,7 @@ const SaleItemForm = ({ form, onChange }) => {
         <TextField
           id="price"
           name="price"
-          label="판매 수량"
+          label="판매 가격"
           value={form.price}
           onChange={onChange}
           helperText="판매 가격을 입력해 주세요."
@@ -110,4 +110,4 @@ const SaleItemForm = ({ form, onChange }) => {
   )
 }
 
-export default SaleItemForm
+export default SaleFormItem

@@ -1,8 +1,11 @@
+import SearchContainer from '../../containers/search/SearchContainer'
+import SearchTemplate from '../../components/search/SearchTemplate'
+
 const SearchPage = () => {
   return (
-    <div>
-      <p>검색입니다</p>
-    </div>
+    <SearchTemplate>
+      <SearchContainer />
+    </SearchTemplate>
   )
 }
 

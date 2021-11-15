@@ -53,8 +53,6 @@ swaager_items = openapi.Schema(
     }),
     responses={status.HTTP_201_CREATED: MarketSerializer})
 @api_view(['GET', 'POST'])
-@permission_classes([IsAuthenticated])
-@authentication_classes([JSONWebTokenAuthentication])
 def markets(request):
     if request.method == 'GET':
         try:
@@ -72,13 +70,15 @@ def markets(request):
 
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
-    if request.method == 'POST':
+
+    if request.method == 'POST' and request.user.is_authenticated:
         user = request.user
         serializer = MarketCreateSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             market = serializer.save(seller=user)
             new = MarketSerializer(market)
             return Response(new.data, status=status.HTTP_201_CREATED)
+    return Response(status=status.HTTP_401_UNAUTHORIZED)
 
 
 @swagger_auto_schema(method='get', responses={status.HTTP_200_OK: MarketSerializer})
@@ -107,8 +107,6 @@ def markets(request):
 })
 @swagger_auto_schema(method='delete', responses={status.HTTP_204_NO_CONTENT:'HTTP_204_NO_CONTENT',status.HTTP_403_FORBIDDEN:'HTTP_403_FORBIDDEN'})
 @api_view(['GET', 'PUT', 'DELETE'])
-@permission_classes([IsAuthenticated])
-@authentication_classes([JSONWebTokenAuthentication])
 def market_detail(request, market_pk):
     market = get_object_or_404(Market, id=market_pk)
     user = get_object_or_404(get_user_model(), pk=market.seller.pk)
@@ -130,8 +128,10 @@ def market_detail(request, market_pk):
             market.hits += 1
             market.save()
         return responseData
-        
-    if market.seller != request.user:
+
+    if not request.user.is_authenticated:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    elif market.seller != request.user:
         return Response(status=status.HTTP_403_FORBIDDEN)
     elif request.method == 'PUT':
         serializer = MarketEditSerializer(market, data=request.data)
@@ -202,21 +202,20 @@ def market_img(request, market_pk):
 @swagger_auto_schema(method='get', responses={status.HTTP_200_OK:  MarketCommentSerializer})
 @swagger_auto_schema(method='post', request_body= MarketCommentCreateSerializer, responses={status.HTTP_201_CREATED: MarketCommentSerializer})
 @api_view(['GET','POST'])
-@permission_classes([IsAuthenticated])
-@authentication_classes([JSONWebTokenAuthentication])
 def comment(request, market_pk):
     market = get_object_or_404(Market, pk=market_pk)
     if request.method == 'GET':
         comments = market.comments.filter(market=market).order_by('-created_at')
         serializers = MarketCommentSerializer(comments, many=True)
         return Response(serializers.data, status=status.HTTP_200_OK)
-    elif request.method == 'POST':
+    elif request.method == 'POST' and request.user.is_authenticated:
         user = request.user
         serializer = MarketCommentCreateSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             comment = serializer.save(market=market, user=user)
             new = MarketCommentSerializer(comment)
             return Response(new.data,status=status.HTTP_201_CREATED)
+    return Response(status=status.HTTP_401_UNAUTHORIZED)
 
 @swagger_auto_schema(method='delete', responses={status.HTTP_204_NO_CONTENT:'HTTP_204_NO_CONTENT',status.HTTP_403_FORBIDDEN:'HTTP_403_FORBIDDEN'})
 @api_view(['DELETE'])

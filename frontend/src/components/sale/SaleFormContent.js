@@ -1,6 +1,6 @@
 import { Box } from '@mui/system'
 
-const SaleContentForm = ({ form, onPostImage, onPutChange }) => {
+const SaleFormContent = ({ form, onPostImage, onPutChange }) => {
   const imgNameArray = form.contents[form.current_page - 2].img.split('/')
   const lenINA = imgNameArray.length
   return (
@@ -25,4 +25,4 @@ const SaleContentForm = ({ form, onPostImage, onPutChange }) => {
   )
 }
 
-export default SaleContentForm
+export default SaleFormContent
