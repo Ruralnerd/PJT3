@@ -1,10 +1,16 @@
 from django.http import response, JsonResponse
 from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth import base_user, get_user_model
+from django.contrib.auth.hashers import check_password
 import requests
 import random
 
 from requests.api import request
+
+from rest_framework_jwt.settings import api_settings 
+jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
+jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
+
 
 import jwt
 from decouple import config
@@ -20,6 +26,7 @@ from .serializer import GetUserSerializer, UserSerializer, UserLoginSerializer
 from .models import User
 
 BASE_URL = "http://k5d201.p.ssafy.io/api/v1/"
+# BASE_URL = "http://localhost:8000/api/v1/"
 
 @swagger_auto_schema(
     method='post',
@@ -34,29 +41,37 @@ def login(request):
     email = request.data['email']
     password = request.data['password']
 
-    res = requests.post(BASE_URL + 'accounts/token/', data={'email': email, 'password': password})
+    user = User.objects.get(email = email)
+    if user:
+        if check_password(password, user.password):
+                payload = jwt_payload_handler(user)
+                token = jwt_encode_handler(payload)
+                return Response({'id': user.id, 'token': token}, status=status.HTTP_200_OK)
 
-    if res.status_code == 200:
-        token = res.json().get('token')
-        return Response({'token' : token}, status=status.HTTP_200_OK)
-    
-    try:
-        user = get_object_or_404(User, email= email)
-        return Response({'errors': '비밀번호가 잘못되었습니다'}, status=status.HTTP_401_UNAUTHORIZED)
-    except:
+        else:
+            return Response({'errors': '비밀번호가 잘못되었습니다'}, status=status.HTTP_401_UNAUTHORIZED) 
+    else:
         return Response({'errors': '존재하지 않는 이메일입니다'}, status=status.HTTP_404_NOT_FOUND)
 
-    
+
 @swagger_auto_schema(method='post', request_body=UserSerializer)
 @api_view(['POST'])
 def signup(request):
     serializer = UserSerializer(data = request.data)
-    if serializer.is_valid(raise_exception=True):
+    if serializer.is_valid():
         user = serializer.save()
         user.set_password(request.data.get('password'))
         user.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors.as_data(), status=status.HTTP_400_BAD_REQUEST)
+    error_data = {}
+    for error in serializer.errors:
+        if error == 'email':
+            error_data['email'] = '이미 존재하는 email입니다.'
+        elif error == 'nickname':
+            error_data['nickname'] = '이미 존재하는 nickname입니다.'
+        elif error == 'password':
+            error_data['password'] = 'password를 입력해주세요.'
+    return Response(error_data, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
@@ -120,7 +135,7 @@ def kakaologin_callback(request):
         token = jwt.encode({"user_id": user.pk, "email":user.email}, config('SECRET_KEY'), algorithm="HS256")
         token = token.decode("utf-8")
 
-        return JsonResponse({"token" : token}, status=status.HTTP_200_OK)
+        return JsonResponse({"id" : user.id, "token" : token}, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
 def googlelogin(request):
@@ -184,7 +199,7 @@ def googlelogin_callback(request):
         token = jwt.encode({"user_id": user.pk, "email":user.email}, config('SECRET_KEY'), algorithm="HS256")
         token = token.decode("utf-8")
 
-        return JsonResponse({"token" : token}, status=status.HTTP_200_OK)
+        return JsonResponse({"id" : user.id, "token" : token}, status=status.HTTP_200_OK)
 
 @swagger_auto_schema(method='get', responses={status.HTTP_200_OK: GetUserSerializer})
 @swagger_auto_schema(method='put', request_body=UserSerializer,  responses={status.HTTP_200_OK: UserSerializer})
@@ -220,5 +235,5 @@ def follow(request, user_pk):
         person.followers.remove(me)
     else:
         person.followers.add(me)
-    new = UserSerializer(person)
+    new = GetUserSerializer(person)
     return Response(new.data,status=status.HTTP_201_CREATED)

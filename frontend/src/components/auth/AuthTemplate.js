@@ -6,7 +6,6 @@ import palette from '../../lib/styles/palette'
 /**
  * 회원가입/로그인 페이지의 레이아웃을 담당하는 컴포넌트입니다.
  */
-
 const sizes = {
   desktop: '1024px',
   tablet: '768px',

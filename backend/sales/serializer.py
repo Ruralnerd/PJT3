@@ -1,7 +1,8 @@
 from rest_framework import serializers
 
+from searches.serializer import CategorySerializer
 from accounts.serializer import UserOrderSerializer, UserSmallSerializer, StorySmallSerializer, MarketSmallSerializer
-from .models import Request, MarketComment, MarketImg, Market
+from .models import Request, MarketComment, MarketContent, Market, MarketImg
 
 # Comment Serializers
 class MarketCommentSerializer(serializers.ModelSerializer):
@@ -15,32 +16,43 @@ class MarketCommentCreateSerializer(serializers.ModelSerializer):
         model = MarketComment
         fields = ['content'] 
 
-# Story Image Serializer
+# Market Image Serializer
 class MarketImgSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MarketImg
-        fields = "__all__"
+        fields = ['img']
+
+# Market Content Serializer
+class MarketContentSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = MarketContent
+        fields = ['img', 'content', 'sequence']
 
 # Stroy Serializers
 class MarketSerializer(serializers.ModelSerializer):
     seller = UserSmallSerializer()
     comments = MarketCommentSerializer(many=True)
-    imgs = MarketImgSerializer(many=True)
+    contents = MarketContentSerializer(many=True)
+    storys = StorySmallSerializer(many=True)
+    categorys = CategorySerializer(many=True)
 
     class Meta:
         model = Market
         fields = "__all__" 
 
-class MarketCreateSerializer(serializers.ModelSerializer):    
+class MarketCreateSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Market
         fields = ['title','price','period','unit','quantity']
 
-class MarketEditSerializer(serializers.ModelSerializer):    
+class MarketEditSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Market
-        fields = ['title','price','period','unit','quantity', 'thumbnail_img']
+        fields = ['title','price','period','unit','quantity', 'thumbnail_img', 'storys']
 
 # Request Serializers
 class RequestBuyerSerializer(serializers.ModelSerializer):

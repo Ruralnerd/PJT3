@@ -1,7 +1,8 @@
 from rest_framework import fields, serializers
 
 from accounts.serializer import UserSmallSerializer, StorySmallSerializer, MarketSmallSerializer
-from .models import Story, StoryComment, StoryImg
+from searches.serializer import CategorySerializer
+from .models import Story, StoryComment, StoryContent, StoryImg
 
 # Comment Serializers
 class StoryCommentSerializer(serializers.ModelSerializer):
@@ -16,31 +17,44 @@ class StoryCommentCreateSerializer(serializers.ModelSerializer):
         fields = ['content'] 
 
 
-# Story Image Serializer
-class StoryImgSerializer(serializers.ModelSerializer):
+# Story Content Serializer
+class StoryContentSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = StoryImg
+        model = StoryContent
         fields = "__all__"
+
+class StoryContentEditSerializer(serializers.ModelSerializer):    
+    class Meta:
+        model = StoryContent
+        fields = ['content']
+
+# Story Img Serializer
+class StoryImgSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StoryImg
+        fields = ['id','img']
 
 # Stroy Serializers
 class StorySerializer(serializers.ModelSerializer):
     producer = UserSmallSerializer()
     comments = StoryCommentSerializer(many=True)
-    imgs = StoryImgSerializer(many=True)
+    contents = StoryContentSerializer(many=True)
+    markets = MarketSmallSerializer(many=True)
+    categorys = CategorySerializer(many=True)
 
     class Meta:
         model = Story
         fields = "__all__" 
-
+    
 class StoryCreateSerializer(serializers.ModelSerializer):    
     class Meta:
         model = Story
         fields = ['title']
 
-class StoryEditSerializer(serializers.ModelSerializer):    
+class StoryEditSerializer(serializers.ModelSerializer): 
     class Meta:
         model = Story
-        fields = ['title', 'content', 'thumbnail_img']
+        fields = ['title', 'thumbnail_img']
 
 

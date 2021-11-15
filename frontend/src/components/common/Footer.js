@@ -7,8 +7,8 @@ import palette from '../../lib/styles/palette'
 const FooterWrapper = css`
   color: white;
   text-align: center;
-  background: ${palette.orange[5]};
-  padding: 0;
+  background-color: ${palette.yellow[9]};
+  padding: 0.5rem;
 `
 
 const FooterTop = css`
@@ -22,8 +22,8 @@ const LinkText = css`
 `
 
 const FooterBottom = css`
-  margin-top: 0;
-  padding-bottom: 1rem;
+  margin-top: 0.5rem;
+  font-weight: 200;
 `
 
 const Blank = css`
@@ -32,24 +32,21 @@ const Blank = css`
 
 const Footer = () => {
   return (
-    <div>
-      <div css={FooterWrapper}>
-        <div css={FooterTop}>
-          <Link to="/" css={LinkText}>
-            <p>고객센터</p>
-          </Link>
-          <p>|</p>
-          <Link to="/" css={LinkText}>
-            <p>공지사항</p>
-          </Link>
-          <p>|</p>
-          <Link to="/" css={LinkText}>
-            <p>문의하기</p>
-          </Link>
-        </div>
-        <p css={FooterBottom}>copyright 농사직걸</p>
+    <div css={FooterWrapper}>
+      <div css={FooterTop}>
+        <Link to="/" css={LinkText}>
+          <div>고객센터</div>
+        </Link>
+        <div>|</div>
+        <Link to="/" css={LinkText}>
+          <div>공지사항</div>
+        </Link>
+        <div>|</div>
+        <Link to="/" css={LinkText}>
+          <div>문의하기</div>
+        </Link>
       </div>
-      <div css={Blank}></div>
+      <div css={FooterBottom}>Copyright© D201 All rights reserved.</div>
     </div>
   )
 }
