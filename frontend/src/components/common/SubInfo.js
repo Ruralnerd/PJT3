@@ -34,7 +34,7 @@ const SubInfo = ({ seller, hasMarginTop, detail }) => {
         <span>
           작성자:
           <b>
-            <Link to={`/accounts/users/${seller.id}`}> {seller.nickname}</Link>
+            <Link to={`/profile/${seller.id}`}> {seller.nickname}</Link>
           </b>
         </span>
       )}
