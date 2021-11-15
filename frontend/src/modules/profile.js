@@ -1,3 +1,4 @@
+import produce from 'immer'
 import { takeLatest } from 'redux-saga/effects'
 import { createAction, handleActions } from 'redux-actions'
 import * as profileAPI from '../lib/api/profile'
@@ -6,6 +7,8 @@ import createRequestSaga, {
 } from '../lib/createRequestSaga'
 
 // 액션타입 정의
+const INITIALIZE = 'profile/INITIALIZE' // 모든 내용 초기화
+
 const [GET_PROFILE, GET_PROFILE_SUCCESS, GET_PROFILE_FAILURE] =
   createRequestActionTypes('profile/GET_PROFILE')
 
@@ -19,15 +22,21 @@ const UNLOAD_PROFILE = 'profile/UNLOAD' //포스트 페이지에서 벗어날 �
 // 액션 생성 함수
 export const getProfile = createAction(GET_PROFILE)
 // 액션 생성 함수
-export const changeField = createAction(CHANGE_FIELD, ({ key, value }) => ({
-  key,
-  value, // 실제 바꾸려는 값
-}))
+export const changeField = createAction(
+  CHANGE_FIELD,
+  ({ form, key, value }) => ({
+    form,
+    key,
+    value, // 실제 바꾸려는 값
+  }),
+)
+
+export const initialize = createAction(INITIALIZE)
 
 export const unloadProfile = createAction(UNLOAD_PROFILE)
 
-export const putProfile = createAction(PUT_PROFILE, ({ userData }) => ({
-  userData,
+export const putProfile = createAction(PUT_PROFILE, ({ form }) => ({
+  form,
 }))
 
 // Saga
@@ -42,7 +51,6 @@ export function* profileSaga() {
 
 const initialState = {
   userData: {
-    error: null,
     email: '',
     nickname: '',
     password: '',
@@ -52,16 +60,17 @@ const initialState = {
     ac_number: '',
     ac_bank: '',
     profile_img: 'url',
-    id: '',
   },
+  error: '',
 }
 
 const profile = handleActions(
   {
-    [CHANGE_FIELD]: (state, { payload: { key, value } }) => ({
-      ...state,
-      [key]: value,
-    }),
+    [INITIALIZE]: (state) => initialState,
+    [CHANGE_FIELD]: (state, { payload: { form, key, value } }) =>
+      produce(state, (draft) => {
+        draft[form][key] = value
+      }),
     [GET_PROFILE_SUCCESS]: (state, { payload: userData }) => ({
       ...state,
       userData,
