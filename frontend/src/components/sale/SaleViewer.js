@@ -109,7 +109,7 @@ const SaleViewer = ({ detail, loading, error, onPostPay }) => {
         >
           <Fade in={payOpen}>
             <Box sx={payModalStyle}>
-              <h2>시발섹스</h2>
+              <h2>카카오페이 결제</h2>
               <button onClick={onPostPay}>결제</button>
             </Box>
           </Fade>
