@@ -43,14 +43,14 @@ const SaleItem = ({ detail }) => {
     <SaleItemWrapper>
       <Link to={`/market/${detail.id}`}>
         <img src={detail.thumbnail_img} alt=""></img>
+        <SubInfo seller={detail.seller} />
+        <h3>{detail.title}</h3>
       </Link>
-      <SubInfo seller={detail.seller} />
-      <h3>{detail.title}</h3>
     </SaleItemWrapper>
   )
 }
 
-const SaleList = ({ list, error, loading }) => {
+const SaleList = ({ list, error, loading, auth }) => {
   if (error) {
     return <SaleListWrapper>오류 발생!</SaleListWrapper>
   }
@@ -61,9 +61,11 @@ const SaleList = ({ list, error, loading }) => {
   return (
     <SaleListWrapper>
       <SaleListButtonWrapper>
-        <Button red to="/sale">
-          판매 글 작성하기
-        </Button>
+        {auth && (
+          <Button red to="/sale">
+            판매 글 작성하기
+          </Button>
+        )}
       </SaleListButtonWrapper>
       <div>
         {list.map((detail) => (
