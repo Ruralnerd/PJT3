@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import palette from '../../lib/styles/palette'
 import LinearProgressBar from '../common/LinearProgressBar'
+import SubInfo from '../common/SubInfo'
 
 const SaleViewerWrapper = styled.div`
   padding: 0.5rem;
@@ -18,34 +19,19 @@ const SaleHeader = styled.div`
   }
 `
 
-const SubInfo = styled.div`
-  div {
-    font-size: 12px;
-    color: ${palette.gray[5]};
-  }
-  color: ${palette.gray[6]};
-
-  span + span:before {
-    color: ${palette.gray[5]};
-    padding-left: 0.25rem;
-    padding-right: 0.25rem;
-    content: '\\B7';
-  }
-`
-
 const SaleContent = styled.div`
   font-size: 1.3125rem;
   color: ${palette.gray[8]};
 `
 
-const SaleViewer = ({ data, loading, error }) => {
+const SaleViewer = ({ detail, loading, error }) => {
   if (error) {
     if (error.response && error.response.status === 404) {
       return <SaleViewerWrapper>존재하지 않는 포스트입니다.</SaleViewerWrapper>
     }
     return <SaleViewerWrapper>오류 발생!</SaleViewerWrapper>
   }
-  if (loading || !data) {
+  if (loading || !detail) {
     return <LinearProgressBar />
   }
   const {
@@ -61,28 +47,25 @@ const SaleViewer = ({ data, loading, error }) => {
     hits,
     created_at,
     updated_at,
-  } = data
+  } = detail
+
+  const subInfoDetail = {
+    price,
+    period,
+    unit,
+    quantity,
+    hits,
+    created_at,
+    updated_at,
+  }
 
   const contentsLength = contents.length
   return (
     <SaleViewerWrapper>
       <SaleHeader>
         <h1>{title}</h1>
-        <SubInfo>
+        <SubInfo seller={seller} detail={subInfoDetail} hasMarginTop>
           <span>tester</span>
-          <span>
-            <div>
-              가격: 1{unit}당 {price}원
-            </div>
-            <div>판매기간: {new Date(period).toTimeString()}까지</div>
-            <div>
-              수량: 총 {quantity}
-              {unit}
-            </div>
-            <div>작성: {new Date(created_at).toLocaleDateString()}</div>
-            <div>수정: {new Date(updated_at).toLocaleDateString()}</div>
-            <div>조회: {hits}</div>
-          </span>
         </SubInfo>
       </SaleHeader>
       <SaleContent>
