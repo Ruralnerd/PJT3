@@ -4,13 +4,7 @@ from django.contrib.auth import base_user, get_user_model
 from django.contrib.auth.hashers import check_password
 import requests
 import random
-
 from requests.api import request
-
-from rest_framework_jwt.settings import api_settings 
-jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
-jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
-
 
 import jwt
 from decouple import config
@@ -19,12 +13,15 @@ from drf_yasg import openapi
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.permissions import IsAuthenticated
+from rest_framework_jwt.settings import api_settings 
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework.response import Response
 
 from .serializer import GetUserSerializer, UserSerializer, UserLoginSerializer
 from .models import User
 
+jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
+jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
 BASE_URL = "http://k5d201.p.ssafy.io/api/v1/"
 # BASE_URL = "http://localhost:8000/api/v1/"
 
@@ -117,11 +114,16 @@ def kakaologin_callback(request):
     try:
         user = User.objects.get(email = kakao_email)
         if user.provider == 'kakao':
-            token = jwt.encode({"user_id": user.pk, "email":user.email}, config('SECRET_KEY'), algorithm="HS256")
-            token = token.decode("utf-8")
+            payload = jwt_payload_handler(user)
+            token = jwt_encode_handler(payload)
             return JsonResponse({"token" : token}, status=status.HTTP_200_OK)
         return JsonResponse({'errors' : '이미 다른방식으로 가입된 이메일입니다.'}, status=status.HTTP_400_BAD_REQUEST)
     except:
+        user = User.objects.filter(nickname=kakao_nickname)
+        while user:
+            kakao_nickname = kakao_nickname + f'{random.randrange(1, 99999)}'
+            user = User.objects.filter(nickname=kakao_nickname)
+
         user = User(
                     email = kakao_email,
                     nickname = kakao_nickname,
@@ -129,11 +131,9 @@ def kakaologin_callback(request):
                     provider = 'kakao'
                 ).save()
         user = User.objects.get(email = kakao_email)
-        while user:
-            kakao_nickname = kakao_nickname + f'{random.randrange(1, 99999)}'
-            user = User.objects.filter(nickname=kakao_nickname)
-        token = jwt.encode({"user_id": user.pk, "email":user.email}, config('SECRET_KEY'), algorithm="HS256")
-        token = token.decode("utf-8")
+
+        payload = jwt_payload_handler(user)
+        token = jwt_encode_handler(payload)
 
         return JsonResponse({"id" : user.id, "token" : token}, status=status.HTTP_200_OK)
 
@@ -196,8 +196,9 @@ def googlelogin_callback(request):
                     provider = 'google'
                 ).save()
         user = User.objects.get(email = google_email)
-        token = jwt.encode({"user_id": user.pk, "email":user.email}, config('SECRET_KEY'), algorithm="HS256")
-        token = token.decode("utf-8")
+
+        payload = jwt_payload_handler(user)
+        token = jwt_encode_handler(payload)
 
         return JsonResponse({"id" : user.id, "token" : token}, status=status.HTTP_200_OK)
 
