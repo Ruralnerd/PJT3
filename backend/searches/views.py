@@ -9,6 +9,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework.response import Response
 
+from sales.models import Market
+from articles.models import Story
 from .models import Category
 from .serializer import CategorySerializer
 from accounts.serializer import StorySmallSerializer, MarketSmallSerializer
@@ -44,8 +46,13 @@ def categorys(request):
 def storys(request):
     try:
             name = request.GET['category_name']
-            cateogry = get_object_or_404(Category, name=name)
-            stories = cateogry.storys.all()
+            # cateogry = get_object_or_404(Category, name=name)
+            # stories = cateogry.storys.all()
+            categorys = Category.objects.filter(name__contains=name).values("id")
+            search = []
+            for category in categorys:
+                search.append(category.get("id"))
+            stories = set(Story.objects.all().filter(categorys__in=search))
             serializer = StorySmallSerializer(stories, many=True)
             return Response(serializer.data,status=status.HTTP_200_OK)
 
@@ -65,8 +72,13 @@ def storys(request):
 def markets(request):
     try:
             name = request.GET['category_name']
-            cateogry = get_object_or_404(Category, name=name)
-            markets = cateogry.markets.all()
+            # category = get_object_or_404(Category, name=name)
+            # stories = category.markets.all()
+            categorys = Category.objects.filter(name__contains=name).values("id")
+            search = []
+            for category in categorys:
+                search.append(category.get("id"))
+            markets = set(Market.objects.all().filter(categorys__in=search))
             serializer = MarketSmallSerializer(markets, many=True)
             return Response(serializer.data,status=status.HTTP_200_OK)
     except:
