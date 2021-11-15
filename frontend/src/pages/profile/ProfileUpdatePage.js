@@ -1,10 +1,10 @@
 import ProfileTemplate from '../../components/home/HomeTemplate'
-import UpdateProfile from '../../containers/profile/UpdateProfile'
+import ProfileUpdateContainer from '../../containers/profile/ProfileUpdateContainer'
 
 const ProfileUpdatePage = () => {
   return (
     <ProfileTemplate>
-      <UpdateProfile />
+      <ProfileUpdateContainer />
     </ProfileTemplate>
   )
 }

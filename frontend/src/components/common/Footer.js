@@ -26,6 +26,10 @@ const FooterBottom = css`
   font-weight: 200;
 `
 
+const Blank = css`
+  padding: 7% 0;
+`
+
 const Footer = () => {
   return (
     <div css={FooterWrapper}>
