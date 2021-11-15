@@ -2,6 +2,11 @@ import styled from 'styled-components'
 import palette from '../../lib/styles/palette'
 import LinearProgressBar from '../common/LinearProgressBar'
 import SubInfo from '../common/SubInfo'
+import Backdrop from '@mui/material/Backdrop'
+import Box from '@mui/material/Box'
+import Modal from '@mui/material/Modal'
+import Fade from '@mui/material/Fade'
+import { useState } from 'react'
 
 const SaleViewerWrapper = styled.div`
   padding: 0.5rem;
@@ -25,7 +30,24 @@ const SaleContent = styled.div`
   color: ${palette.gray[8]};
 `
 
-const SaleViewer = ({ detail, loading, error }) => {
+const payModalStyle = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  pl: 1,
+}
+
+const SaleViewer = ({ detail, loading, error, onPostPay }) => {
+  const [payOpen, setPayOpen] = useState(false)
+
+  const handlePayModal = () => {
+    setPayOpen(!payOpen)
+  }
   if (error) {
     if (error.response && error.response.status === 404) {
       return <SaleViewerWrapper>존재하지 않는 포스트입니다.</SaleViewerWrapper>
@@ -68,16 +90,40 @@ const SaleViewer = ({ detail, loading, error }) => {
         <SubInfo seller={seller} detail={subInfoDetail} hasMarginTop>
           <span>tester</span>
         </SubInfo>
+        {/* Kakao pay modal */}
+        <img
+          src="/images/icon/kakao_payment_icon_large.png"
+          alt="kakao_pay"
+          onClick={handlePayModal}
+        />
+        <Modal
+          aria-labelledby="transition-modal-title"
+          aria-describedby="transition-modal-description"
+          open={payOpen}
+          onClose={handlePayModal}
+          closeAfterTransition
+          BackdropComponent={Backdrop}
+          BackdropProps={{
+            timeout: 500,
+          }}
+        >
+          <Fade in={payOpen}>
+            <Box sx={payModalStyle}>
+              <h2>시발섹스</h2>
+              <button onClick={onPostPay}>결제</button>
+            </Box>
+          </Fade>
+        </Modal>
       </SaleHeader>
       <SaleContent>
         {contents.map((content) => (
-          <>
+          <div key={content.sequence}>
             <img src={content.img} alt="" />
             {content.sequence + 1}/{contentsLength}
             <br />
             {content.content}
             <hr />
-          </>
+          </div>
         ))}
       </SaleContent>
     </SaleViewerWrapper>
