@@ -4,6 +4,7 @@
 // modules/profile.js에서 작성했던 액션 생성 함수와 상태 안에 있던 값을 컴포넌트의 props로 전달
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { Link } from 'react-router-dom'
 import UpdateProfileForm from '../../components/profile/UpdateProfileForm'
 import { changeField, getProfile } from '../../modules/profile'
 
@@ -16,7 +17,7 @@ const UpdateProfileContainer = () => {
 
   // 인풋 변경 이벤트 핸들러
   const onChange = (e) => {
-    const { value, name } = e.target
+    const { value, name } = e.target.value
 
     dispatch(
       changeField({
@@ -31,16 +32,11 @@ const UpdateProfileContainer = () => {
     e.preventDefault()
   }
 
-  useEffect(() => {
-    dispatch(getProfile())
-  }, [dispatch])
-
   return (
     <div>
       <UpdateProfileForm
         type="userData"
         form={form}
-        getProfile={getProfile}
         onChange={onChange}
         onSubmit={onSubmit}
       />

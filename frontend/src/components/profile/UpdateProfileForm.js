@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 
 import { css } from '@emotion/react'
+import { Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import Spinner from '../common/Spinner'
 import { useDispatch } from 'react-redux'
@@ -87,6 +88,9 @@ const UpdateProfileForm = ({
               </form>
             </div>
           </div>
+          <button>
+            <Link to="/profile">취소</Link>
+          </button>
           <button onClick={onSubmit}>수정 완료</button>
         </div>
       )}

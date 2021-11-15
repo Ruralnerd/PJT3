@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 
 import { css } from '@emotion/react'
+import { Link } from 'react-router-dom'
 
 const ProfileUser = css`
   display: flex;
@@ -38,7 +39,9 @@ const Profile = ({ loadingProfile, userData }) => {
         {!loadingProfile && userData && (
           <div>
             <div>판매자님의 프로필</div>
-            <button onClick={updateProfileButton}>내 정보 수정</button>
+            <button onClick={updateProfileButton}>
+              <Link to="/profile/update">내 정보 수정</Link>
+            </button>
             <div css={ProfileUser}>
               <div css={ProfileUserImg}>{userData.profile_img}</div>
               <div css={ProfileUserData}>
@@ -82,7 +85,9 @@ const Profile = ({ loadingProfile, userData }) => {
         {!loadingProfile && userData && (
           <div>
             <div>구매자님의 프로필</div>
-            <button onClick={updateProfileButton}>내 정보 수정</button>
+            <button onClick={updateProfileButton}>
+              <Link to="/profile/update">내 정보 수정</Link>
+            </button>
             <div css={ProfileUser}>
               <div css={ProfileUserImg}>{userData.profile_img}</div>
               <div css={ProfileUserData}>
