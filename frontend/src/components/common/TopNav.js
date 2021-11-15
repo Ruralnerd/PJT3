@@ -1,21 +1,21 @@
 /** @jsxImportSource @emotion/react */
-
 import { css } from '@emotion/react'
 import { Link } from 'react-router-dom'
+import palette from '../../lib/styles/palette'
 
 const TopNavWrapper = css`
   display: flex;
-  background-color: #bc6e3d;
+  background-color: ${palette.yellow[9]};
   justify-content: space-evenly;
   align-items: center;
   color: white;
   font-size: 1.2em;
-  height: 6vh;
+  height: 2.5rem;
 `
 
 const Logo = css`
   display: block;
-  width: 20%;
+  height: 3rem;
   margin: 0 auto;
 `
 

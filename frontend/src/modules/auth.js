@@ -20,7 +20,6 @@ const [LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE] =
 // 액션 생성 함수
 export const changeField = createAction(
   CHANGE_FIELD,
-
   ({ form, key, value }) => ({
     form, // register, login
     key, // email, password, passwordConfirm, phone, address, nickname
@@ -36,7 +35,6 @@ export const register = createAction(
     nickname,
   }),
 )
-
 export const login = createAction(LOGIN, ({ email, password }) => ({
   email,
   password,

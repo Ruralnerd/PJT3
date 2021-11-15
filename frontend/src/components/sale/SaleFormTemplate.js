@@ -13,7 +13,7 @@ const sizes = {
 }
 
 /* 화면 전체 */
-const SaleTemplateWrapper = css`
+const SaleFormTemplateWrapper = css`
   position: absolute;
   left: 0;
   right: 0;
@@ -55,9 +55,9 @@ const WhiteBox = css`
   border: 1px solid ${palette.gray[3]};
 `
 
-const SaleTemplate = ({ children }) => {
+const SaleFormTemplate = ({ children }) => {
   return (
-    <div css={SaleTemplateWrapper}>
+    <div css={SaleFormTemplateWrapper}>
       <div css={SaleBox}>
         <Link to="/" className="logo-area">
           <img src="/images/logo/logo_white_horizontal.png" alt="" />
@@ -68,4 +68,4 @@ const SaleTemplate = ({ children }) => {
   )
 }
 
-export default SaleTemplate
+export default SaleFormTemplate
