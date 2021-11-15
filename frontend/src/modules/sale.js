@@ -16,6 +16,8 @@ const DELETE_SALE = 'sale/DELETE_SALE'
 
 const [GET, GET_SUCCESS, GET_FAILURE] = createRequestActionTypes('sale/GET')
 const UNLOAD_POST = 'sale/UNLOAD_POST' // 포스트 페이지에서 벗어날 때 데이터 비우기
+const [GET_LIST, GET_LIST_SUCCESS, GET_LIST_FAILURE] =
+  createRequestActionTypes('sale/GET_LIST')
 const [POST, POST_SUCCESS, POST_FAILURE] = createRequestActionTypes('sale/POST')
 const [PUT, PUT_SUCCESS, PUT_FAILURE] = createRequestActionTypes('sale/PUT')
 const [POST_IMG, POST_IMG_SUCCESS, POST_IMG_FAILURE] =
@@ -39,7 +41,10 @@ export const putChangeField = createAction(
 
 export const get = createAction(GET, ({ market_pk }) => ({ market_pk }))
 export const unloadSale = createAction(UNLOAD_POST)
-// export const getList = createAction(GET, ({ num, option }) => ({ num, option }))
+export const getList = createAction(GET_LIST, ({ num, option }) => ({
+  num,
+  option,
+}))
 
 export const post = createAction(
   POST,
@@ -86,7 +91,7 @@ export const deleteSale = createAction(DELETE_SALE)
 
 // Saga
 const getSaga = createRequestSaga(GET, saleAPI.getSale)
-// const getListSaga = createRequestSaga(GET, saleAPI.getSaleList)
+const getListSaga = createRequestSaga(GET_LIST, saleAPI.getSaleList)
 const postSaga = createRequestSaga(POST, saleAPI.postSale)
 const postImageSaga = createRequestSaga(POST_IMG, saleAPI.postSaleImg)
 const putSaga = createRequestSaga(PUT, saleAPI.putSale)
@@ -94,7 +99,7 @@ const deleteSaga = createRequestSaga(DELETE_SALE, saleAPI.deleteSale)
 
 export function* saleSaga() {
   yield takeLatest(GET, getSaga)
-  // yield takeLatest(GET, getListSaga)
+  yield takeLatest(GET_LIST, getListSaga)
   yield takeLatest(POST, postSaga)
   yield takeLatest(POST_IMG, postImageSaga)
   yield takeLatest(PUT, putSaga)
@@ -154,7 +159,8 @@ const initialState = {
    */
   num: 25,
   option: 'created_at',
-  data: null,
+  detail: null,
+  list: null,
   error: null,
 }
 
@@ -176,11 +182,19 @@ const sale = handleActions(
       produce(state, (draft) => {
         draft['item']['current_page'] = draft['item']['current_page'] + 1
       }),
-    [GET_SUCCESS]: (state, { payload: sale }) => ({
+    [GET_SUCCESS]: (state, { payload: detail }) => ({
       ...state,
-      data: sale,
+      detail: detail,
     }),
     [GET_FAILURE]: (state, { payload: error }) => ({
+      ...state,
+      error: error,
+    }),
+    [GET_LIST_SUCCESS]: (state, { payload: list }) => ({
+      ...state,
+      list: list,
+    }),
+    [GET_LIST_FAILURE]: (state, { payload: error }) => ({
       ...state,
       error: error,
     }),

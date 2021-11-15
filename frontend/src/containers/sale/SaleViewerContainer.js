@@ -1,14 +1,13 @@
 import { useEffect } from 'react'
-import { useSelector } from 'react-redux'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import SaleViewer from '../../components/sale/SaleViewer'
 import { get, unloadSale } from '../../modules/sale'
 
 const SaleViewerContainer = ({ match }) => {
   const { market_pk } = match.params
   const dispatch = useDispatch()
-  const { data, error, loading } = useSelector(({ sale, loading }) => ({
-    data: sale.data,
+  const { detail, error, loading } = useSelector(({ sale, loading }) => ({
+    detail: sale.detail,
     error: sale.error,
     loading: loading['sale/GET'],
   }))
@@ -21,7 +20,7 @@ const SaleViewerContainer = ({ match }) => {
     }
   }, [dispatch, market_pk])
 
-  return <SaleViewer data={data} loading={loading} error={error} />
+  return <SaleViewer detail={detail} loading={loading} error={error} />
 }
 
 export default SaleViewerContainer
