@@ -1,10 +1,10 @@
 import HomeTemplate from '../../components/home/HomeTemplate'
-import Home from '../../containers/home/Home'
+import HomeContainer from '../../containers/home/HomeContainer'
 
 const HomePage = () => {
   return (
     <HomeTemplate>
-      <Home />
+      <HomeContainer />
     </HomeTemplate>
   )
 }

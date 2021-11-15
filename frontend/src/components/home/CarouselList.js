@@ -6,9 +6,7 @@ import Slider from 'react-slick'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 
-const CarouselWrapper = css`
-  margin: 0 5%;
-`
+const CarouselWrapper = css``
 
 const CarouselStyle = css`
   .slick-list {
@@ -49,7 +47,7 @@ const SampleNextArrow = (props) => {
   return (
     <div
       className={className}
-      style={{ ...style, display: 'block', background: 'gray' }}
+      style={{ ...style, display: 'block', background: 'none' }}
       css={css`
         margin-right: 9%;
         z-index: 9999;
@@ -64,7 +62,7 @@ const SamplePrevArrow = (props) => {
   return (
     <div
       className={className}
-      style={{ ...style, display: 'block', background: 'gray' }}
+      style={{ ...style, display: 'block', background: 'none' }}
       css={css`
         margin-left: 9%;
         z-index: 9999;
@@ -74,7 +72,7 @@ const SamplePrevArrow = (props) => {
   )
 }
 
-const SlideList = ({ posts }) => {
+const CarouselList = ({ carouselItems }) => {
   const settings = {
     dots: true, // 캐러셀의 점
     infinite: true, // 마지막 장 다음에 첫번째(로테이션)
@@ -89,15 +87,15 @@ const SlideList = ({ posts }) => {
 
   return (
     <div css={CarouselWrapper}>
-      {posts && (
-        <Slider css={CarouselStyle} posts={posts} {...settings}>
-          {posts.map((post) => (
-            <Link key={post.id} to={`/market/${post.id}`}>
+      {carouselItems && (
+        <Slider css={CarouselStyle} carouselItems={carouselItems} {...settings}>
+          {carouselItems.map((item) => (
+            <Link key={item.id} to={`/market/${item.id}`}>
               <div css={CarouselItem}>
                 <img
                   css={CarouselImage}
                   alt="CarouselImage"
-                  src={post.thumbnail_img}
+                  src={item.thumbnail_img}
                 />
               </div>
             </Link>
@@ -108,4 +106,4 @@ const SlideList = ({ posts }) => {
   )
 }
 
-export default SlideList
+export default CarouselList
