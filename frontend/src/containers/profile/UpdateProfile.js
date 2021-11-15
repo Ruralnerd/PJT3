@@ -5,7 +5,7 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import UpdateProfileForm from '../../components/profile/UpdateProfileForm'
-import { changeField, getProfile } from '../../modules/profile'
+import { changeField } from '../../modules/profile'
 
 // UpdateProfileForm을 import해서 사용, 필요한 state 관리
 const UpdateProfileContainer = () => {
@@ -31,16 +31,11 @@ const UpdateProfileContainer = () => {
     e.preventDefault()
   }
 
-  useEffect(() => {
-    dispatch(getProfile())
-  }, [dispatch])
-
   return (
     <div>
       <UpdateProfileForm
         type="userData"
         form={form}
-        getProfile={getProfile}
         onChange={onChange}
         onSubmit={onSubmit}
       />

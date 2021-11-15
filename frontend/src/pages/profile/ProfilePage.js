@@ -1,10 +1,10 @@
 import ProfileTemplate from '../../components/home/HomeTemplate'
-import Profile from '../../containers/profile/Profile'
+import ProfileContainer from '../../containers/profile/ProfileContainer'
 
 const ProfilePage = () => {
   return (
     <ProfileTemplate>
-      <Profile />
+      <ProfileContainer />
     </ProfileTemplate>
   )
 }

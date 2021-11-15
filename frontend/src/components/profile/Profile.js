@@ -1,6 +1,8 @@
 /** @jsxImportSource @emotion/react */
 
 import { css } from '@emotion/react'
+import Button from '../common/Button'
+import { Link } from 'react-router-dom'
 
 const ProfileUser = css`
   display: flex;
@@ -26,8 +28,7 @@ const ProfileTitle = css`
   border: 3px solid blue;
 `
 
-const Profile = ({ loadingProfile, userData }) => {
-  const updateProfileButton = () => {}
+const Profile = ({ loadingProfile, userData, onLogout }) => {
   const registerButton = () => {}
   // 판매자일 경우
   // profile이 빈 값이 아니고 userData.is_seller가 true일떄
@@ -37,8 +38,11 @@ const Profile = ({ loadingProfile, userData }) => {
         {loadingProfile && '로딩 중...'}
         {!loadingProfile && userData && (
           <div>
+            <Button onClick={onLogout}>로그아웃</Button>
             <div>판매자님의 프로필</div>
-            <button onClick={updateProfileButton}>내 정보 수정</button>
+            <Link to="/profile/update">
+              <Button>내 정보 수정</Button>
+            </Link>
             <div css={ProfileUser}>
               <div css={ProfileUserImg}>{userData.profile_img}</div>
               <div css={ProfileUserData}>
@@ -58,6 +62,7 @@ const Profile = ({ loadingProfile, userData }) => {
                 </div>
               ))}
             </div>
+
             <div>판매자님의 이야기</div>
             <div css={ProfileSaleList}>
               {userData.storys.map((story) => (
@@ -81,8 +86,11 @@ const Profile = ({ loadingProfile, userData }) => {
         {loadingProfile && '로딩 중...'}
         {!loadingProfile && userData && (
           <div>
+            <Button onClick={onLogout}>로그아웃</Button>
             <div>구매자님의 프로필</div>
-            <button onClick={updateProfileButton}>내 정보 수정</button>
+            <Link to="/profile/update">
+              <Button>내 정보 수정</Button>
+            </Link>
             <div css={ProfileUser}>
               <div css={ProfileUserImg}>{userData.profile_img}</div>
               <div css={ProfileUserData}>
