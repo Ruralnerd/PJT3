@@ -6,6 +6,7 @@ import auth, { authSaga } from './auth'
 import loading from './loading'
 import story, { storySaga } from './story'
 import sale, { saleSaga } from './sale'
+import search, { searchSaga } from './search'
 
 const rootReducer = combineReducers({
   home,
@@ -14,10 +15,18 @@ const rootReducer = combineReducers({
   sale,
   loading,
   story,
+  search,
 })
 
 export function* rootSaga() {
-  yield all([homeSaga(), authSaga(), saleSaga(), storySaga(), profileSaga()])
+  yield all([
+    homeSaga(),
+    authSaga(),
+    saleSaga(),
+    storySaga(),
+    profileSaga(),
+    searchSaga(),
+  ])
 }
 
 export default rootReducer
