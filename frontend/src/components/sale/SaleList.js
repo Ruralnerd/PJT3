@@ -43,7 +43,9 @@ const SaleItem = ({ detail }) => {
     <SaleItemWrapper>
       <Link to={`/market/${detail.id}`}>
         <img src={detail.thumbnail_img} alt=""></img>
-        <SubInfo seller={detail.seller} />
+      </Link>
+      <SubInfo seller={detail.seller} />
+      <Link to={`/market/${detail.id}`}>
         <h3>{detail.title}</h3>
       </Link>
     </SaleItemWrapper>
