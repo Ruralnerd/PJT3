@@ -1,4 +1,3 @@
-from django.core import exceptions
 from django.http import response, JsonResponse
 from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth import base_user, get_user_model
