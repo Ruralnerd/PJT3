@@ -6,18 +6,14 @@ import { logout } from '../../modules/auth'
 import { withRouter } from 'react-router-dom'
 
 const ProfileContainer = ({ history }) => {
-  const { userData } = useSelector(({ profile }) => ({
+  const { userData, id } = useSelector(({ profile, auth }) => ({
     userData: profile.userData,
-  }))
-
-  const { id } = useSelector(({ auth }) => ({
     id: auth.auth.id,
   }))
 
   const dispatch = useDispatch()
 
   useEffect(() => {
-    console.log(id)
     dispatch(getProfile(id))
   }, [dispatch, id])
 

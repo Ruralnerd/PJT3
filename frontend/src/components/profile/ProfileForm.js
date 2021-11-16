@@ -91,9 +91,8 @@ const ProfileForm = ({ userData, onLogout }) => {
           </div>
         </div>
       )}
-      {/* <Link to="/profile/update">
-            <Button>내 정보 수정</Button>
-          </Link> */}
+      <Button to="/profile/update">내정보 수정</Button>
+      <Button to="/profile/account">판매자 등록</Button>
     </>
   )
 }
