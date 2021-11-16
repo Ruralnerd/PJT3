@@ -1,6 +1,5 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
-
 /* 화면 전체 */
 const HomeWrapper = css`
   left: 0;
