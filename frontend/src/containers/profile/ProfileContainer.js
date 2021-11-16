@@ -20,6 +20,7 @@ const ProfileContainer = ({ history }) => {
   const onLogout = () => {
     dispatch(logout())
     localStorage.removeItem('token')
+    localStorage.removeItem('user_id')
     history.push('/')
   }
   return (

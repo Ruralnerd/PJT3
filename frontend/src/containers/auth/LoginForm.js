@@ -44,7 +44,7 @@ const LoginForm = ({ history }) => {
       setError(Object.values(authError.response.data)[0])
       return
     }
-    if (auth) {
+    if (auth && auth.id && auth.token) {
       history.push('/')
       try {
         client.defaults.headers.common['Authorization'] = `JWT ${auth.token}`
