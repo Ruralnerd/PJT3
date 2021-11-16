@@ -1,0 +1,121 @@
+[
+	{
+		"model": "searches.category",
+		"pk": 1,
+		"fields": {
+			"name": "사과"
+		}
+	},
+	{
+		"model": "searches.category",
+		"pk": 2,
+		"fields": {
+			"name": "배"
+		}
+	},
+	{
+		"model": "searches.category",
+		"pk": 3,
+		"fields": {
+			"name": "석류"
+		}
+	},
+	{
+		"model": "searches.category",
+		"pk": 4,
+		"fields": {
+			"name": "감"
+		}
+	},
+	{
+		"model": "searches.category",
+		"pk": 5,
+		"fields": {
+			"name": "포도"
+		}
+	},
+	{
+		"model": "searches.category",
+		"pk": 6,
+		"fields": {
+			"name": "레몬"
+		}
+	},
+	{
+		"model": "searches.category",
+		"pk": 7,
+		"fields": {
+			"name": "유자"
+		}
+	},
+	{
+		"model": "searches.category",
+		"pk": 8,
+		"fields": {
+			"name": "파인애플"
+		}
+	},
+	{
+		"model": "searches.category",
+		"pk": 9,
+		"fields": {
+			"name": "레드향"
+		}
+	},
+	{
+		"model": "searches.category",
+		"pk": 10,
+		"fields": {
+			"name": "한라봉"
+		}
+	},
+	{
+		"model": "searches.category",
+		"pk": 11,
+		"fields": {
+			"name": "올리브"
+		}
+	},
+	{
+		"model": "searches.category",
+		"pk": 12,
+		"fields": {
+			"name": "바나나"
+		}
+	},
+	{
+		"model": "searches.category",
+		"pk": 13,
+		"fields": {
+			"name": "수박"
+		}
+	},
+	{
+		"model": "searches.category",
+		"pk": 14,
+		"fields": {
+			"name": "매실"
+		}
+	},
+	{
+		"model": "searches.category",
+		"pk": 15,
+		"fields": {
+			"name": "오미자"
+		}
+	},
+	{
+		"model": "searches.category",
+		"pk": 16,
+		"fields": {
+			"name": "꿀"
+		}
+	},
+	{
+		"model": "searches.category",
+		"pk": 17,
+		"fields": {
+			"name": "흙집"
+		}
+	}
+]

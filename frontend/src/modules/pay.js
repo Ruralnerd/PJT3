@@ -1,3 +1,4 @@
+import produce from 'immer'
 import { createAction, handleActions } from 'redux-actions'
 import { takeLatest } from 'redux-saga/effects'
 import createRequestSaga, {
@@ -5,8 +6,18 @@ import createRequestSaga, {
 } from '../lib/createRequestSaga'
 import * as payAPI from '../lib/api/pay'
 
+const CHANGE_FIELD = 'pay/CHANGE_FIELD'
 const [POST_PAY, POST_PAY_SUCCESS, POST_PAY_FAILURE] =
-  createRequestActionTypes('sale/POST_PAY')
+  createRequestActionTypes('pay/POST_PAY')
+
+export const changeField = createAction(
+  CHANGE_FIELD,
+
+  ({ key, value }) => ({
+    key,
+    value, // 실제 바꾸려는 값
+  }),
+)
 
 export const postPay = createAction(
   POST_PAY,
@@ -25,15 +36,26 @@ export function* paySaga() {
 }
 
 const initialState = {
-  kakao_uri: null,
+  quantity: 0,
+  address: '',
+  phone: '',
   data: null,
+  error: null,
 }
 
 const pay = handleActions(
   {
-    [POST_PAY]: (state, { payload: data }) => ({
+    [CHANGE_FIELD]: (state, { payload: { key, value } }) =>
+      produce(state, (draft) => {
+        draft[key] = value
+      }),
+    [POST_PAY_SUCCESS]: (state, { payload: data }) => ({
       ...state,
       data,
+    }),
+    [POST_PAY_FAILURE]: (state, { payload: error }) => ({
+      ...state,
+      error,
     }),
   },
   initialState,

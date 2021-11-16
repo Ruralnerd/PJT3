@@ -7,6 +7,10 @@ import Box from '@mui/material/Box'
 import Modal from '@mui/material/Modal'
 import Fade from '@mui/material/Fade'
 import { useState } from 'react'
+import { TextField } from '@mui/material'
+import { ThemeProvider, createTheme } from '@mui/material'
+import Button from '../common/Button'
+import Spinner from '../common/Spinner'
 
 const SaleViewerWrapper = styled.div`
   padding: 0.5rem;
@@ -34,15 +38,28 @@ const payModalStyle = {
   position: 'absolute',
   top: '50%',
   left: '50%',
+  display: 'grid',
+  gap: 2,
   transform: 'translate(-50%, -50%)',
   width: 400,
   bgcolor: 'background.paper',
-  border: '2px solid #000',
+  border: `1px solid ${palette.gray[4]}`,
+  borderRadius: 2,
   boxShadow: 24,
-  pl: 1,
+  pl: 3,
+  pr: 3,
+  pb: 3,
 }
 
-const SaleViewer = ({ detail, loading, error, onPostPay }) => {
+// Mui theme customizing
+const theme = createTheme({
+  typography: {
+    fontFamily: ['Noto Sans KR'],
+    fontSize: 12,
+  },
+})
+
+const SaleViewer = ({ form, detail, loading, error, onChange, onPostPay }) => {
   const [payOpen, setPayOpen] = useState(false)
 
   const handlePayModal = () => {
@@ -54,7 +71,7 @@ const SaleViewer = ({ detail, loading, error, onPostPay }) => {
     }
     return <SaleViewerWrapper>오류 발생!</SaleViewerWrapper>
   }
-  if (loading || !detail) {
+  if (loading['sale/GET'] || !detail) {
     return <LinearProgressBar />
   }
   const {
@@ -96,24 +113,55 @@ const SaleViewer = ({ detail, loading, error, onPostPay }) => {
           alt="kakao_pay"
           onClick={handlePayModal}
         />
-        <Modal
-          aria-labelledby="transition-modal-title"
-          aria-describedby="transition-modal-description"
-          open={payOpen}
-          onClose={handlePayModal}
-          closeAfterTransition
-          BackdropComponent={Backdrop}
-          BackdropProps={{
-            timeout: 500,
-          }}
-        >
-          <Fade in={payOpen}>
-            <Box sx={payModalStyle}>
-              <h2>카카오페이 결제</h2>
-              <button onClick={onPostPay}>결제</button>
-            </Box>
-          </Fade>
-        </Modal>
+        <ThemeProvider theme={theme}>
+          <Modal
+            aria-labelledby="transition-modal-title"
+            aria-describedby="transition-modal-description"
+            open={payOpen}
+            onClose={handlePayModal}
+            closeAfterTransition
+            BackdropComponent={Backdrop}
+            BackdropProps={{
+              timeout: 500,
+            }}
+          >
+            <Fade in={payOpen}>
+              <Box sx={payModalStyle}>
+                <h2>카카오페이 결제</h2>
+                <TextField
+                  id="quantity"
+                  name="quantity"
+                  label="구매 수량"
+                  helperText="구매 수량을 선택해 주세요."
+                  variant="outlined"
+                  value={form.quantity}
+                  onChange={onChange}
+                />
+                <TextField
+                  id="address"
+                  name="address"
+                  label="주소"
+                  helperText="주소를 입력해 주세요."
+                  variant="outlined"
+                  value={form.address}
+                  onChange={onChange}
+                />
+                <TextField
+                  id="phone"
+                  name="phone"
+                  label="전화번호"
+                  helperText="전화번호를 입력해 주세요."
+                  variant="outlined"
+                  value={form.phone}
+                  onChange={onChange}
+                />
+                <Button fullWidth yellow onClick={onPostPay}>
+                  {loading['pay/POST_PAY'] === true ? <Spinner /> : '결제'}
+                </Button>
+              </Box>
+            </Fade>
+          </Modal>
+        </ThemeProvider>
       </SaleHeader>
       <SaleContent>
         {contents.map((content) => (

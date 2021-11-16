@@ -1,0 +1,4 @@
+py manage.py loaddata data/accounts.json
+py manage.py loaddata data/searches.json
+py manage.py loaddata data/articles.json
+py manage.py loaddata data/markets.json

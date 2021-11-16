@@ -64,6 +64,17 @@ const buttonStyle = css`
         transition: 0.2s ease-in;
       }
     `}
+
+  ${(props) =>
+    props.yellow &&
+    css`
+      background: #ffee35;
+      color: #000000;
+      &:hover {
+        background: #ffeb00;
+        transition: 0.2s ease-in;
+      }
+    `}
 `
 
 const StyledButton = styled.button`
