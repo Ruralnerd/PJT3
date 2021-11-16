@@ -1,11 +1,6 @@
 // home
 import client from './client'
 
-const ACCESS_TOKEN = localStorage.getItem('token')
-if (ACCESS_TOKEN) {
-  client.defaults.headers.common['Authorization'] = `JWT ${ACCESS_TOKEN}`
-}
-
 export const getCarousel = () =>
   client.get(`/api/v1/sales/markets/`, {
     params: { num: 5, option: 'manyorder' },
