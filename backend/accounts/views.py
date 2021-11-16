@@ -38,7 +38,7 @@ def login(request):
     email = request.data['email']
     password = request.data['password']
 
-    user = User.objects.get(email = email)
+    user = User.objects.filter(email = email)
     if user:
         if check_password(password, user.password):
                 payload = jwt_payload_handler(user)
