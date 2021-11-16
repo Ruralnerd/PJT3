@@ -25,21 +25,29 @@ const HomeContainer = () => {
     }
   }, [dispatch])
 
-  const { carouselList, popularList, seasonalList, storys } = useSelector(
-    ({ home }) => ({
+  const { carouselList, popularList, seasonalList, storys, loading } =
+    useSelector(({ home, loading }) => ({
       carouselList: home.carouselList,
       popularList: home.popularList,
       seasonalList: home.seasonalList,
       storys: home.storys,
-    }),
-  )
-
+      loading: loading,
+    }))
   return (
     <div>
-      <CarouselList carouselItems={carouselList} />
-      <PopularList popularItems={popularList} />
-      <SeasonalList seasonalItems={seasonalList} />
-      <FarmerStoryList storys={storys} />
+      <CarouselList
+        carouselItems={carouselList}
+        loading={loading['home/GET_CAROUSEL']}
+      />
+      <PopularList
+        popularItems={popularList}
+        loading={loading['home/GET_POPULAR']}
+      />
+      <SeasonalList
+        seasonalItems={seasonalList}
+        loading={loading['home/GET_SEASONAL']}
+      />
+      <FarmerStoryList storys={storys} loading={loading['home/GET_STORYS']} />
     </div>
   )
 }

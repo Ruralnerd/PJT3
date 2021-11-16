@@ -1,33 +1,37 @@
 /** @jsxImportSource @emotion/react */
-
 import { css } from '@emotion/react'
+import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+import LinearProgressBar from '../common/LinearProgressBar'
 
-const FarmerStoryWrapper = css`
-  padding: 2%;
+const FarmerStoryWrapper = styled.div`
   margin: 0 auto;
-
-  h3 {
-    margin-top: 0;
-    margin-bottom: 2%;
-  }
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 `
 
-const FarmerStoryList = ({ storys }) => {
-  const trueStorys = storys.filter((story) => story.thumbnail_img.length > 1)
-  const story = trueStorys[Math.floor(Math.random() * trueStorys.length)]
+const FarmerStoryHeader = styled.div`
+  font-size: 24px;
+  font-weight: bold;
+  margin: 24px 0;
+`
 
+const FarmerStoryList = ({ storys, loading }) => {
+  if (loading || !storys || !storys[0]) {
+    return <LinearProgressBar />
+  }
   return (
-    <div css={FarmerStoryWrapper}>
-      <h3>농부이야기 리스트</h3>
-      {story && (
-        <div>
-          <Link key={story.id} to={`/story/${story.id}`}>
-            <img src={story.thumbnail_img} alt=""></img>
-          </Link>
-        </div>
-      )}
-    </div>
+    <FarmerStoryWrapper>
+      <FarmerStoryHeader>농사직설 스케치</FarmerStoryHeader>
+      <div>
+        <Link key={storys[0].id} to={`/story/${storys[0].id}`}>
+          <img src={storys[0].thumbnail_img} alt=""></img>
+        </Link>
+      </div>
+    </FarmerStoryWrapper>
   )
 }
 export default FarmerStoryList
