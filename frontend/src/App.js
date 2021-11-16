@@ -19,6 +19,18 @@ import SearchPage from './pages/common/SearchPage'
 import ProfilePage from './pages/profile/ProfilePage'
 import ProfileUpdatePage from './pages/profile/ProfileUpdatePage'
 import ProfileAccountPage from './pages/profile/ProfileAccountPage'
+import styled from 'styled-components'
+
+// 전역적으로 navbar 공간 관리
+const AppWrapper = styled.div`
+  padding-bottom: 5rem;
+`
+
+const AppContent = styled.div`
+  padding-left: 6%;
+  padding-right: 6%;
+  background: white;
+`
 
 const App = () => {
   // 이 아래 두 줄을 이용해서 내 현재 url을 확인할 수 있다.
@@ -28,22 +40,30 @@ const App = () => {
   return (
     <>
       <TopNav />
-      <Route exact path={'/'} component={HomePage} />
-      <Route path={'/login'} component={LoginPage} />
-      <Route path={'/register'} component={RegisterPage} />
-      <Route exact path={'/market'} component={SaleListPage} />
-      <Route exact path={'/market/:market_pk'} component={SaleDetailPage} />
-      <Route path={'/sale'} component={SaleFormPage} />
-      <Route path={'/pay/success'} component={SuccessPage} />
-      <Route exact path={'/story'} component={StoryListPage} />
-      <Route exact path={'/editor/story'} component={StoryEditorPage} />
-      <Route exact path={'/story/:id'} component={StoryDetailPage} />
-      <Route path={'/farm'} component={FarmPagePage} />
-      <Route path={'/search'} component={SearchPage} />
-      <Route exact path={'/profile'} component={ProfilePage} />
-      <Route exact path={'/profile/update'} component={ProfileUpdatePage} />
-      <Route exact path={'/profile/account'} component={ProfileAccountPage} />
-      <Footer />
+      <AppWrapper>
+        <AppContent>
+          <Route exact path={'/'} component={HomePage} />
+          <Route path={'/login'} component={LoginPage} />
+          <Route path={'/register'} component={RegisterPage} />
+          <Route exact path={'/market'} component={SaleListPage} />
+          <Route exact path={'/market/:market_pk'} component={SaleDetailPage} />
+          <Route path={'/sale'} component={SaleFormPage} />
+          <Route path={'/pay/success'} component={SuccessPage} />
+          <Route exact path={'/story'} component={StoryListPage} />
+          <Route exact path={'/editor/story'} component={StoryEditorPage} />
+          <Route exact path={'/story/:id'} component={StoryDetailPage} />
+          <Route path={'/farm'} component={FarmPagePage} />
+          <Route path={'/search'} component={SearchPage} />
+          <Route exact path={'/profile'} component={ProfilePage} />
+          <Route exact path={'/profile/update'} component={ProfileUpdatePage} />
+          <Route
+            exact
+            path={'/profile/account'}
+            component={ProfileAccountPage}
+          />
+        </AppContent>
+        <Footer />
+      </AppWrapper>
       <BottomNav />
     </>
   )
