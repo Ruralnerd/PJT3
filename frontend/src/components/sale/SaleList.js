@@ -6,6 +6,8 @@ import { Link } from 'react-router-dom'
 import SubInfo from '../common/SubInfo'
 
 const SaleListWrapper = styled.div`
+  width: 100%;
+  overflow: hidden;
   padding: 0.5rem;
 `
 
@@ -16,8 +18,11 @@ const SaleListButtonWrapper = styled.div`
 `
 
 const SaleItemWrapper = styled.div`
+  position: relative;
   padding-top: 1rem;
   padding-bottom: 1rem;
+  height: 160px;
+  overflow: hidden;
 
   &:first-child {
     padding-top: 0;
@@ -25,6 +30,16 @@ const SaleItemWrapper = styled.div`
   & + & {
     border-top: 1px solid ${palette.gray[2]};
   }
+
+  img {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+    right: -9999px;
+    bottom: -9999px;
+    margin: auto;
+  }
+
   h3 {
     font-size: 1.25rem;
     margin-top: 0;
@@ -56,14 +71,13 @@ const SaleList = ({ list, error, loading, auth }) => {
   if (error) {
     return <SaleListWrapper>오류 발생!</SaleListWrapper>
   }
-  if (loading || !list) {
+  if (loading || !list || auth.id === null || auth.token === null) {
     return <LinearProgressBar />
   }
-
   return (
     <SaleListWrapper>
       <SaleListButtonWrapper>
-        {auth !== null && (
+        {auth.id !== null && auth.token !== null && (
           <Button red to="/sale">
             판매 글 작성하기
           </Button>

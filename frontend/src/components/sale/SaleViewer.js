@@ -14,7 +14,6 @@ import Spinner from '../common/Spinner'
 
 const SaleViewerWrapper = styled.div`
   padding: 0.5rem;
-  margin-bottom: 5rem;
 `
 
 const SaleHeader = styled.div`
@@ -167,7 +166,7 @@ const SaleViewer = ({ form, detail, loading, error, onChange, onPostPay }) => {
         {contents.map((content) => (
           <div key={content.sequence}>
             <img src={content.img} alt="" />
-            {content.sequence + 1}/{contentsLength}
+            {content.sequence}/{contentsLength}
             <br />
             {content.content}
             <hr />
