@@ -39,7 +39,8 @@ export const login = createAction(LOGIN, ({ email, password }) => ({
   email,
   password,
 }))
-export const check = createAction(CHECK, ({ token }) => ({
+export const check = createAction(CHECK, ({ user_id, token }) => ({
+  user_id,
   token,
 }))
 export const logout = createAction(LOGOUT)
@@ -67,7 +68,10 @@ const initialState = {
     email: '',
     password: '',
   },
-  auth: null, // 로그인 된 상태인지 체크
+  auth: {
+    id: null,
+    token: null,
+  },
   authError: null,
   user: null,
 }
@@ -106,13 +110,17 @@ const auth = handleActions(
       ...state,
       authError: error,
     }),
-    [CHECK]: (state, { payload: token }) => ({
-      ...state,
-      auth: token,
-    }),
+    [CHECK]: (state, { payload: { user_id, token } }) =>
+      produce(state, (draft) => {
+        draft['auth']['id'] = user_id
+        draft['auth']['token'] = token
+      }),
     [LOGOUT]: (state) => ({
       ...state,
-      auth: null,
+      auth: {
+        id: null,
+        token: null,
+      },
     }),
   },
   initialState,

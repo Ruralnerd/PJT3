@@ -21,10 +21,13 @@ const store = createStore(
 function loadUser() {
   try {
     const token = localStorage.getItem('token')
-    if (token) {
-      store.dispatch(check({ token }))
+    const user_id = localStorage.getItem('user_id')
+    if (token && user_id) {
+      store.dispatch(check({ user_id, token }))
     }
-  } catch (e) {}
+  } catch (e) {
+    console.log(e)
+  }
 }
 
 sagaMiddleware.run(rootSaga)
