@@ -37,7 +37,8 @@ export function* paySaga() {
 
 const initialState = {
   quantity: 0,
-  address: null,
+  address: '',
+  phone: '',
   data: null,
   error: null,
 }

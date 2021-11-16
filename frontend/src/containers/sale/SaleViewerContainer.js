@@ -48,6 +48,7 @@ const SaleViewerContainer = ({ match }) => {
         nexturl,
         '카카오페이팝업',
         'width=500, height=500, scrollbars=yes, resizable=no',
+        '_blank',
       )
     }
   }, [dispatch, data])
