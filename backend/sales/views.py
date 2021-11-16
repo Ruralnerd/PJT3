@@ -267,9 +267,9 @@ def market_request(request, market_pk):
                 request_data.tid = context['tid']
                 request_data.save()
                 return Response(context, status = status.HTTP_201_CREATED)
-
-            return Response(res, status=status.HTTP_400_BAD_REQUEST)
-
+            request_data.delete()
+            return Response(res.json(), status=status.HTTP_400_BAD_REQUEST)
+            
         return Response(serializer.errors.as_data(), status=status.HTTP_400_BAD_REQUEST)
     
     if request.method == 'GET' and seller == user:
@@ -294,13 +294,12 @@ def request_payment(market, data):
         "quantity": data['quantity'],                      # 구매 물품 수량
         "total_amount": market.price * data['quantity'],   # 구매 물품 가격
         "tax_free_amount": "0",                            # 구매 물품 비과세
-        "approval_url": base_URL + f"sales/markets/{market.id}/request/{data['id']}/approval/",           # 결제 성공 시 이동할 url
-        "cancel_url": base_URL,                                                                  # 결제 취소 시 이동할 url
-        "fail_url": base_URL,                                                                    # 결제 실패 시 이동할 url
+        "approval_url": base_URL + f"sales/markets/{market.id}/request/{data['id']}/approval/",   # 결제 성공 시 이동할 url
+        "cancel_url": base_URL,                                                                   # 결제 취소 시 이동할 url
+        "fail_url": base_URL,                                                                     # 결제 실패 시 이동할 url
     }
 
     res = requests.post(URL, headers=headers, params=params)
-
     return res
 
 # 결제승인 함수
@@ -324,9 +323,8 @@ def request_approval(request, market_pk, request_pk):
     if res.ok:
         request_data.state = 2
         request_data.save()
-        return HttpResponseRedirect("https://www.naver.com") # 임시설정, Front에 결제완료 페이지
-        # return Response(res, status=status.HTTP_200_OK)
-    return Response(res, status=status.HTTP_400_BAD_REQUEST)
+        return HttpResponseRedirect('/pay/success') 
+    return Response(res.json(), status=status.HTTP_400_BAD_REQUEST)
 
 
 #결제취소 함수
