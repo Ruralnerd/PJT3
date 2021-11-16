@@ -58,9 +58,10 @@ const RegisterForm = ({ history }) => {
       alert('회원가입 되었습니다.')
       history.push('/login')
     }
-    if (auth) {
+    if (auth && auth.id && auth.token) {
       history.push('/')
       try {
+        localStorage.setItem('user_id', auth.id)
         localStorage.setItem('token', auth.token)
       } catch (e) {
         console.log(e)
