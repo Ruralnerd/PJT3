@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { changeField, initializeForm, login } from '../../modules/auth'
 import AuthForm from '../../components/auth/AuthForm'
 import { withRouter } from 'react-router'
+import client from '../../lib/api/client'
 
 const LoginForm = ({ history }) => {
   const [error, setError] = useState(null)
@@ -46,7 +47,9 @@ const LoginForm = ({ history }) => {
     if (auth) {
       history.push('/')
       try {
+        client.defaults.headers.common['Authorization'] = `JWT ${auth.token}`
         localStorage.setItem('token', auth.token)
+        localStorage.setItem('user_id', auth.id)
       } catch (e) {
         console.log(e)
       }
