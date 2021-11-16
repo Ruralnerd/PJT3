@@ -11,7 +11,7 @@ export const getStorys = () =>
     params: { num: 1000, option: 'popular' },
   })
 
-export const getStory = (id) => client.get(`/api/v1/articles/storys/${id}`)
+export const getStory = (id) => client.get(`/api/v1/articles/storys/${id}/`)
 
 export const postStory = ({ title }) =>
   client.post('/api/v1/articles/storys/', { title })
@@ -28,7 +28,7 @@ export const putStory = ({ id, title, contents, categorys }) =>
   )
 
 export const deleteStory = (id) =>
-  client.delete(`/api/v1/articles/storys/${id}`)
+  client.delete(`/api/v1/articles/storys/${id}/`)
 
 export const imageUpload = ({ formData, id }) =>
   client.post(`/api/v1/articles/storys/${id}/img/`, formData, {

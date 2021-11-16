@@ -76,7 +76,7 @@ const ProfileForm = ({ userData, onLogout }) => {
                 {userData.storys &&
                   userData.storys.map((story) => (
                     <div key={story.id}>
-                      <Link to={`/storys/${story.id}`}>
+                      <Link to={`/story/${story.id}`}>
                         <img
                           css={StoryImage}
                           src={story.thumbnail_img}
