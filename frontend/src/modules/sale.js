@@ -137,7 +137,7 @@ const initialState = {
     contents: [
       {
         img: '',
-        sequence: 0,
+        sequence: 1,
         content: '',
       },
     ],
@@ -172,7 +172,7 @@ const sale = handleActions(
       }),
     [PUT_CHANGE_FIELD]: (state, { payload: { sequence, value } }) =>
       produce(state, (draft) => {
-        draft['item']['contents'][sequence]['content'] = value
+        draft['item']['contents'][sequence]['content'] = value + 1
       }),
     [PREV]: (state) =>
       produce(state, (draft) => {
@@ -228,7 +228,7 @@ const sale = handleActions(
       produce(state, (draft) => {
         const content = {
           img: '',
-          sequence: [state.item.current_page] - 1,
+          sequence: state.item.current_page, // 더미데이터 변경으로 인해, -1을 빼준다. 추가된 페이지는 2 sequence부터 시작
           content: '',
         }
         draft['item']['contents'] = draft['item']['contents'].concat(content)
