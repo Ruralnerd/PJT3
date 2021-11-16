@@ -82,7 +82,7 @@ const initialState = {
     nickname: '',
     phone: '',
     address: '',
-    profile_img: '/media/default.jpg',
+    profile_img: '/media/default_profile.jpeg',
     created_at: '',
     is_seller: false,
     ac_number: '',
