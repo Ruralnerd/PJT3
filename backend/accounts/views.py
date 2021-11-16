@@ -1,3 +1,4 @@
+from django.core import exceptions
 from django.http import response, JsonResponse
 from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth import base_user, get_user_model
@@ -17,7 +18,7 @@ from rest_framework_jwt.settings import api_settings
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework.response import Response
 
-from .serializer import GetUserSerializer, UserSerializer, UserLoginSerializer
+from .serializer import GetUserSerializer, UserSerializer, UserLoginSerializer, UserSmallSerializer
 from .models import User
 
 jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
@@ -53,23 +54,28 @@ def login(request):
 
 
 @swagger_auto_schema(method='post', request_body=UserSerializer)
-@api_view(['POST'])
+@api_view(['GET', 'POST'])
 def signup(request):
-    serializer = UserSerializer(data = request.data)
-    if serializer.is_valid():
-        user = serializer.save()
-        user.set_password(request.data.get('password'))
-        user.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    error_data = {}
-    for error in serializer.errors:
-        if error == 'email':
-            error_data['email'] = '이미 존재하는 email입니다.'
-        elif error == 'nickname':
-            error_data['nickname'] = '이미 존재하는 nickname입니다.'
-        elif error == 'password':
-            error_data['password'] = 'password를 입력해주세요.'
-    return Response(error_data, status=status.HTTP_400_BAD_REQUEST)
+    if request.method == 'GET':
+        user = User.objects.all()
+        serializer = UserSmallSerializer(user, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    elif request.method == 'POST':
+        serializer = UserSerializer(data = request.data)
+        if serializer.is_valid():
+            user = serializer.save()
+            user.set_password(request.data.get('password'))
+            user.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        error_data = {}
+        for error in serializer.errors:
+            if error == 'email':
+                error_data['email'] = '이미 존재하는 email입니다.'
+            elif error == 'nickname':
+                error_data['nickname'] = '이미 존재하는 nickname입니다.'
+            elif error == 'password':
+                error_data['password'] = 'password를 입력해주세요.'
+        return Response(error_data, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
