@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import { Link } from 'react-router-dom'
+import palette from '../../lib/styles/palette'
 
 const BottomNavWrapper = css`
   background-color: white;
@@ -11,11 +12,10 @@ const BottomNavWrapper = css`
   display: flex;
   justify-content: space-evenly;
   text-align: center;
-  border-top: 1px solid black;
+  border-top: 1px solid ${palette.gray[5]};
 `
 
 const IconGroup = css`
-  text-decoration: none;
   color: black;
 `
 
@@ -32,7 +32,7 @@ const BottomNav = () => {
       <div>
         <Link to="/" css={IconGroup}>
           <img src="/images/icon/home.svg" alt="" />
-          <p css={IconText}>홈</p>
+          <div css={IconText}>홈</div>
         </Link>
       </div>
       <div>
@@ -45,13 +45,13 @@ const BottomNav = () => {
         {token && (
           <Link to="/profile" css={IconGroup}>
             <img src="/images/icon/person.svg" alt="" />
-            <p css={IconText}>내 정보</p>
+            <div css={IconText}>내 정보</div>
           </Link>
         )}
         {!token && (
           <Link to="/login" css={IconGroup}>
             <img src="/images/icon/person.svg" alt="" />
-            <p css={IconText}>내 정보</p>
+            <div css={IconText}>내 정보</div>
           </Link>
         )}
       </div>

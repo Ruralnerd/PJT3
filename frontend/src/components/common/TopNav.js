@@ -11,6 +11,7 @@ const TopNavWrapper = css`
   align-items: center;
   color: white;
   font-size: 1.2em;
+  width: 100%;
   height: 2.5rem;
 `
 
@@ -36,17 +37,6 @@ const TopNav = () => {
   // TodoList
   const location = useLocation()
   console.log(location.pathname)
-  /*
-
-  if (location.pathname.includes('market')) {
-    console.log('마켓이얌')
-    document.getElementById('market').style.color = 'red'
-  } else if (location.pathname.includes('story')) {
-    console.log('스토리얌')
-  } else if (location.pathname.includes('farm')) {
-    console.log('농장이얌')
-  }
-   */
 
   return (
     <div>
