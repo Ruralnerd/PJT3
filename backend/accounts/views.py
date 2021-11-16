@@ -40,6 +40,7 @@ def login(request):
 
     user = User.objects.filter(email = email)
     if user:
+        user = User.objects.get(email = email)
         if check_password(password, user.password):
                 payload = jwt_payload_handler(user)
                 token = jwt_encode_handler(payload)
