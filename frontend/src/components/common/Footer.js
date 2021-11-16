@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import palette from '../../lib/styles/palette'
 
 const FooterWrapper = css`
+  width: 100%;
   color: white;
   text-align: center;
   background-color: ${palette.yellow[9]};
