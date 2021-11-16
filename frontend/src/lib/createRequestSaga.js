@@ -20,7 +20,7 @@ export default function createRequestSaga(type, request) {
 
         예시) authAPI.register({email, nickname, password})
       */
-      yield delay(500)
+      // yield delay(500)
       const response = yield call(request, action.payload)
       yield put({
         type: SUCCESS,
