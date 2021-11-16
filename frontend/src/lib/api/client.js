@@ -2,6 +2,10 @@ import axios from 'axios'
 
 const client = axios.create()
 
+const ACCESS_TOKEN = localStorage.getItem('token')
+if (ACCESS_TOKEN) {
+  client.defaults.headers.common['Authorization'] = `JWT ${ACCESS_TOKEN}`
+}
 /**
   글로벌 설정 예시:
 

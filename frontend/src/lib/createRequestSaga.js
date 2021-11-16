@@ -1,5 +1,6 @@
 import { call, put, delay } from 'redux-saga/effects'
 import { startLoading, finishLoading } from '../modules/loading'
+import client from '../lib/api/client'
 
 export const createRequestActionTypes = (type) => {
   const SUCCESS = `${type} SUCCESS`
@@ -26,6 +27,11 @@ export default function createRequestSaga(type, request) {
         type: SUCCESS,
         payload: response.data,
       })
+      if (type === 'auth/LOGIN') {
+        client.defaults.headers.common[
+          'Authorization'
+        ] = `JWT ${response.data.token}`
+      }
     } catch (e) {
       yield put({
         type: FAILURE,
