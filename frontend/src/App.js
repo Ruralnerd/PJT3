@@ -27,9 +27,29 @@ const AppWrapper = styled.div`
 `
 
 const AppContent = styled.div`
-  padding-left: 6%;
-  padding-right: 6%;
+  padding-left: 25%;
+  padding-right: 25%;
   background: white;
+
+  @media screen and (max-width: 1900px) {
+    padding-left: 20%;
+    padding-right: 20%;
+  }
+
+  @media screen and (max-width: 1440px) {
+    padding-left: 15%;
+    padding-right: 15%;
+  }
+
+  @media screen and (max-width: 1024px) {
+    padding-left: 9%;
+    padding-right: 9%;
+  }
+
+  @media screen and (max-width: 768px) {
+    padding-left: 6%;
+    padding-right: 6%;
+  }
 `
 
 const App = () => {
