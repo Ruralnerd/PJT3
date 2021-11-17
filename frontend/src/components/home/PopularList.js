@@ -2,30 +2,27 @@
 import { css } from '@emotion/react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+import Card from '../common/Card'
 import LinearProgressBar from '../common/LinearProgressBar'
+import { Grid, Box } from '@mui/material'
 
-const PopularWrapper = css`
+const PopularWrapper = styled.div`
   width: 100%;
   overflow: hidden;
-  margin-bottom: 4rem;
+  margin-bottom: 2rem;
 `
 
-const PopularBody = css`
-  display: flex;
-  justify-content: space-between;
-  margin: 0 auto;
-  gap: 2%;
-`
+const PopularBody = styled.div``
 
 const PopularHeader = styled.div`
   font-size: 24px;
   font-weight: bold;
-  margin: 24px 0;
-`
+  margin-top: 12px;
+  margin-bottom: 24px;
 
-const PopularItemImage = css`
-  width: 100%;
-  height: 100%;
+  @media screen and (max-width: 768px) {
+    font-size: 18px;
+  }
 `
 
 const PopularList = ({ popularItems, loading }) => {
@@ -33,22 +30,26 @@ const PopularList = ({ popularItems, loading }) => {
     return <LinearProgressBar />
   }
 
-  const shuffle = (array) => {
-    array.sort(() => Math.random() - 0.5)
-  }
-  shuffle(popularItems)
-
   return (
-    <div css={PopularWrapper}>
-      <PopularHeader>인기가 많은 상품</PopularHeader>
-      <div css={PopularBody}>
-        {popularItems.slice(0, 3).map((item) => (
-          <Link key={item.id} to={`/market/${item.id}`}>
-            <img css={PopularItemImage} src={item.thumbnail_img} alt="" />
-          </Link>
-        ))}
-      </div>
-    </div>
+    <PopularWrapper>
+      <PopularHeader>
+        <div>사람들이 많이 본 상품 TOP3에요!</div>
+      </PopularHeader>
+      <PopularBody>
+        <Box sx={{ width: '100%' }}>
+          <Grid container spacing={2}>
+            {popularItems.map((item) => (
+              <Grid item xs={12} md={3} key={item.id}>
+                <Card item={item} />
+              </Grid>
+            ))}
+            <Grid item xs={12} md={3}>
+              <Card type="popular" />
+            </Grid>
+          </Grid>
+        </Box>
+      </PopularBody>
+    </PopularWrapper>
   )
 }
 export default PopularList

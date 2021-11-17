@@ -172,7 +172,7 @@ const sale = handleActions(
       }),
     [PUT_CHANGE_FIELD]: (state, { payload: { sequence, value } }) =>
       produce(state, (draft) => {
-        draft['item']['contents'][sequence]['content'] = value + 1
+        draft['item']['contents'][sequence]['content'] = value
       }),
     [PREV]: (state) =>
       produce(state, (draft) => {
