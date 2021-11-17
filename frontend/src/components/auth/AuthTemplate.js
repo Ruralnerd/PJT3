@@ -24,6 +24,7 @@ const AuthTemplateWrapper = css`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  z-index: 1;
 
   /* Mui Global Class*/
   .MuiFormControl-root {

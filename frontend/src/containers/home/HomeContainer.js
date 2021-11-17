@@ -17,7 +17,7 @@ const HomeContainer = () => {
   useEffect(() => {
     // dispatch([getCarousel(), getPopular(), getSeasonal(), getStorys()])
     dispatch(getCarousel())
-    dispatch(getPopular())
+    dispatch(getPopular(3))
     dispatch(getSeasonal())
     dispatch(getStorys())
     return () => {
@@ -35,13 +35,13 @@ const HomeContainer = () => {
     }))
   return (
     <div>
-      <CarouselList
-        carouselItems={carouselList}
-        loading={loading['home/GET_CAROUSEL']}
-      />
       <PopularList
         popularItems={popularList}
         loading={loading['home/GET_POPULAR']}
+      />
+      <CarouselList
+        carouselItems={carouselList}
+        loading={loading['home/GET_CAROUSEL']}
       />
       <SeasonalList
         seasonalItems={seasonalList}

@@ -6,9 +6,9 @@ export const getCarousel = () =>
     params: { num: 5, option: 'manyorder' },
   })
 
-export const getPopular = () =>
+export const getPopular = (num) =>
   client.get(`/api/v1/sales/markets/`, {
-    params: { num: 3, option: 'popular' },
+    params: { num: num, option: 'popular' },
   })
 
 export const getSeasonal = () =>

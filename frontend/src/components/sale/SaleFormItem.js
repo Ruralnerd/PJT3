@@ -9,12 +9,16 @@ import { changeField } from '../../modules/sale'
 
 const itemUnit = [
   {
+    value: '개',
+    label: '개',
+  },
+  {
     value: 'kg',
     label: 'kg',
   },
   {
-    value: '개',
-    label: '개',
+    value: 'box',
+    label: 'box',
   },
 ]
 
