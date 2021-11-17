@@ -16,7 +16,7 @@ export const getRecently = (num) =>
     params: { num: num, option: 'created_at' },
   })
 
-export const getStorys = () =>
+export const getStorys = (num) =>
   client.get(`/api/v1/articles/storys/`, {
-    params: { num: 100, option: 'popular' },
+    params: { num: num, option: 'popular' },
   })
