@@ -8,7 +8,7 @@ import FarmerStoryList from '../../components/home/FarmerStoryList'
 import {
   getCarousel,
   getPopular,
-  getSeasonal,
+  getRecently,
   getStorys,
 } from '../../modules/home'
 
@@ -18,7 +18,7 @@ const HomeContainer = () => {
     // dispatch([getCarousel(), getPopular(), getSeasonal(), getStorys()])
     dispatch(getCarousel())
     dispatch(getPopular(3))
-    dispatch(getSeasonal())
+    dispatch(getRecently(3))
     dispatch(getStorys())
     return () => {
       // unmount

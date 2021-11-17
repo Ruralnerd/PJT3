@@ -33,8 +33,16 @@ const CarouselHeader = styled.div`
 const CarouselBody = styled.div`
   position: relative;
   box-shadow: 0 0 16px rgba(0, 0, 0, 0.025);
-  width: 50%;
+  width: 40%;
   border: 1px solid ${palette.gray[3]};
+
+  @media screen and (max-width: 1800px) {
+    width: 50%;
+  }
+
+  @media screen and (max-width: 1024px) {
+    width: 70%;
+  }
 
   @media screen and (max-width: 768px) {
     width: 100%;

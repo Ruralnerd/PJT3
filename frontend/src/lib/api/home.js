@@ -11,9 +11,9 @@ export const getPopular = (num) =>
     params: { num: num, option: 'popular' },
   })
 
-export const getSeasonal = () =>
+export const getRecently = (num) =>
   client.get(`/api/v1/sales/markets/`, {
-    params: { num: 3, option: 'created_at' },
+    params: { num: num, option: 'created_at' },
   })
 
 export const getStorys = () =>
