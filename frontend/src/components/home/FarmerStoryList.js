@@ -1,7 +1,9 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
+import palette from '../../lib/styles/palette'
+import SquareCard from '../common/SquareCard'
+import { Grid } from '@mui/material'
 
 const FarmerStoryWrapper = styled.div`
   margin: 0 auto;
@@ -20,21 +22,35 @@ const FarmerStoryHeader = styled.div`
   @media screen and (max-width: 768px) {
     font-size: 18px;
   }
+
+  .sub-header {
+    font-weight: 400;
+    font-size: 16px;
+    color: ${palette.gray[7]};
+  }
 `
 
+const FarmerStoryBody = styled.div``
+
 const FarmerStoryList = ({ storys, loading }) => {
-  if (loading || !storys || !storys[0]) {
+  if (loading || !storys) {
     return null
   }
   return (
     <FarmerStoryWrapper>
-      <FarmerStoryHeader>농사직설 스케치</FarmerStoryHeader>
-      <div>
-        <Link key={storys[0].id} to={`/story/${storys[0].id}`}>
-          <img src={storys[0].thumbnail_img} alt=""></img>
-        </Link>
-      </div>
+      <FarmerStoryHeader>
+        농사직설 스케치
+        <div className="sub-header">농부들의 생생한 이야기를 들어보세요.</div>
+      </FarmerStoryHeader>
+      <FarmerStoryBody>
+        <Grid container spacing={2}>
+          {storys.map((story) => (
+            <SquareCard story={story} key={story.id} />
+          ))}
+        </Grid>
+      </FarmerStoryBody>
     </FarmerStoryWrapper>
   )
 }
+
 export default FarmerStoryList

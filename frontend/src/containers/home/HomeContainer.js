@@ -19,7 +19,7 @@ const HomeContainer = () => {
     dispatch(getCarousel())
     dispatch(getPopular(3))
     dispatch(getRecently(3))
-    dispatch(getStorys())
+    dispatch(getStorys(4))
     return () => {
       // unmount
     }
@@ -39,13 +39,13 @@ const HomeContainer = () => {
         popularItems={popularList}
         loading={loading['home/GET_POPULAR']}
       />
-      <CarouselList
-        carouselItems={carouselList}
-        loading={loading['home/GET_CAROUSEL']}
-      />
       <SeasonalList
         seasonalItems={seasonalList}
         loading={loading['home/GET_SEASONAL']}
+      />
+      <CarouselList
+        carouselItems={carouselList}
+        loading={loading['home/GET_CAROUSEL']}
       />
       <FarmerStoryList storys={storys} loading={loading['home/GET_STORYS']} />
     </div>

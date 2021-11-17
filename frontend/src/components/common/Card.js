@@ -3,14 +3,16 @@ import { css } from '@emotion/react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import palette from '../../lib/styles/palette'
-import { Box } from '@mui/system'
 
 const CardWrapper = styled.div`
   width: 100%;
   height: 100%;
   min-height: 20rem;
-  height: 100%;
   border-radius: 8px;
+
+  @media screen and (max-width: 900px) {
+    border: 1px solid ${palette.gray[3]};
+  }
 `
 
 const CardBody = styled.div`
@@ -56,6 +58,7 @@ const CardImage = styled.img`
 `
 
 const CardMoreView = styled.div`
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.025);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -64,7 +67,6 @@ const CardMoreView = styled.div`
   height: 100%;
   overflow: hidden;
   margin: 0 auto;
-  padding: 5%;
   color: #fdf4ff;
   font-size: 14px;
   font-weight: bold;
@@ -72,7 +74,8 @@ const CardMoreView = styled.div`
   border-radius: 8px;
 
   img {
-    width: 100%;
+    height: auto;
+    max-height: 150px;
   }
 
   ${({ type }) =>
@@ -84,7 +87,7 @@ const CardMoreView = styled.div`
   ${({ type }) =>
     type === 'recently' &&
     `
-    background: #5197f2;
+    background: #e85d7e;
   `}
 
   ${({ type }) =>
@@ -100,7 +103,11 @@ const CardInfo = styled.div`
   justify-content: center;
   width: 100%;
   height: 100%;
-  padding: 10px;
+  padding: 5%;
+
+  @media screen and (max-width: 480px) {
+    padding: 4% 8%;
+  }
 
   .title {
     height: 40px;
@@ -165,6 +172,7 @@ const Card = ({ item, type }) => {
       </div>
     )
   }
+
   return (
     <CardWrapper>
       <CardBody>
@@ -174,9 +182,11 @@ const Card = ({ item, type }) => {
         <CardInfo>
           <Link to={`/market/${id}`}>
             <div className="title">{title}</div>
-            <div className="price-original">{wonCommaReg(price * 1.2)}원</div>
-            <div className="price">{wonCommaReg(price)}원</div>
           </Link>
+          <div className="price-original" type={type}>
+            {wonCommaReg(price * 1.2)}원
+          </div>
+          <div className="price">{wonCommaReg(price)}원</div>
           <hr />
           <div className="seller-info">{farmerName(seller.nickname)}</div>
         </CardInfo>
