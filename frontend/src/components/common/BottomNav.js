@@ -20,7 +20,7 @@ const IconGroup = css`
 `
 
 const IconText = css`
-  font-size: 0.8rem;
+  font-size: 0.5rem;
   margin: 0 auto;
 `
 

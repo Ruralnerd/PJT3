@@ -1,12 +1,10 @@
 /** @jsxImportSource @emotion/react */
-
 import { css } from '@emotion/react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import Slider from 'react-slick'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
-import LinearProgressBar from '../common/LinearProgressBar'
 import palette from '../../lib/styles/palette'
 
 const CarouselWrapper = css`
@@ -14,7 +12,7 @@ const CarouselWrapper = css`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-bottom: 4rem;
+  margin-bottom: 2rem;
 `
 
 const CarouselInfo = styled.div`
@@ -26,17 +24,35 @@ const CarouselHeader = styled.div`
   font-size: 24px;
   font-weight: bold;
   margin: 24px 0;
+
+  @media screen and (max-width: 768px) {
+    font-size: 18px;
+  }
 `
 
 const CarouselBody = styled.div`
+  position: relative;
   box-shadow: 0 0 16px rgba(0, 0, 0, 0.025);
   width: 50%;
   border: 1px solid ${palette.gray[3]};
-  border-radius: 8px;
 
-  @media screen and (max-width: 360px) {
+  @media screen and (max-width: 768px) {
     width: 100%;
   }
+`
+
+const CarouselBadge = styled.div`
+  position: absolute;
+  text-align: center;
+  top: 10px;
+  left: 10px;
+  border-radius: 4px;
+  padding: 4px;
+  width: 5rem;
+  background: #d33939;
+  color: white;
+  font-size: 1rem;
+  z-index: 99;
 `
 
 const CarouselItem = css`
@@ -44,17 +60,18 @@ const CarouselItem = css`
   font-size: 16px;
 
   div {
+    color: white;
     padding: 8px;
   }
 `
 
 const CarouselStyle = css`
-  position: relative;
   display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
   margin: 0 auto;
-  background: ${palette.gray[1]};
+  background: #3e3e3e;
 
   .slick-list {
     margin: 0 0;
@@ -72,22 +89,17 @@ const CarouselStyle = css`
     li {
       margin: 0;
     }
-
-    .slick-active {
-      color: red;
-    }
   }
 
   .slick-track {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: relative;
   }
 `
 
 const CarouselItemImage = css`
   width: 100%;
   height: 100%;
+  flex: 1;
   object-fit: cover;
 `
 
@@ -135,15 +147,16 @@ const CarouselList = ({ carouselItems, loading }) => {
   }
 
   if (loading || !carouselItems) {
-    return <LinearProgressBar />
+    return null
   }
 
   return (
     <div css={CarouselWrapper}>
       <CarouselInfo>
-        <CarouselHeader>주문이 가장 많은 상품</CarouselHeader>
+        <CarouselHeader>가장 많이 팔리고 있어요</CarouselHeader>
       </CarouselInfo>
       <CarouselBody>
+        <CarouselBadge>매진임박</CarouselBadge>
         <Slider css={CarouselStyle} carouselItems={carouselItems} {...settings}>
           {carouselItems.map((item) => (
             <Link key={item.id} to={`/market/${item.id}`} css={CarouselItem}>
