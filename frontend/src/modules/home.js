@@ -12,29 +12,29 @@ const [GET_CAROUSEL, GET_CAROUSEL_SUCCESS, GET_CAROUSEL_FAILURE] =
 const [GET_POPULAR, GET_POPULAR_SUCCESS, GET_POPULAR_FAILURE] =
   createRequestActionTypes('home/GET_POPULAR')
 
-const [GET_SEASONAL, GET_SEASONAL_SUCCESS, GET_SEASONAL_FAILURE] =
-  createRequestActionTypes('home/GET_SEASONAL')
+const [GET_RECENTLY, GET_RECENTLY_SUCCESS, GET_RECENTLY_FAILURE] =
+  createRequestActionTypes('home/GET_RECENTLY')
 
 const [GET_STORYS, GET_STORYS_SUCCESS, GET_STORYS_FAILURE] =
   createRequestActionTypes('home/GET_STORYS')
 
 export const getCarousel = createAction(GET_CAROUSEL)
 export const getPopular = createAction(GET_POPULAR)
-export const getSeasonal = createAction(GET_SEASONAL)
+export const getRecently = createAction(GET_RECENTLY)
 
 export const getStorys = createAction(GET_STORYS)
 
 // 사가 생성
 const getCarouselSaga = createRequestSaga(GET_CAROUSEL, postsAPI.getCarousel)
 const getPopularSaga = createRequestSaga(GET_POPULAR, postsAPI.getPopular)
-const getSeasonalSaga = createRequestSaga(GET_SEASONAL, postsAPI.getSeasonal)
+const getRecentlySaga = createRequestSaga(GET_RECENTLY, postsAPI.getRecently)
 
 const getStorysSaga = createRequestSaga(GET_STORYS, postsAPI.getStorys)
 
 export function* homeSaga() {
   yield takeLatest(GET_CAROUSEL, getCarouselSaga)
   yield takeLatest(GET_POPULAR, getPopularSaga)
-  yield takeLatest(GET_SEASONAL, getSeasonalSaga)
+  yield takeLatest(GET_RECENTLY, getRecentlySaga)
   yield takeLatest(GET_STORYS, getStorysSaga)
 }
 
@@ -69,14 +69,14 @@ const home = handleActions(
       ...state,
       error,
     }),
-    [GET_SEASONAL]: (state) => ({
+    [GET_RECENTLY]: (state) => ({
       ...state,
     }),
-    [GET_SEASONAL_SUCCESS]: (state, { payload: seasonalList }) => ({
+    [GET_RECENTLY_SUCCESS]: (state, { payload: seasonalList }) => ({
       ...state,
       seasonalList,
     }),
-    [GET_SEASONAL_FAILURE]: (state, { payload: error }) => ({
+    [GET_RECENTLY_FAILURE]: (state, { payload: error }) => ({
       ...state,
       error,
     }),

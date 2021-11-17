@@ -3,17 +3,54 @@ import { css } from '@emotion/react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import palette from '../../lib/styles/palette'
+import { Box } from '@mui/system'
 
 const CardWrapper = styled.div`
   width: 100%;
   height: 100%;
+  min-height: 20rem;
+  height: 100%;
   border-radius: 8px;
 `
 
-const CardBody = styled.div``
+const CardBody = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+`
+
+const CardContent = css`
+  width: 240px;
+  height: 240px;
+  overflow: hidden;
+  margin: 0 auto;
+
+  @media screen and (max-width: 1800px) {
+    width: 200px;
+    height: 200px;
+  }
+
+  @media screen and (max-width: 1440px) {
+    width: 200px;
+    height: 200px;
+  }
+
+  @media screen and (max-width: 1048px) {
+    width: 180px;
+    height: 180px;
+  }
+
+  @media screen and (max-width: 768px) {
+    width: 240px;
+    height: 240px;
+  }
+`
 
 const CardImage = styled.img`
   width: 100%;
+  height: 100%;
+  object-fit: cover;
   border: 1px solid ${palette.gray[2]};
   border-radius: 8px;
 `
@@ -45,7 +82,7 @@ const CardMoreView = styled.div`
   `}
 
   ${({ type }) =>
-    type === 'manyorder' &&
+    type === 'recently' &&
     `
     background: #5197f2;
   `}
@@ -88,8 +125,6 @@ const CardInfo = styled.div`
   }
 
   .seller-info {
-    display: flex;
-    justify-content: flex-end;
     height: 20px;
     font-size: 14px;
   }
@@ -98,7 +133,7 @@ const CardInfo = styled.div`
 const Card = ({ item, type }) => {
   const textCvt = (type) => {
     if (type === 'popular') return '베스트셀러'
-    if (type === 'manyorder') return '인기상품'
+    if (type === 'recently') return '최신상품'
     if (type === 'story') return '스토리'
   }
   if (!item) {
@@ -133,7 +168,7 @@ const Card = ({ item, type }) => {
   return (
     <CardWrapper>
       <CardBody>
-        <Link to={`/market/${id}`}>
+        <Link to={`/market/${id}`} css={CardContent}>
           <CardImage src={thumbnail_img} />
         </Link>
         <CardInfo>

@@ -2,7 +2,6 @@
 import { css } from '@emotion/react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-import LinearProgressBar from '../common/LinearProgressBar'
 
 const FarmerStoryWrapper = styled.div`
   margin: 0 auto;
@@ -17,11 +16,15 @@ const FarmerStoryHeader = styled.div`
   font-size: 24px;
   font-weight: bold;
   margin: 24px 0;
+
+  @media screen and (max-width: 768px) {
+    font-size: 18px;
+  }
 `
 
 const FarmerStoryList = ({ storys, loading }) => {
   if (loading || !storys || !storys[0]) {
-    return <LinearProgressBar />
+    return null
   }
   return (
     <FarmerStoryWrapper>

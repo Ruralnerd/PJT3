@@ -1,36 +1,34 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
-import LinearProgressBar from '../common/LinearProgressBar'
+import Card from '../common/Card'
+import { Grid, Box } from '@mui/material'
 
-const SeasonalWrapper = css`
+const SeasonalWrapper = styled.div`
   width: 100%;
   overflow: hidden;
-
-  margin-bottom: 4rem;
+  margin-bottom: 2rem;
 `
 
-const SeasonalBody = css`
-  display: flex;
-  justify-content: space-between;
-  margin: 0 auto;
-  gap: 2%;
-`
+const SeasonalBody = styled.div``
 
 const SeasonalHeader = styled.div`
   font-size: 24px;
   font-weight: bold;
   margin: 24px 0;
+
+  @media screen and (max-width: 768px) {
+    font-size: 18px;
+  }
 `
 
-const SeasonalItemImage = css`
+const SeasonalItemImage = styled.img`
   width: 10%;
 `
 
 const SeasonalList = ({ seasonalItems, loading }) => {
   if (loading || !seasonalItems) {
-    return <LinearProgressBar />
+    return null
   }
 
   const shuffle = (array) => {
@@ -39,16 +37,23 @@ const SeasonalList = ({ seasonalItems, loading }) => {
   shuffle(seasonalItems)
 
   return (
-    <div css={SeasonalWrapper}>
-      <SeasonalHeader>지금이 제철인 상품</SeasonalHeader>
-      <div css={SeasonalBody}>
-        {seasonalItems.slice(0, 3).map((item) => (
-          <Link key={item.id} to={`/market/${item.id}`}>
-            <img css={SeasonalItemImage} src={item.thumbnail_img} alt="" />
-          </Link>
-        ))}
-      </div>
-    </div>
+    <SeasonalWrapper>
+      <SeasonalHeader>최고로 신선! 방금 등록된 상품</SeasonalHeader>
+      <SeasonalBody>
+        <Box sx={{ width: '100%' }}>
+          <Grid container spacing={2}>
+            {seasonalItems.map((item) => (
+              <Grid item xs={12} md={3} key={item.id}>
+                <Card item={item} />
+              </Grid>
+            ))}
+            <Grid item xs={12} md={3}>
+              <Card type="recently" />
+            </Grid>
+          </Grid>
+        </Box>
+      </SeasonalBody>
+    </SeasonalWrapper>
   )
 }
 export default SeasonalList

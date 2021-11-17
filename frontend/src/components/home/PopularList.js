@@ -1,7 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
 import Card from '../common/Card'
 import LinearProgressBar from '../common/LinearProgressBar'
 import { Grid, Box } from '@mui/material'
