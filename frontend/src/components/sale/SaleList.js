@@ -71,7 +71,7 @@ const SaleList = ({ list, error, loading, auth }) => {
   if (error) {
     return <SaleListWrapper>오류 발생!</SaleListWrapper>
   }
-  if (loading || !list || auth.id === null || auth.token === null) {
+  if (loading || !list) {
     return <LinearProgressBar />
   }
   return (
