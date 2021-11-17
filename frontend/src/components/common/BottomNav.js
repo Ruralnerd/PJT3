@@ -11,6 +11,7 @@ const BottomNavWrapper = css`
   bottom: 0;
   display: flex;
   justify-content: space-evenly;
+  align-items: center;
   text-align: center;
   border-top: 1px solid ${palette.gray[5]};
 `

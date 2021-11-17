@@ -48,7 +48,7 @@ const SeasonalList = ({ seasonalItems, loading }) => {
               </Grid>
             ))}
             <Grid item xs={12} md={3}>
-              <Card type="recently" />
+              <Card type={'recently'} />
             </Grid>
           </Grid>
         </Box>
