@@ -26,7 +26,7 @@ class MarketSmallSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Market
-        fields = ['id', 'title', 'thumbnail_img', 'seller']
+        fields = ['id', 'title', 'thumbnail_img', 'price', 'seller']
 
 # User Serializer
 
