@@ -1,5 +1,7 @@
 /** @jsxImportSource @emotion/react */
 
+import DaumPostcode from 'react-daum-postcode'
+import { useState } from 'react'
 import { css } from '@emotion/react'
 import Spinner from '../common/Spinner'
 import { Box } from '@mui/system'
@@ -13,9 +15,24 @@ import {
   createTheme,
 } from '@mui/material'
 
+import Post from '../../components/common/Post'
+
 import Button from '../common/Button'
 
+const postCodeStyle = css`
+  display: 'block';
+  position: 'absolute';
+  top: '50%';
+  width: '400px';
+  height: '500px';
+  padding: '7px';
+`
+
 const ProfileUpdateuserData = ({ form, onChange, onSubmit }) => {
+  // 주석 처리된 부분과 components/common/Post.js는 도로명주소 API용임
+  // npm i react-daum-postcode로 설치 가능
+  // const [popup, setPopup] = useState(false)
+
   return (
     <>
       {form && (
@@ -48,6 +65,13 @@ const ProfileUpdateuserData = ({ form, onChange, onSubmit }) => {
                   onChange={onChange}
                   defaultValue={form.address}
                 />
+                {/* 여기서부터 도로명주소 어쩌구 
+                <button
+                  onClick={() => {
+                    setPopup(!popup)
+                  }}
+                ></button>
+                {popup && <Post address={address} setAddress={setAddress}></Post>} */}
                 <TextField
                   id="text-phone"
                   name="phone"
