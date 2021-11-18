@@ -1,20 +1,24 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import ProfileForm from '../../components/profile/ProfileForm'
-import { getProfile } from '../../modules/profile'
+import { getProfile, unloadProfile } from '../../modules/profile'
 import { logout } from '../../modules/auth'
 import { withRouter } from 'react-router-dom'
 
-const ProfileContainer = ({ history }) => {
-  const { userData, id } = useSelector(({ profile, auth }) => ({
+const ProfileContainer = ({ match, history }) => {
+  const { userData } = useSelector(({ profile }) => ({
     userData: profile.userData,
-    id: auth.auth.id,
   }))
+
+  const { id } = match.params
 
   const dispatch = useDispatch()
 
   useEffect(() => {
     dispatch(getProfile(id))
+    return () => {
+      dispatch(unloadProfile())
+    }
   }, [dispatch, id])
 
   const onLogout = () => {

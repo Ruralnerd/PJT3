@@ -2,7 +2,6 @@
 import { css } from '@emotion/react'
 import { Link } from 'react-router-dom'
 import palette from '../../lib/styles/palette'
-import { useLocation } from 'react-router-dom'
 
 const TopNavWrapper = css`
   display: flex;
@@ -26,18 +25,7 @@ const LinkText = css`
   color: white;
 `
 
-/*
-TodoList
-
-const isActive = css`
-  color: red;
-`
- */
 const TopNav = () => {
-  // TodoList
-  const location = useLocation()
-  console.log(location.pathname)
-
   return (
     <div>
       <Link to="/">
