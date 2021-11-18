@@ -75,13 +75,13 @@ const App = () => {
           <Route exact path={'/story/:id'} component={StoryDetailPage} />
           <Route path={'/farm'} component={ProfileListPage} />
           <Route path={'/search'} component={SearchPage} />
-          <Route exact path={'/profile/update'} component={ProfileUpdatePage} />
+          <Route exact path={'/profile/:id'} component={ProfilePage} />
+          <Route exact path={'/update/profile'} component={ProfileUpdatePage} />
           <Route
             exact
-            path={'/profile/account'}
+            path={'/account/profile'}
             component={ProfileAccountPage}
           />
-          <Route exact path={'/profile/:id'} component={ProfilePage} />
         </AppContent>
         <Footer />
       </AppWrapper>

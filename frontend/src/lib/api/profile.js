@@ -13,7 +13,7 @@ export const putProfile = ({
   ac_number,
   ac_bank,
 }) => {
-  return client.put(`/api/v1/accounts/users/${user_pk}/`, {
+  return client.put(`/api/v1/accounts/users/${user_pk}/update/`, {
     email,
     nickname,
     password,
