@@ -41,14 +41,19 @@ const AppContent = styled.div`
     padding-right: 15%;
   }
 
+  @media screen and (max-width: 1200px) {
+    padding-left: 8%;
+    padding-right: 8%;
+  }
+
   @media screen and (max-width: 1024px) {
-    padding-left: 9%;
-    padding-right: 9%;
+    padding-left: 6%;
+    padding-right: 6%;
   }
 
   @media screen and (max-width: 768px) {
-    padding-left: 6%;
-    padding-right: 6%;
+    padding-left: 4%;
+    padding-right: 4%;
   }
 `
 

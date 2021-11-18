@@ -88,7 +88,11 @@ const SampleNextArrow = (props) => {
   return (
     <div
       className={className}
-      style={{ ...style, display: 'block', background: 'gray' }}
+      style={{
+        ...style,
+        display: 'block',
+        background: 'none',
+      }}
       css={css`
         margin-right: 9%;
       `}
@@ -102,7 +106,7 @@ const SamplePrevArrow = (props) => {
   return (
     <div
       className={className}
-      style={{ ...style, display: 'block', background: 'gray' }}
+      style={{ ...style, display: 'block', background: 'none' }}
       css={css`
         margin-left: 9%;
       `}
@@ -117,6 +121,8 @@ const StoryDetail = ({ user_id, story, error, loading, onDeleteStory }) => {
     speed: 1000, // 넘어가는 속도는 몇으로 할 것인지
     slidesToShow: 1, // 한 페이지에 몇 장 보여줄 것인지
     slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 1500,
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />,
   }
