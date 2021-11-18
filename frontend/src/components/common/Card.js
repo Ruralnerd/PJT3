@@ -141,7 +141,6 @@ const Card = ({ item, type }) => {
   const textCvt = (type) => {
     if (type === 'popular') return '베스트셀러'
     if (type === 'recently') return '최신상품'
-    if (type === 'story') return '스토리'
   }
   if (!item) {
     return (
@@ -182,11 +181,11 @@ const Card = ({ item, type }) => {
         <CardInfo>
           <Link to={`/market/${id}`}>
             <div className="title">{title}</div>
+            <div className="price-original" type={type}>
+              {wonCommaReg(price * 1.2)}원
+            </div>
+            <div className="price">{wonCommaReg(price)}원</div>
           </Link>
-          <div className="price-original" type={type}>
-            {wonCommaReg(price * 1.2)}원
-          </div>
-          <div className="price">{wonCommaReg(price)}원</div>
           <hr />
           <div className="seller-info">{farmerName(seller.nickname)}</div>
         </CardInfo>
