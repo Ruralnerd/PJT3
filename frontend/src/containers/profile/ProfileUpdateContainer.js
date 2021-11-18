@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react'
+import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import ProfileUpdateForm from '../../components/profile/ProfileUpdateForm'
 import { changeField, initialize, putProfile } from '../../modules/profile'

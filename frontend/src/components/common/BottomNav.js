@@ -28,6 +28,7 @@ const IconText = css`
 
 const BottomNav = () => {
   const token = localStorage.getItem('token')
+  const id = localStorage.getItem('user_id')
 
   return (
     <div css={BottomNavWrapper}>
@@ -45,7 +46,7 @@ const BottomNav = () => {
       </div>
       <div>
         {token && (
-          <Link to="/profile" css={IconGroup}>
+          <Link to={`/profile/${id}`} css={IconGroup}>
             <img src="/images/icon/person.svg" alt="" />
             <div css={IconText}>내 정보</div>
           </Link>

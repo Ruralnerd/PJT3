@@ -1,10 +1,10 @@
 import ProfileTemplate from '../../components/profile/ProfileTemplate'
 import ProfileContainer from '../../containers/profile/ProfileContainer'
 
-const ProfilePage = () => {
+const ProfilePage = ({ match }) => {
   return (
     <ProfileTemplate>
-      <ProfileContainer />
+      <ProfileContainer match={match} />
     </ProfileTemplate>
   )
 }
