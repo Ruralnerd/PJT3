@@ -1,6 +1,14 @@
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react'
+import styled from 'styled-components'
 import Button from '../common/Button'
 import { TextField } from '@mui/material'
 import LinearProgressBar from '../common/LinearProgressBar'
+
+const ProfileWrapper = styled.div`
+  width: 100%;
+  min-height: calc(100vh - 15rem);
+`
 
 const ProfileAccountuserData = ({
   form,
@@ -13,7 +21,7 @@ const ProfileAccountuserData = ({
     return <LinearProgressBar />
   }
   return (
-    <>
+    <ProfileWrapper>
       <p>{form.id}</p>
       <div>계좌등록</div>
       <div>
@@ -42,7 +50,7 @@ const ProfileAccountuserData = ({
           판매자 등록
         </Button>
       </div>
-    </>
+    </ProfileWrapper>
   )
 }
 
