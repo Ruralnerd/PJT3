@@ -19,7 +19,7 @@ const HomeContainer = () => {
     dispatch(getCarousel())
     dispatch(getPopular(3))
     dispatch(getRecently(3))
-    dispatch(getStorys(4))
+    dispatch(getStorys(3))
     return () => {
       // unmount
     }

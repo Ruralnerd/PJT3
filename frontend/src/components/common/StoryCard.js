@@ -3,7 +3,6 @@ import { css } from '@emotion/react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import palette from '../../lib/styles/palette'
-import { Grid } from '@mui/material'
 
 const CardWrapper = styled.div`
   width: 100%;
@@ -11,6 +10,13 @@ const CardWrapper = styled.div`
   flex-flow: row wrap;
   justify-content: center;
   align-items: center;
+
+  transition: transform 500ms;
+
+  &:hover {
+    transform: scale(1.05);
+    z-index: 1;
+  }
 `
 
 const CardBody = css``
@@ -86,31 +92,82 @@ const CardBanner = styled.div`
     flex-direction: column;
     justify-content: center;
     padding-left: 10px;
+
+    b {
+      font-size: 13px;
+    }
   }
 `
 
-const SquareCard = ({ story }) => {
+const CardMoreView = styled.div`
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.025);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  margin: 0 auto;
+  color: #fdf4ff;
+  font-size: 14px;
+  font-weight: bold;
+  text-decoration: underline;
+  border-radius: 8px;
+
+  img {
+    height: auto;
+    max-height: 150px;
+  }
+
+  ${({ type }) =>
+    type === 'story' &&
+    `
+    background: #c9bc99;
+  `}
+`
+
+const SquareCard = ({ story, type }) => {
+  const textCvt = (type) => {
+    if (type === 'story') return '스토리'
+  }
+
+  if (!story) {
+    return (
+      <CardWrapper>
+        <CardContent>
+          <CardMoreView popular type={type}>
+            <img
+              src={`/images/icon/card_more_${type}.PNG`}
+              alt={`${textCvt(type)} 더보기`}
+            />
+            <pre></pre>
+            {`${textCvt(type)} 더보기`}
+          </CardMoreView>
+        </CardContent>
+      </CardWrapper>
+    )
+  }
   const { id, thumbnail_img, title, producer } = story
   const { nickname, profile_img } = producer
+
   return (
-    <Grid item xs={12} md={6}>
-      <CardWrapper>
-        <Link to={`/story/${id}`} css={CardBody}>
-          <CardContent>
-            <CardImage src={thumbnail_img} />
-            <CardBanner>
-              <div className="CardBanner-image">
-                <img src={`${profile_img}`} alt="" />
-              </div>
-              <div className="CardBanner-text">
-                <span>{nickname}</span>
-                {title}
-              </div>
-            </CardBanner>
-          </CardContent>
-        </Link>
-      </CardWrapper>
-    </Grid>
+    <CardWrapper>
+      <Link to={`/story/${id}`} css={CardBody}>
+        <CardContent>
+          <CardImage src={thumbnail_img} />
+          <CardBanner>
+            <div className="CardBanner-image">
+              <img src={`${profile_img}`} alt="" />
+            </div>
+            <div className="CardBanner-text">
+              <b>{nickname}</b>
+              {title}
+            </div>
+          </CardBanner>
+        </CardContent>
+      </Link>
+    </CardWrapper>
   )
 }
 

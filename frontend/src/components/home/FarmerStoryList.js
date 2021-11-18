@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import palette from '../../lib/styles/palette'
 import StoryCard from '../common/StoryCard'
 import { Grid } from '@mui/material'
+import { Link } from 'react-router-dom'
 
 const FarmerStoryWrapper = styled.div`
   margin: 0 auto;
@@ -30,7 +31,9 @@ const FarmerStoryHeader = styled.div`
   }
 `
 
-const FarmerStoryBody = styled.div``
+const FarmerStoryBody = styled.div`
+  padding: 10px 0;
+`
 
 const FarmerStoryList = ({ storys, loading }) => {
   if (loading || !storys) {
@@ -45,8 +48,16 @@ const FarmerStoryList = ({ storys, loading }) => {
       <FarmerStoryBody>
         <Grid container spacing={2}>
           {storys.map((story) => (
-            <StoryCard story={story} key={story.id} />
+            <Grid item xs={12} md={6} key={story.id}>
+              <StoryCard story={story} />
+            </Grid>
           ))}
+
+          <Grid item xs={12} md={6}>
+            <Link to="/farm">
+              <StoryCard type="story" />
+            </Link>
+          </Grid>
         </Grid>
       </FarmerStoryBody>
     </FarmerStoryWrapper>
