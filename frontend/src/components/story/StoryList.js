@@ -1,7 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
 import Button from '../common/Button'
 import { Grid } from '@mui/material'
 import LinearProgressBar from '../common/LinearProgressBar'
@@ -12,10 +11,15 @@ const StoryListWrapper = styled.div`
   padding: 0.5rem;
 `
 
-const StoryListButtonWrapper = styled.div`
+const StoryListBanner = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 1rem;
+
+  div {
+    font-size: 16px;
+  }
 `
 
 const StoryListBody = styled.div`
@@ -31,13 +35,14 @@ const StoryList = ({ auth, storys, error, loading }) => {
   }
   return (
     <StoryListWrapper>
-      <StoryListButtonWrapper>
+      <StoryListBanner>
+        <div>카드를 열어 농부들의 생생한 이야기를 들어보세요!</div>
         {auth.id !== null && auth.token !== null && (
-          <Button cyan to="/sale">
+          <Button cyan to="/editor/story">
             스토리 글 작성하기
           </Button>
         )}
-      </StoryListButtonWrapper>
+      </StoryListBanner>
       <StoryListBody>
         <Grid container spacing={2}>
           {storys.map((story) => (
