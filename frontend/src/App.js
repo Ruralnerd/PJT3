@@ -1,4 +1,4 @@
-import { Route, useLocation } from 'react-router-dom'
+import { Route } from 'react-router-dom'
 
 import TopNav from './components/common/TopNav'
 import BottomNav from './components/common/BottomNav'
@@ -53,10 +53,6 @@ const AppContent = styled.div`
 `
 
 const App = () => {
-  // 이 아래 두 줄을 이용해서 내 현재 url을 확인할 수 있다.
-  const location = useLocation()
-  console.log(location.pathname)
-
   return (
     <>
       <TopNav />
@@ -74,7 +70,7 @@ const App = () => {
           <Route exact path={'/story/:id'} component={StoryDetailPage} />
           <Route path={'/farm'} component={FarmPagePage} />
           <Route path={'/search'} component={SearchPage} />
-          <Route exact path={'/profile'} component={ProfilePage} />
+          <Route exact path={'/profile/:id'} component={ProfilePage} />
           <Route exact path={'/profile/update'} component={ProfileUpdatePage} />
           <Route
             exact

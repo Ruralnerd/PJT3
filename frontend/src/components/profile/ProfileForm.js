@@ -32,13 +32,17 @@ const StoryImage = css`
 const LogoutButton = styled(Button)``
 
 const ProfileForm = ({ userData, onLogout }) => {
+  const myId = parseInt(localStorage.getItem('user_id'))
+
   return (
     <>
       {userData && (
         <div>
           <div css={HeaderWrapper}>
             <h2>{userData.nickname}님의 프로필</h2>
-            <LogoutButton onClick={onLogout}>로그아웃</LogoutButton>
+            {userData.id === myId && (
+              <LogoutButton onClick={onLogout}>로그아웃</LogoutButton>
+            )}
           </div>
 
           <div css={InfoWrapper}>
@@ -91,8 +95,12 @@ const ProfileForm = ({ userData, onLogout }) => {
           </div>
         </div>
       )}
-      <Button to="/profile/update">내정보 수정</Button>
-      <Button to="/profile/account">판매자 등록</Button>
+      {userData.id === myId && (
+        <>
+          <Button to="/profile/update">내정보 수정</Button>
+          <Button to="/profile/account">판매자 등록</Button>
+        </>
+      )}
     </>
   )
 }
