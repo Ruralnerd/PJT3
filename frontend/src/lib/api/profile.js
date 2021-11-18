@@ -24,3 +24,6 @@ export const putProfile = ({
     ac_bank,
   })
 }
+
+export const getProfiles = ({ num }) =>
+  client.get(`/api/v1/accounts/users/`, { params: { num } })

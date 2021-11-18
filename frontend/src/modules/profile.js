@@ -12,6 +12,9 @@ const INITIALIZE = 'profile/INITIALIZE' // 모든 내용 초기화
 const [GET_PROFILE, GET_PROFILE_SUCCESS, GET_PROFILE_FAILURE] =
   createRequestActionTypes('profile/GET_PROFILE')
 
+const [GET_PROFILES, GET_PROFILES_SUCCESS, GET_PROFILES_FAILURE] =
+  createRequestActionTypes('profile/GET_PROFILES')
+
 const CHANGE_FIELD = 'profile/CHANGE_FIELD'
 
 const [PUT_PROFILE, PUT_PROFILE_SUCCESS, PUT_PROFILE_FAILURE] =
@@ -21,7 +24,7 @@ const UNLOAD_PROFILE = 'profile/UNLOAD' //포스트 페이지에서 벗어날 �
 
 // 액션 생성 함수
 export const getProfile = createAction(GET_PROFILE)
-// 액션 생성 함수
+export const getProfiles = createAction(GET_PROFILES)
 export const changeField = createAction(
   CHANGE_FIELD,
   ({ form, key, value }) => ({
@@ -62,11 +65,13 @@ export const putProfile = createAction(
 
 // Saga
 const getProfileSaga = createRequestSaga(GET_PROFILE, profileAPI.getProfile)
+const getProfilesSaga = createRequestSaga(GET_PROFILES, profileAPI.getProfiles)
 const putProfileSaga = createRequestSaga(PUT_PROFILE, profileAPI.putProfile)
 
 // 제너레이터함수
 export function* profileSaga() {
   yield takeLatest(GET_PROFILE, getProfileSaga)
+  yield takeLatest(GET_PROFILES, getProfilesSaga)
   yield takeLatest(PUT_PROFILE, putProfileSaga)
 }
 
@@ -91,6 +96,8 @@ const initialState = {
     provider: '',
     followers: [],
   },
+  market_num: 2, // 프로필 당 최대 몇 개의 마켓 정보를 가져올것인지
+  profiles: [],
   error: null,
 }
 
@@ -106,6 +113,14 @@ const profile = handleActions(
       userData,
     }),
     [GET_PROFILE_FAILURE]: (state, { payload: error }) => ({
+      ...state,
+      error,
+    }),
+    [GET_PROFILES_SUCCESS]: (state, { payload: profiles }) => ({
+      ...state,
+      profiles,
+    }),
+    [GET_PROFILES_FAILURE]: (state, { payload: error }) => ({
       ...state,
       error,
     }),

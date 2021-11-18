@@ -7,7 +7,6 @@ import Footer from './components/common/Footer'
 import HomePage from './pages/common/HomePage'
 import LoginPage from './pages/auth/LoginPage'
 import RegisterPage from './pages/auth/RegisterPage'
-import FarmPagePage from './pages/common/FarmPage'
 import SaleFormPage from './pages/sale/SaleFormPage'
 import SaleDetailPage from './pages/sale/SaleDetailPage'
 import SaleListPage from './pages/sale/SaleListPage'
@@ -17,6 +16,7 @@ import StoryEditorPage from './pages/story/StoryEditorPage'
 import StoryDetailPage from './pages/story/StoryDetailPage'
 import SearchPage from './pages/common/SearchPage'
 import ProfilePage from './pages/profile/ProfilePage'
+import ProfileListPage from './pages/profile/ProfileListPage'
 import ProfileUpdatePage from './pages/profile/ProfileUpdatePage'
 import ProfileAccountPage from './pages/profile/ProfileAccountPage'
 import styled from 'styled-components'
@@ -68,7 +68,7 @@ const App = () => {
           <Route exact path={'/story'} component={StoryListPage} />
           <Route exact path={'/editor/story'} component={StoryEditorPage} />
           <Route exact path={'/story/:id'} component={StoryDetailPage} />
-          <Route path={'/farm'} component={FarmPagePage} />
+          <Route path={'/farm'} component={ProfileListPage} />
           <Route path={'/search'} component={SearchPage} />
           <Route exact path={'/profile/:id'} component={ProfilePage} />
           <Route exact path={'/profile/update'} component={ProfileUpdatePage} />

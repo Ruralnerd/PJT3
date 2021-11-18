@@ -12,10 +12,15 @@ const SaleListWrapper = styled.div`
   padding: 0.5rem;
 `
 
-const SaleListButtonWrapper = styled.div`
+const SaleListBanner = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 1rem;
+
+  div {
+    font-size: 16px;
+  }
 `
 
 const SaleListBody = styled.div`
@@ -31,13 +36,14 @@ const SaleList = ({ sales, error, loading, auth }) => {
   }
   return (
     <SaleListWrapper>
-      <SaleListButtonWrapper>
+      <SaleListBanner>
+        <div>카드를 열어 상품의 정보를 확인해 보세요.</div>
         {auth.id !== null && auth.token !== null && (
           <Button cyan to="/sale">
             판매 글 작성하기
           </Button>
         )}
-      </SaleListButtonWrapper>
+      </SaleListBanner>
       <SaleListBody>
         <Grid container spacing={2}>
           {sales.map((sale) => (
