@@ -3,7 +3,7 @@ import client from './client'
 
 export const getStorys = () =>
   client.get(`/api/v1/articles/storys/`, {
-    params: { num: 1000, option: 'popular' },
+    params: { num: 18, option: 'popular' },
   })
 
 export const getStory = (id) => client.get(`/api/v1/articles/storys/${id}/`)
