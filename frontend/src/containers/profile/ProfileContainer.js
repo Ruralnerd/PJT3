@@ -6,13 +6,16 @@ import { logout } from '../../modules/auth'
 import { withRouter } from 'react-router-dom'
 
 const ProfileContainer = ({ match, history }) => {
-  const { userData } = useSelector(({ profile }) => ({
-    userData: profile.userData,
-  }))
-
   const { id } = match.params
-
   const dispatch = useDispatch()
+  const { userData, loading, auth, error } = useSelector(
+    ({ profile, loading, auth }) => ({
+      userData: profile.userData,
+      error: profile.error,
+      loading: loading['profile/GET_PROFILE'],
+      auth: auth.auth,
+    }),
+  )
 
   useEffect(() => {
     dispatch(getProfile(id))
@@ -30,7 +33,13 @@ const ProfileContainer = ({ match, history }) => {
   }
   return (
     <div>
-      <ProfileForm userData={userData} onLogout={onLogout} />
+      <ProfileForm
+        userData={userData}
+        loading={loading}
+        auth={auth}
+        onLogout={onLogout}
+        error={error}
+      />
     </div>
   )
 }

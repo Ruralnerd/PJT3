@@ -1,11 +1,6 @@
-import ProfileTemplate from '../../components/home/HomeTemplate'
 import ProfileAccountContainer from '../../containers/profile/ProfileAccountContainer'
 
 const ProfileUpdatePage = () => {
-  return (
-    <ProfileTemplate>
-      <ProfileAccountContainer />
-    </ProfileTemplate>
-  )
+  return <ProfileAccountContainer />
 }
 export default ProfileUpdatePage

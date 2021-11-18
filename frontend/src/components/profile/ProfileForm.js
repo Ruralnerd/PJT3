@@ -3,104 +3,169 @@ import { css } from '@emotion/react'
 import styled from 'styled-components'
 import Button from '../common/Button'
 import { Link, withRouter } from 'react-router-dom'
+import LinearProgressBar from '../common/LinearProgressBar'
+import palette from '../../lib/styles/palette'
+import { Grid } from '@mui/material'
+import SaleListCard from '../common/SaleListCard'
+import StoryListCard from '../common/StoryListCard'
 
-const HeaderWrapper = css`
+const ProfileWrapper = styled.div`
+  width: 100%;
+  padding: 0.5rem;
+`
+
+const ProfileBanner = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* margin: 2% 10%; */
+  flex-flow: row nowrap;
+  margin-bottom: 1rem;
+  width: 100%;
+
+  div {
+    font-size: 16px;
+  }
+
+  .ProfileBannerButtons {
+    display: flex;
+    justify-content: space-around;
+
+    button {
+      margin: 5px;
+    }
+
+    a {
+      margin: 5px;
+    }
+  }
 `
 
-const InfoWrapper = css`
+const ProfileBody = styled.div`
+  width: 100%;
+  padding: 10px 20px;
   display: flex;
-  flex-wrap: wrap;
-  gap: 2%;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
 `
 
-const ProfileImage = css`
-  width: 50%;
+const ProfileInfo = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  align-items: center;
 `
 
-const SaleImage = css`
-  width: 50%;
+const ProfileInfoImage = styled.img`
+  width: 15rem;
+  height: 15rem;
+  border-radius: 100%;
 `
-const StoryImage = css`
-  width: 50%;
+
+const ProfileInfoText = styled.div`
+  border-radius: 4px;
+  border: 1px solid ${palette.gray[2]};
+  padding: 20px;
 `
 
-const LogoutButton = styled(Button)``
+const ProfileBadge = styled.div`
+  display: flex;
+  justify-content: center;
+  top: 10px;
+  left: 10px;
+  border-radius: 4px;
+  padding: 2px;
+  width: 4rem;
+  background: #d33939;
+  color: white;
+  font-size: 1rem;
+`
 
-const ProfileForm = ({ userData, onLogout, history }) => {
-  const myId = localStorage.getItem('user_id')
-
+const ProfileForm = ({ userData, onLogout, auth, loading, error }) => {
+  if (error) {
+    return <div>오류 발생!</div>
+  }
+  if (loading || !userData || !auth) {
+    return <LinearProgressBar />
+  }
+  const current_user = auth.id
+  const {
+    id,
+    storys,
+    markets,
+    email,
+    nickname,
+    address,
+    phone,
+    profile_img,
+    is_seller,
+    ac_number,
+    ac_bank,
+  } = userData
   return (
-    <>
-      {userData && (
-        <div>
-          <div css={HeaderWrapper}>
-            <h2>{userData.nickname}님의 프로필</h2>
-            {myId && userData.id.toString() === myId.toString() && (
-              <LogoutButton onClick={onLogout}>로그아웃</LogoutButton>
-            )}
+    <ProfileWrapper>
+      <ProfileBanner>
+        <h2>{nickname}님의 프로필</h2>
+        {current_user && id.toString() === current_user.toString() && (
+          <div className="ProfileBannerButtons">
+            <Button to="/profile/update">내정보 수정</Button>
+            <Button cyan to="/profile/account">
+              판매자 등록
+            </Button>
+            <Button red onClick={onLogout}>
+              로그아웃
+            </Button>
           </div>
-
-          <div css={InfoWrapper}>
-            <img css={ProfileImage} src={userData.profile_img} alt="" />
+        )}
+      </ProfileBanner>
+      <ProfileBody>
+        <ProfileInfo>
+          <ProfileInfoImage src={`${profile_img}`} />
+          <ProfileInfoText>
+            <div>이메일: {email}</div>
             <div>
-              <p>이메일 : {userData.email}</p>
-              <p>전화번호 : {userData.phone}</p>
-              <p>주소 :{userData.address}</p>
-            </div>
-          </div>
-          <div>
-            <h2>{userData.nickname}님의 판매상품</h2>
-            <div
-              css={css`
-                display: flex;
-              `}
-            >
-              {userData.markets &&
-                userData.markets.map((item) => (
-                  <div key={item.id}>
-                    <Link to={`/market/${item.id}`}>
-                      <img css={SaleImage} src={item.thumbnail_img} alt="" />
-                    </Link>
-                    <p>{item.title}</p>
-                  </div>
-                ))}
+              전화번호: {phone === null ? '등록되지 않았습니다.' : phone}
             </div>
             <div>
-              <h2>{userData.nickname}님의 이야기</h2>
-              <div
-                css={css`
-                  display: flex;
-                `}
-              >
-                {userData.storys &&
-                  userData.storys.map((story) => (
-                    <div key={story.id}>
-                      <Link to={`/story/${story.id}`}>
-                        <img
-                          css={StoryImage}
-                          src={story.thumbnail_img}
-                          alt=""
-                        />
-                      </Link>
-                      <p>{story.title}</p>
-                    </div>
-                  ))}
-              </div>
+              주소: {address === null ? '등록되지 않았습니다.' : address}
             </div>
-          </div>
-        </div>
-      )}
-      {myId && userData.id.toString() === myId.toString() && (
-        <>
-          <Button to="/profile/update">내정보 수정</Button>
-          <Button to="/profile/account">판매자 등록</Button>
-        </>
-      )}
-    </>
+            <div>
+              등록은행: {ac_bank === null ? '등록되지 않았습니다.' : ac_bank}
+            </div>
+            <div>
+              계좌번호:{' '}
+              {ac_number === null ? '등록되지 않았습니다.' : ac_number}
+            </div>
+            <hr />
+            {!is_seller && <ProfileBadge>판매자</ProfileBadge>}
+          </ProfileInfoText>
+        </ProfileInfo>
+        {markets.length !== 0 && (
+          <>
+            <h3>{nickname}님의 상품</h3>
+            <Grid container spacing={2}>
+              {markets.map((sale) => (
+                <Grid item xs={12} sm={6} md={4} key={sale.id}>
+                  <SaleListCard sale={sale} />
+                </Grid>
+              ))}
+            </Grid>
+          </>
+        )}
+        {storys.length !== 0 && (
+          <>
+            <h3>{nickname}님의 스토리</h3>
+            <Grid container spacing={2}>
+              {storys.map((story) => (
+                <Grid item xs={12} sm={6} md={4} key={story.id}>
+                  <StoryListCard story={story} />
+                </Grid>
+              ))}
+            </Grid>
+          </>
+        )}
+      </ProfileBody>
+    </ProfileWrapper>
   )
 }
 export default withRouter(ProfileForm)
