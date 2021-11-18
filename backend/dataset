@@ -1,0 +1,4 @@
+python manage.py loaddata ../exec/Dump_data/data/accounts.json
+python manage.py loaddata ../exec/Dump_data/data/searches.json
+python manage.py loaddata ../exec/Dump_data/data/articles.json
+python manage.py loaddata ../exec/Dump_data/data/sales.json

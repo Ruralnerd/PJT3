@@ -1,0 +1,437 @@
+{
+  "test": [
+    {
+      "id": 1
+    }
+  ],
+  "story": [
+    {
+      "id": 1,
+      "username": "김두환",
+      "thumbnail_img": "img/product/product01.jpg",
+      "title": "하하 나는 야인이 될거야"
+    },
+    {
+      "id": 2,
+      "username": "따이완남바완",
+      "thumbnail_img": "img/product/product02.jpg",
+      "title": "타이완에서 온 구아바 드셔보시라해"
+    },
+    {
+      "id": 3,
+      "username": "구마적",
+      "thumbnail_img": "img/product/product03.jpg",
+      "title": "고 구마적"
+    },
+    {
+      "id": 4,
+      "username": "신마적",
+      "thumbnail_img": "img/product/product04.jpg",
+      "title": "사나이 울리는 농심 신마적"
+    },
+    {
+      "id": 5,
+      "username": "리싸수",
+      "thumbnail_img": "img/product/product02.jpg",
+      "title": "하하 나는 컴퓨터왕이 될거야"
+    },
+    {
+      "title": "하하 죽어라 이건 제목이다",
+      "img": [],
+      "tags": [
+        "ㅠㅠ"
+      ],
+      "id": 6
+    },
+    {
+      "title": "이제되겠지?ㅋㅋ",
+      "img": {},
+      "tags": [
+        "ㅋㅋ"
+      ],
+      "id": 7
+    },
+    {
+      "title": "ㅁㄴㅇ",
+      "img": {},
+      "content": "ㅁㄴㅇ",
+      "tags": [],
+      "id": 8
+    },
+    {
+      "title": "ㅋㅋ",
+      "img": [],
+      "content": "ㅋㅋ",
+      "tags": [
+        "ㅋㅋ"
+      ],
+      "id": 9
+    },
+    {
+      "title": "제목",
+      "img": {},
+      "content": "리싸수",
+      "tags": [
+        "리싸수!!"
+      ],
+      "id": 10
+    },
+    {
+      "title": "태그",
+      "img": [],
+      "content": "태그",
+      "tags": [
+        "감자",
+        "고구마"
+      ],
+      "id": 11
+    },
+    {
+      "title": "ㅁㄴㅇ",
+      "img": {},
+      "content": "ㅁㄴㅇ",
+      "tags": [],
+      "id": 12
+    },
+    {
+      "title": "하하 좀 돼라 시벌",
+      "img": {},
+      "content": {},
+      "tags": [],
+      "id": 13
+    },
+    {
+      "title": "제목!!",
+      "img": {},
+      "content": {},
+      "tags": [
+        "ㅌㄱㅌㄱ"
+      ],
+      "id": 14
+    },
+    {
+      "title": "gd",
+      "img": {},
+      "content": [],
+      "tags": [
+        "고구마.,.ㅠ"
+      ],
+      "id": 15
+    },
+    {
+      "title": "돼야해",
+      "img": {},
+      "content": {},
+      "tags": [],
+      "id": 16
+    },
+    {
+      "title": "제목",
+      "img": {},
+      "content": {},
+      "tags": [],
+      "id": 17
+    },
+    {
+      "title": "wa",
+      "img": {},
+      "content": {},
+      "tags": [],
+      "id": 18
+    },
+    {
+      "title": "제목",
+      "img": "",
+      "content": [],
+      "categorys": [
+        "카테고리?"
+      ],
+      "id": 19
+    },
+    {
+      "id": 20
+    }
+  ],
+  "market": [
+    {
+      "id": 1,
+      "marketId": 1,
+      "thumbnail_img": "images/product/product01.jpg",
+      "title": "설향 딸기"
+    },
+    {
+      "id": 2,
+      "marketId": 2,
+      "thumbnail_img": "images/product/product02.jpg",
+      "title": "안녕하세요 여러분 이건 꿀입니다. 아마 맞을거에요. 아닐 수도 있지만, 꿀은 우두령이 맛있습니다."
+    },
+    {
+      "id": 3,
+      "marketId": 3,
+      "thumbnail_img": "images/product/product03.jpg",
+      "title": "해당 작물은 고추입니다. 이렇게 설명을 길게 해놓으면.. 계속 설명이 길어지죠"
+    },
+    {
+      "id": 4,
+      "marketId": 4,
+      "thumbnail_img": "images/product/product04.jpg",
+      "title": "ㅁㄴㄹ"
+    },
+    {
+      "id": 5,
+      "marketId": 5,
+      "thumbnail_img": "images/product/product05.jpg",
+      "title": "주먹감자"
+    },
+    {
+      "id": 6,
+      "marketId": 6,
+      "thumbnail_img": "images/product/product06.jpg",
+      "title": "고구마는 영어로 sweet potato"
+    },
+    {
+      "id": 7,
+      "marketId": 7,
+      "thumbnail_img": "images/product/product07.jpg",
+      "title": "삼미자 사미자 오미자"
+    },
+    {
+      "id": 8,
+      "marketId": 8,
+      "thumbnail_img": "images/product/product08.jpg",
+      "title": "토 맛 토마토"
+    }
+  ],
+  "posts": [
+    {
+      "userId": 1,
+      "id": 1,
+      "title": "하나",
+      "body": "하나바디"
+    },
+    {
+      "userId": 1,
+      "id": 2,
+      "title": "두식이",
+      "body": "두식이바디"
+    },
+    {
+      "userId": 1,
+      "id": 3,
+      "title": "ea molestias quasi exercitationem repellat qui ipsa sit aut",
+      "body": "et iusto sed quo iure\nvoluptatem occaecati omnis eligendi aut ad\nvoluptatem doloribus vel accusantium quis pariatur\nmolestiae porro eius odio et labore et velit aut"
+    },
+    {
+      "userId": 1,
+      "id": 4,
+      "title": "eum et est occaecati",
+      "body": "ullam et saepe reiciendis voluptatem adipisci\nsit amet autem assumenda provident rerum culpa\nquis hic commodi nesciunt rem tenetur doloremque ipsam iure\nquis sunt voluptatem rerum illo velit"
+    },
+    {
+      "userId": 1,
+      "id": 5,
+      "title": "nesciunt quas odio",
+      "body": "repudiandae veniam quaerat sunt sed\nalias aut fugiat sit autem sed est\nvoluptatem omnis possimus esse voluptatibus quis\nest aut tenetur dolor neque"
+    },
+    {
+      "userId": 1,
+      "id": 6,
+      "title": "dolorem eum magni eos aperiam quia",
+      "body": "ut aspernatur corporis harum nihil quis provident sequi\nmollitia nobis aliquid molestiae\nperspiciatis et ea nemo ab reprehenderit accusantium quas\nvoluptate dolores velit et doloremque molestiae"
+    },
+    {
+      "userId": 1,
+      "id": 7,
+      "title": "magnam facilis autem",
+      "body": "dolore placeat quibusdam ea quo vitae\nmagni quis enim qui quis quo nemo aut saepe\nquidem repellat excepturi ut quia\nsunt ut sequi eos ea sed quas"
+    },
+    {
+      "userId": 1,
+      "id": 8,
+      "title": "dolorem dolore est ipsam",
+      "body": "dignissimos aperiam dolorem qui eum\nfacilis quibusdam animi sint suscipit qui sint possimus cum\nquaerat magni maiores excepturi\nipsam ut commodi dolor voluptatum modi aut vitae"
+    },
+    {
+      "userId": 1,
+      "id": 9,
+      "title": "nesciunt iure omnis dolorem tempora et accusantium",
+      "body": "consectetur animi nesciunt iure dolore\nenim quia ad\nveniam autem ut quam aut nobis\net est aut quod aut provident voluptas autem voluptas"
+    },
+    {
+      "userId": 1,
+      "id": 10,
+      "title": "optio molestias id quia eum",
+      "body": "quo et expedita modi cum officia vel magni\ndoloribus qui repudiandae\nvero nisi sit\nquos veniam quod sed accusamus veritatis error"
+    },
+    {
+      "userId": 2,
+      "id": 11,
+      "title": "et ea vero quia laudantium autem",
+      "body": "delectus reiciendis molestiae occaecati non minima eveniet qui voluptatibus\naccusamus in eum beatae sit\nvel qui neque voluptates ut commodi qui incidunt\nut animi commodi"
+    },
+    {
+      "userId": 2,
+      "id": 12,
+      "title": "in quibusdam tempore odit est dolorem",
+      "body": "itaque id aut magnam\npraesentium quia et ea odit et ea voluptas et\nsapiente quia nihil amet occaecati quia id voluptatem\nincidunt ea est distinctio odio"
+    },
+    {
+      "userId": 2,
+      "id": 13,
+      "title": "dolorum ut in voluptas mollitia et saepe quo animi",
+      "body": "aut dicta possimus sint mollitia voluptas commodi quo doloremque\niste corrupti reiciendis voluptatem eius rerum\nsit cumque quod eligendi laborum minima\nperferendis recusandae assumenda consectetur porro architecto ipsum ipsam"
+    },
+    {
+      "userId": 2,
+      "id": 14,
+      "title": "voluptatem eligendi optio",
+      "body": "fuga et accusamus dolorum perferendis illo voluptas\nnon doloremque neque facere\nad qui dolorum molestiae beatae\nsed aut voluptas totam sit illum"
+    },
+    {
+      "userId": 2,
+      "id": 15,
+      "title": "eveniet quod temporibus",
+      "body": "reprehenderit quos placeat\nvelit minima officia dolores impedit repudiandae molestiae nam\nvoluptas recusandae quis delectus\nofficiis harum fugiat vitae"
+    }
+  ],
+  "profiles": [
+    {
+      "id": 1,
+      "email": "aaa111@naver.com",
+      "nickname": "AAA",
+      "phone": "010-1111-1111",
+      "address": "지역A",
+      "profile_img": "프로필이미지A",
+      "created_at": "생성날자 및 시간A",
+      "is_seller": true,
+      "is_admin": false,
+      "markets": [
+        {
+          "id": 1,
+          "title": "상품제목A1",
+          "thumbnail_img": "상품썸네일A1"
+        },
+        {
+          "id": 2,
+          "title": "상품제목A2",
+          "thumbnail_img": "상품썸네일A2"
+        },
+        {
+          "id": 3,
+          "title": "상품제목A3",
+          "thumbnail_img": "상품썸네일A3"
+        },
+        {
+          "id": 4,
+          "title": "상품제목A4",
+          "thumbnail_img": "상품썸네일A4"
+        }
+      ],
+      "storys": [
+        {
+          "id": 1,
+          "title": "이야기제목A1",
+          "thumbnail_img": "이야기썸네일A1"
+        },
+        {
+          "id": 2,
+          "title": "이야기제목A2",
+          "thumbnail_img": "이야기썸네일A1"
+        },
+        {
+          "id": 3,
+          "title": "이야기제목A3",
+          "thumbnail_img": "이야기썸네일A3"
+        },
+        {
+          "id": 4,
+          "title": "이야기제목A4",
+          "thumbnail_img": "이야기썸네일A4"
+        }
+      ],
+      "followers": ["user_id"]
+    },
+    {
+      "id": 2,
+      "email": "bbb222@naver.com",
+      "nickname": "BBB",
+      "phone": "010-2222-2222",
+      "address": "지역B",
+      "profile_img": "프로필이미지B",
+      "created_at": "생성날자 및 시간B",
+      "is_seller": false,
+      "is_admin": false,
+      "markets": [
+        {
+          "id": 1,
+          "title": "상품제목B1",
+          "thumbnail_img": "상품썸네일B1"
+        },
+        {
+          "id": 2,
+          "title": "상품제목B2",
+          "thumbnail_img": "상품썸네일B2"
+        },
+        {
+          "id": 3,
+          "title": "상품제목B3",
+          "thumbnail_img": "상품썸네일B3"
+        },
+        {
+          "id": 4,
+          "title": "상품제목B4",
+          "thumbnail_img": "상품썸네일B4"
+        }
+      ],
+      "storys": [
+        {
+          "id": 1,
+          "title": "이야기제목B1",
+          "thumbnail_img": "이야기썸네일B1"
+        },
+        {
+          "id": 2,
+          "title": "이야기제목B2",
+          "thumbnail_img": "이야기썸네일B2"
+        },
+        {
+          "id": 3,
+          "title": "이야기제목B3",
+          "thumbnail_img": "이야기썸네일B3"
+        },
+        {
+          "id": 4,
+          "title": "이야기제목B4",
+          "thumbnail_img": "이야기썸네일B4"
+        }
+      ],
+      "followers": ["user_id"]
+    },
+    {
+      "id": 3,
+      "email": "ccc333@naver.com",
+      "nickname": "CCC",
+      "phone": "010-3333-3333",
+      "address": "지역",
+      "profile_img": "프로필이미지C",
+      "created_at": "생성날자 및 시간C",
+      "is_seller": true,
+      "is_admin": false,
+      "markets": [
+        {
+          "id": 3,
+          "title": "상품제목C",
+          "thumbnail_img": "상품썸네일C"
+        }
+      ],
+      "storys": [
+        {
+          "id": 3,
+          "title": "이야기제목C",
+          "thumbnail_img": "이야기썸네일C"
+        }
+      ],
+      "followers": ["user_id"]
+    }
+  ]
+}
