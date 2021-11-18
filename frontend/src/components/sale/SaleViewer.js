@@ -58,7 +58,16 @@ const theme = createTheme({
   },
 })
 
-const SaleViewer = ({ form, detail, loading, error, onChange, onPostPay }) => {
+const SaleViewer = ({
+  user_id,
+  form,
+  detail,
+  loading,
+  error,
+  onChange,
+  onPostPay,
+  onDeleteSale,
+}) => {
   const [payOpen, setPayOpen] = useState(false)
 
   const handlePayModal = () => {
@@ -74,6 +83,7 @@ const SaleViewer = ({ form, detail, loading, error, onChange, onPostPay }) => {
     return <LinearProgressBar />
   }
   const {
+    id,
     seller,
     title,
     price,
@@ -103,15 +113,18 @@ const SaleViewer = ({ form, detail, loading, error, onChange, onPostPay }) => {
     <SaleViewerWrapper>
       <SaleHeader>
         <h1>{title}</h1>
-        <SubInfo seller={seller} detail={subInfoDetail} hasMarginTop>
-          <span>tester</span>
-        </SubInfo>
+        <SubInfo seller={seller} detail={subInfoDetail} hasMarginTop />
         {/* Kakao pay modal */}
         <img
           src="/images/icon/kakao_payment_icon_large.png"
           alt="kakao_pay"
           onClick={handlePayModal}
         />
+        {user_id === id && (
+          <Button fullWidth onClick={onDeleteSale}>
+            글 삭제
+          </Button>
+        )}
         <ThemeProvider theme={theme}>
           <Modal
             aria-labelledby="transition-modal-title"
