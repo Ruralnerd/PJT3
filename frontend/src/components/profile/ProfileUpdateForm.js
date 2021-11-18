@@ -5,6 +5,7 @@ import Spinner from '../common/Spinner'
 import { Box } from '@mui/system'
 import { TextField } from '@mui/material'
 import Button from '../common/Button'
+import palette from '../../lib/styles/palette'
 import LinearProgressBar from '../common/LinearProgressBar'
 
 const sizes = {
@@ -42,6 +43,9 @@ const ProfileBox = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  border: 1px solid ${palette.gray[4]};
+  padding: 40px;
+  border-radius: 8px;
 `
 
 const ProfileUpdateForm = ({ form, onChange, onSubmit, error, loading }) => {
