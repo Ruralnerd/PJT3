@@ -39,7 +39,7 @@ const ProfileForm = ({ userData, onLogout, history }) => {
         <div>
           <div css={HeaderWrapper}>
             <h2>{userData.nickname}님의 프로필</h2>
-            {myId && userData.id === myId.toString() && (
+            {myId && userData.id.toString() === myId.toString() && (
               <LogoutButton onClick={onLogout}>로그아웃</LogoutButton>
             )}
           </div>
