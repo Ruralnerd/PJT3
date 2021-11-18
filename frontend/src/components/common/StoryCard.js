@@ -23,9 +23,9 @@ const CardBody = css``
 
 const CardContent = styled.div`
   position: relative;
+  overflow: hidden;
   width: 500px;
   height: 500px;
-  overflow: hidden;
 
   @media screen and (max-width: 1800px) {
     width: 450px;
