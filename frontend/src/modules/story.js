@@ -88,6 +88,8 @@ const initialState = {
   storys: [],
   story: '',
   error: '',
+  num: 18,
+  option: 'popular',
 }
 
 const story = handleActions(
