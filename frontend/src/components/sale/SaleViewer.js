@@ -120,7 +120,7 @@ const SaleViewer = ({
           alt="kakao_pay"
           onClick={handlePayModal}
         />
-        {user_id === id && (
+        {user_id && seller && user_id.toString() === seller.id.toString() && (
           <Button fullWidth onClick={onDeleteSale}>
             글 삭제
           </Button>
