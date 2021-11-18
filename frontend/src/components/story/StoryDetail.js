@@ -1,47 +1,86 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
+import styled from 'styled-components'
 import Slider from 'react-slick'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
+import palette from '../../lib/styles/palette'
 import Button from '../common/Button'
 import LinearProgressBar from '../common/LinearProgressBar'
 
+const CarouselWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  min-height: calc(100vh - 15rem);
+  padding: 0.5rem;
+`
+const CarouselBanner = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+
+  div {
+    font-size: 16px;
+  }
+`
+
 const CarouselStyle = css`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+
   .slick-list {
     margin: 0 0;
   }
 
-  .slick-slide div {
+  .slick-slide {
     cursor: pointer;
   }
 
-  .slick-dots {
-    position: absolute;
-    bottom: 100%;
-    background-color: gray;
+  .slick-track {
+    display: relative;
   }
 
-  .slick-track {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .story-text {
+    font-size: 24px;
+    font-weight: bold;
   }
 `
 
+const CarouselBody = styled.div``
+
 const CarouselItem = css`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  box-shadow: 0 0 16px rgba(0, 0, 0, 0.025);
+  width: 700px;
+  height: 700px;
+  overflow: hidden;
+
+  @media screen and (max-width: 1800px) {
+    width: 500px;
+    height: 500px;
+  }
+
+  @media screen and (max-width: 1024px) {
+    width: 400px;
+    height: 400px;
+  }
+
+  @media screen and (max-width: 768px) {
+    width: 200px;
+    height: 200px;
+  }
 `
 
 const CarouselImage = css`
   width: 100%;
   height: 100%;
-  object-fit: fill;
-  text-decoration: none;
-`
-const HeaderWrapper = css`
-  margin-bottom: 10%;
+  flex: 1;
+  object-fit: cover;
+  margin-bottom: 1rem;
+  border-radius: 6px;
 `
 
 const SampleNextArrow = (props) => {
@@ -49,10 +88,13 @@ const SampleNextArrow = (props) => {
   return (
     <div
       className={className}
-      style={{ ...style, display: 'block', background: 'gray' }}
+      style={{
+        ...style,
+        display: 'block',
+        background: 'none',
+      }}
       css={css`
         margin-right: 9%;
-        z-index: 9999;
       `}
       onClick={onClick}
     />
@@ -64,10 +106,9 @@ const SamplePrevArrow = (props) => {
   return (
     <div
       className={className}
-      style={{ ...style, display: 'block', background: 'gray' }}
+      style={{ ...style, display: 'block', background: 'none' }}
       css={css`
         margin-left: 9%;
-        z-index: 9999;
       `}
       onClick={onClick}
     />
@@ -76,13 +117,12 @@ const SamplePrevArrow = (props) => {
 
 const StoryDetail = ({ user_id, story, error, loading, onDeleteStory }) => {
   const settings = {
-    dots: true, // 캐러셀의 점
     infinite: true, // 마지막 장 다음에 첫번째(로테이션)
     speed: 1000, // 넘어가는 속도는 몇으로 할 것인지
     slidesToShow: 1, // 한 페이지에 몇 장 보여줄 것인지
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 3000,
+    autoplaySpeed: 1500,
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />,
   }
@@ -97,32 +137,34 @@ const StoryDetail = ({ user_id, story, error, loading, onDeleteStory }) => {
     return <LinearProgressBar />
   }
 
+  const { title, producer, contents } = story
+
   return (
-    <div>
-      {user_id && user_id.toString() === story.producer.id.toString() && (
-        <Button fullWidth onClick={onDeleteStory}>
-          글 삭제
-        </Button>
-      )}
-      {story && (
+    <CarouselWrapper>
+      <CarouselBanner>
         <div>
-          <div css={HeaderWrapper}>
-            <p>제목 : {story.title}</p>
-            <p>작성자 : {story.producer.nickname}</p>
-          </div>
-          <div>
-            <Slider css={CarouselStyle} {...settings}>
-              {story.contents.map((page) => (
-                <div key={page.id} css={CarouselItem}>
-                  <img css={CarouselImage} src={page.img} alt=""></img>
-                  <p>{page.content}</p>
-                </div>
-              ))}
-            </Slider>
-          </div>
+          <h3>{title}</h3>
+          <div>{producer.nickname} 농부님</div>
         </div>
-      )}
-    </div>
+        {user_id && user_id.toString() === producer.id.toString() && (
+          <Button fullWidth onClick={onDeleteStory}>
+            글 삭제
+          </Button>
+        )}
+      </CarouselBanner>
+      <CarouselBody>
+        <Slider css={CarouselStyle} carouselItems={contents} {...settings}>
+          {contents.map((content) => (
+            <>
+              <div key={content.id} css={CarouselItem}>
+                <img css={CarouselImage} src={content.img} alt="" />
+              </div>
+              <div className="story-text">{content.content}</div>
+            </>
+          ))}
+        </Slider>
+      </CarouselBody>
+    </CarouselWrapper>
   )
 }
 

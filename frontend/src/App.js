@@ -41,14 +41,19 @@ const AppContent = styled.div`
     padding-right: 15%;
   }
 
+  @media screen and (max-width: 1200px) {
+    padding-left: 8%;
+    padding-right: 8%;
+  }
+
   @media screen and (max-width: 1024px) {
-    padding-left: 9%;
-    padding-right: 9%;
+    padding-left: 6%;
+    padding-right: 6%;
   }
 
   @media screen and (max-width: 768px) {
-    padding-left: 6%;
-    padding-right: 6%;
+    padding-left: 4%;
+    padding-right: 4%;
   }
 `
 
@@ -70,13 +75,13 @@ const App = () => {
           <Route exact path={'/story/:id'} component={StoryDetailPage} />
           <Route path={'/farm'} component={ProfileListPage} />
           <Route path={'/search'} component={SearchPage} />
-          <Route exact path={'/profile/update'} component={ProfileUpdatePage} />
+          <Route exact path={'/profile/:id'} component={ProfilePage} />
+          <Route exact path={'/update/profile'} component={ProfileUpdatePage} />
           <Route
             exact
-            path={'/profile/account'}
+            path={'/account/profile'}
             component={ProfileAccountPage}
           />
-          <Route exact path={'/profile/:id'} component={ProfilePage} />
         </AppContent>
         <Footer />
       </AppWrapper>

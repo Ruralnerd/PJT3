@@ -11,6 +11,7 @@ import StoryListCard from '../common/StoryListCard'
 
 const ProfileWrapper = styled.div`
   width: 100%;
+  min-height: calc(100vh - 15rem);
   padding: 0.5rem;
 `
 
@@ -102,14 +103,15 @@ const ProfileForm = ({ userData, onLogout, auth, loading, error }) => {
     ac_number,
     ac_bank,
   } = userData
+
   return (
     <ProfileWrapper>
       <ProfileBanner>
         <h2>{nickname}님의 프로필</h2>
-        {current_user && id.toString() === current_user.toString() && (
+        {id && current_user && id.toString() === current_user.toString() && (
           <div className="ProfileBannerButtons">
-            <Button to="/profile/update">내정보 수정</Button>
-            <Button cyan to="/profile/account">
+            <Button to="/update/profile">내정보 수정</Button>
+            <Button cyan to="/account/profile">
               판매자 등록
             </Button>
             <Button red onClick={onLogout}>
