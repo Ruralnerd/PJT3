@@ -39,6 +39,10 @@ const CardWrapper = styled.div`
 
   .card:hover .slide.slide1 {
     transform: translateY(-3rem); // 사진 올라가는 높이
+
+    img {
+      border-radius: 0;
+    }
   }
 
   /* 설명 슬라이드 */
@@ -90,6 +94,7 @@ const ThumbnailBox = styled.div`
     color: #fff;
     width: 100%;
     height: 100%;
+    border-radius: 10px;
   }
 `
 
