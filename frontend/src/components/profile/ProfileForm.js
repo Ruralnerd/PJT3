@@ -1,9 +1,8 @@
 /** @jsxImportSource @emotion/react */
-
-import styled, { css } from 'styled-components'
-// import { css } from '@emotion/react'
+import { css } from '@emotion/react'
+import styled from 'styled-components'
 import Button from '../common/Button'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 
 const HeaderWrapper = css`
   display: flex;
@@ -31,8 +30,8 @@ const StoryImage = css`
 
 const LogoutButton = styled(Button)``
 
-const ProfileForm = ({ userData, onLogout }) => {
-  const myId = parseInt(localStorage.getItem('user_id'))
+const ProfileForm = ({ userData, onLogout, history }) => {
+  const myId = localStorage.getItem('user_id')
 
   return (
     <>
@@ -40,7 +39,7 @@ const ProfileForm = ({ userData, onLogout }) => {
         <div>
           <div css={HeaderWrapper}>
             <h2>{userData.nickname}님의 프로필</h2>
-            {userData.id === myId && (
+            {myId && userData.id.toString() === myId.toString() && (
               <LogoutButton onClick={onLogout}>로그아웃</LogoutButton>
             )}
           </div>
@@ -95,7 +94,7 @@ const ProfileForm = ({ userData, onLogout }) => {
           </div>
         </div>
       )}
-      {userData.id === myId && (
+      {myId && userData.id.toString() === myId.toString() && (
         <>
           <Button to="/profile/update">내정보 수정</Button>
           <Button to="/profile/account">판매자 등록</Button>
@@ -104,4 +103,4 @@ const ProfileForm = ({ userData, onLogout }) => {
     </>
   )
 }
-export default ProfileForm
+export default withRouter(ProfileForm)

@@ -14,7 +14,7 @@ const BottomNavWrapper = css`
   align-items: center;
   text-align: center;
   border-top: 1px solid ${palette.gray[5]};
-  z-index: 9;
+  z-index: 99;
 `
 
 const IconGroup = css`

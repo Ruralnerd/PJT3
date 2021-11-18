@@ -61,7 +61,7 @@ const CardWrapper = styled.div`
   }
 
   .card:hover .slide.slide2 {
-    transform: translateY(-10rem);
+    transform: translateY(-8rem);
   }
 
   .card .slide.slide2::after {
@@ -101,59 +101,78 @@ const ThumbnailBox = styled.div`
 const CardInfo = styled.div`
   width: 100%;
   display: flex;
-  flex-direction: row;
-  padding-top: 4rem;
-  justify-content: space-between;
-
-  img {
-    width: 50px;
-    height: 50px;
-    border-radius: 100%;
-    margin-right: 10px;
-  }
+  flex-direction: column;
+  justify-content: flex-start;
 `
 
 const CardInfoText = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: flex-end;
+  text-decoration: none;
+  padding-top: 2rem;
 
-  .title {
-    width: 10rem;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    font-size: 16px;
-    font-weight: bold;
+  hr {
+    width: 100%;
+    border-top: 1px solid ${palette.gray[2]};
   }
 
   .nickname {
-    font-size: 12px;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+
+  img {
+    border-radius: 100%;
+    width: 2rem;
+    height: 2rem;
+    margin-right: 1rem;
+  }
+
+  .market-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+
+    div {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 12px;
+    }
   }
 `
 
-const StoryListCard = ({ story }) => {
-  const { id, thumbnail_img, title, producer } = story
-  const { nickname, profile_img } = producer
-
+const ProfileListCard = ({ profile }) => {
+  const { id, nickname, profile_img, markets } = profile
   return (
     <CardWrapper>
-      <Link to={`/story/${id}`}>
+      <Link to={`/profile/${id}`}>
         <div className="container">
           <div className="card">
             <div className="slide slide1">
               <div className="content">
                 <ThumbnailBox>
-                  <img src={`${thumbnail_img}`} alt="" />
+                  <img src={`${profile_img}`} alt="" />
                 </ThumbnailBox>
               </div>
             </div>
             <div className="slide slide2">
               <CardInfo>
                 <CardInfoText>
-                  <div className="title">{title}</div>
-                  <div className="nickname">{nickname}</div>
+                  <div className="nickname">
+                    안녕하세요, 농부 {nickname}입니다.
+                  </div>
+                  {markets.map((market) => (
+                    <div className="market-info">
+                      <img
+                        src={`${market.thumbnail_img}`}
+                        alt="thumbnail_img"
+                      />
+                      <div>{market.title}</div>
+                    </div>
+                  ))}
                 </CardInfoText>
-                <img src={`${profile_img}`} alt="profile_img" />
               </CardInfo>
             </div>
           </div>
@@ -163,4 +182,4 @@ const StoryListCard = ({ story }) => {
   )
 }
 
-export default StoryListCard
+export default ProfileListCard
