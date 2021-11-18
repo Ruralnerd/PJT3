@@ -129,7 +129,7 @@ const CardMoreView = styled.div`
 
 const SquareCard = ({ story, type }) => {
   const textCvt = (type) => {
-    if (type === 'story') return '스토리'
+    if (type === 'story') return '농부들의 이야기'
   }
 
   if (!story) {
