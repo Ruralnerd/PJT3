@@ -2,7 +2,6 @@ from django.http import response, JsonResponse
 from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth import base_user, get_user_model
 from django.contrib.auth.hashers import check_password
-import requests
 import random
 from requests.api import request
 
@@ -17,7 +16,7 @@ from rest_framework_jwt.settings import api_settings
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework.response import Response
 
-from .serializer import GetUserSerializer, UserSerializer, UserLoginSerializer, UserSmallSerializer
+from .serializer import GetUserSerializer,UserSerializer, UserLoginSerializer, UserListserializer, UserImgserializer, UserMarketSerializer
 from .models import User
 
 jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
@@ -51,14 +50,34 @@ def login(request):
     else:
         return Response({'errors': '존재하지 않는 이메일입니다'}, status=status.HTTP_404_NOT_FOUND)
 
-
+@swagger_auto_schema(
+    method='get',
+    manual_parameters=[
+        openapi.Parameter('num', openapi.IN_QUERY, description="list num", type=openapi.TYPE_INTEGER),
+    ], 
+    responses={status.HTTP_200_OK: UserListserializer(many=True), status.HTTP_400_BAD_REQUEST : "'errors' : 'num값을 잘못입력했습니다.'"}
+)
 @swagger_auto_schema(method='post', request_body=UserSerializer)
 @api_view(['GET', 'POST'])
 def signup(request):
     if request.method == 'GET':
-        user = User.objects.all()
-        serializer = UserSmallSerializer(user, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        users = User.objects.all()
+        try:
+            count = int(request.GET['num'])
+            user_data = []
+            for user in users:
+                markets = user.markets.all()[:count]
+                markets = UserMarketSerializer(markets, many=True).data
+                config = {
+                    "id" : user.id,
+                    "nickname" : user.nickname,
+                    "profile_img" : UserImgserializer(user).data.get('profile_img'),
+                    "markets" : markets
+                }
+                user_data.append(config)
+            return Response(user_data,status=status.HTTP_200_OK)
+        except:
+            return Response({'errors' : 'num값을 잘못입력했습니다.'},status=status.HTTP_400_BAD_REQUEST)
     elif request.method == 'POST':
         serializer = UserSerializer(data = request.data)
         if serializer.is_valid():

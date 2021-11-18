@@ -36,6 +36,25 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ['email', 'nickname', 'password', 'address', 'phone', 'is_seller', "profile_img", "ac_number", "ac_bank"]
 
+class UserMarketSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Market
+        fields = ['id', 'title', 'thumbnail_img', 'price']
+
+class UserListserializer(serializers.ModelSerializer):
+    markets = UserMarketSerializer(many=True)
+
+    class Meta:
+        model = User
+        fields = ['id', 'nickname', 'profile_img', 'markets']
+
+class UserImgserializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ['profile_img']
+
 
 class GetUserSerializer(serializers.ModelSerializer):
     storys = StorySmallSerializer(many=True)
