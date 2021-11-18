@@ -13,6 +13,13 @@ const CardWrapper = styled.div`
   @media screen and (max-width: 900px) {
     border: 1px solid ${palette.gray[3]};
   }
+
+  transition: transform 500ms;
+
+  &:hover {
+    transform: scale(1.05);
+    z-index: 1;
+  }
 `
 
 const CardBody = styled.div`
@@ -105,6 +112,10 @@ const CardInfo = styled.div`
   height: 100%;
   padding: 5%;
 
+  hr {
+    border: inherit;
+  }
+
   @media screen and (max-width: 480px) {
     padding: 4% 8%;
   }
@@ -145,14 +156,16 @@ const Card = ({ item, type }) => {
   if (!item) {
     return (
       <CardWrapper>
-        <CardMoreView popular type={type}>
-          <img
-            src={`/images/icon/card_more_${type}.PNG`}
-            alt={`${textCvt(type)} 더보기`}
-          />
-          <pre></pre>
-          <Link to="/market">{`${textCvt(type)} 더보기`}</Link>
-        </CardMoreView>
+        <Link to="/market">
+          <CardMoreView popular type={type}>
+            <img
+              src={`/images/icon/card_more_${type}.PNG`}
+              alt={`${textCvt(type)} 더보기`}
+            />
+            <pre></pre>
+            {`${textCvt(type)} 더보기`}
+          </CardMoreView>
+        </Link>
       </CardWrapper>
     )
   }
@@ -185,9 +198,9 @@ const Card = ({ item, type }) => {
               {wonCommaReg(price * 1.2)}원
             </div>
             <div className="price">{wonCommaReg(price)}원</div>
+            <hr />
+            <div className="seller-info">{farmerName(seller.nickname)}</div>
           </Link>
-          <hr />
-          <div className="seller-info">{farmerName(seller.nickname)}</div>
         </CardInfo>
       </CardBody>
     </CardWrapper>

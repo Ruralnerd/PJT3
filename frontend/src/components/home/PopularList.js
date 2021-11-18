@@ -11,7 +11,9 @@ const PopularWrapper = styled.div`
   margin-bottom: 2rem;
 `
 
-const PopularBody = styled.div``
+const PopularBody = styled.div`
+  padding: 10px;
+`
 
 const PopularHeader = styled.div`
   font-size: 24px;

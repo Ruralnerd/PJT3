@@ -10,7 +10,9 @@ const SeasonalWrapper = styled.div`
   margin-bottom: 2rem;
 `
 
-const SeasonalBody = styled.div``
+const SeasonalBody = styled.div`
+  padding: 10px;
+`
 
 const SeasonalHeader = styled.div`
   font-size: 24px;
@@ -20,10 +22,6 @@ const SeasonalHeader = styled.div`
   @media screen and (max-width: 768px) {
     font-size: 18px;
   }
-`
-
-const SeasonalItemImage = styled.img`
-  width: 10%;
 `
 
 const SeasonalList = ({ seasonalItems, loading }) => {
