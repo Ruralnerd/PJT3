@@ -1,6 +1,4 @@
 /** @jsxImportSource @emotion/react */
-
-import DaumPostcode from 'react-daum-postcode'
 import { useState } from 'react'
 import { css } from '@emotion/react'
 import Spinner from '../common/Spinner'
@@ -14,9 +12,6 @@ import {
   ThemeProvider,
   createTheme,
 } from '@mui/material'
-
-import Post from '../../components/common/Post'
-
 import Button from '../common/Button'
 
 const ProfileUpdateuserData = ({ form, onChange, onSubmit }) => {

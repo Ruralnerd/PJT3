@@ -2,7 +2,7 @@
 import { css } from '@emotion/react'
 import styled from 'styled-components'
 import palette from '../../lib/styles/palette'
-import SquareCard from '../common/SquareCard'
+import StoryCard from '../common/StoryCard'
 import { Grid } from '@mui/material'
 
 const FarmerStoryWrapper = styled.div`
@@ -45,7 +45,7 @@ const FarmerStoryList = ({ storys, loading }) => {
       <FarmerStoryBody>
         <Grid container spacing={2}>
           {storys.map((story) => (
-            <SquareCard story={story} key={story.id} />
+            <StoryCard story={story} key={story.id} />
           ))}
         </Grid>
       </FarmerStoryBody>
