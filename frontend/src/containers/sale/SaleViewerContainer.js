@@ -2,18 +2,20 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import SaleViewer from '../../components/sale/SaleViewer'
 import { changeField, postPay } from '../../modules/pay'
-import { get, unloadSale } from '../../modules/sale'
+import { deleteSale, get, unloadSale } from '../../modules/sale'
+import { withRouter } from 'react-router'
 
-const SaleViewerContainer = ({ match }) => {
+const SaleViewerContainer = ({ match, history }) => {
   const { market_pk } = match.params
   const dispatch = useDispatch()
-  const { detail, error, loading, data, form } = useSelector(
-    ({ sale, loading, pay }) => ({
+  const { detail, error, loading, data, form, user_id } = useSelector(
+    ({ sale, loading, pay, auth }) => ({
       detail: sale.detail,
       error: sale.error,
       loading: loading,
       data: pay.data,
       form: pay,
+      user_id: auth.auth.id,
     }),
   )
 
@@ -53,16 +55,25 @@ const SaleViewerContainer = ({ match }) => {
     }
   }, [dispatch, data])
 
+  const onDeleteSale = () => {
+    const { id } = detail
+    dispatch(deleteSale({ market_pk: id }))
+    alert('판매글을 삭제했습니다.')
+    history.push('/market')
+  }
+
   return (
     <SaleViewer
+      user_id={user_id}
       detail={detail}
       loading={loading}
       error={error}
       form={form}
       onChange={onChange}
       onPostPay={onPostPay}
+      onDeleteSale={onDeleteSale}
     />
   )
 }
 
-export default SaleViewerContainer
+export default withRouter(SaleViewerContainer)

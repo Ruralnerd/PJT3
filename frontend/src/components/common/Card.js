@@ -96,12 +96,6 @@ const CardMoreView = styled.div`
     `
     background: #e85d7e;
   `}
-
-  ${({ type }) =>
-    type === 'story' &&
-    `
-    background: #c9bc99;
-  `}
 `
 
 const CardInfo = styled.div`
@@ -148,6 +142,23 @@ const CardInfo = styled.div`
   }
 `
 
+const CardBadge = styled.span`
+  border-radius: 4px;
+  padding: 3px 4px;
+
+  ${({ type }) =>
+    type === 'popular' &&
+    `
+    background: #f4bb5f;
+  `}
+
+  ${({ type }) =>
+    type === 'recently' &&
+    `
+    background: #e85d7e;
+  `}
+`
+
 const Card = ({ item, type }) => {
   const textCvt = (type) => {
     if (type === 'popular') return '베스트셀러'
@@ -179,7 +190,9 @@ const Card = ({ item, type }) => {
     return (
       <div>
         <Link to={`/profile/${seller.id}`}>
-          <b>{nickname}</b> 농부님
+          <CardBadge type={type}>
+            <b>{nickname}</b> 농부님
+          </CardBadge>
         </Link>
       </div>
     )

@@ -11,10 +11,13 @@ import {
   addContent,
   deleteSale,
 } from '../../modules/sale'
+import { withRouter } from 'react-router'
+import { useEffect } from 'react'
+
 /**
  * SaleForm을 import해서 사용, 필요한 state 관리
  */
-const SaleFormContainer = () => {
+const SaleFormContainer = ({ history }) => {
   const dispatch = useDispatch()
   const { form } = useSelector(({ sale }) => ({
     form: sale.item,
@@ -92,11 +95,14 @@ const SaleFormContainer = () => {
         market_pk: id,
       }),
     )
+    alert('판매글을 등록했습니다.')
+    history.push('/market')
   }
 
   const onDeleteSale = () => {
     const { id } = form
     dispatch(deleteSale({ market_pk: id }))
+    history.push('/market')
   }
 
   // 컴포넌트 이동 핸들러
@@ -130,4 +136,4 @@ const SaleFormContainer = () => {
   )
 }
 
-export default SaleFormContainer
+export default withRouter(SaleFormContainer)
