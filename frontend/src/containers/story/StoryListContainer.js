@@ -5,17 +5,17 @@ import StoryList from '../../components/story/StoryList'
 
 const StoryListContainer = () => {
   const dispatch = useDispatch()
+  const { storys, loading, error } = useSelector(({ story, loading }) => ({
+    storys: story.storys,
+    error: story.error,
+    loading: loading['story/GET_STORYS'],
+  }))
+
   useEffect(() => {
     dispatch(getStorys())
   }, [dispatch])
 
-  const { storys } = useSelector(({ story }) => ({ storys: story.storys }))
-
-  return (
-    <>
-      <StoryList storys={storys} />
-    </>
-  )
+  return <StoryList storys={storys} error={error} loading={loading} />
 }
 
 export default StoryListContainer
