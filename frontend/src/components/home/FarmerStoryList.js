@@ -52,7 +52,6 @@ const FarmerStoryList = ({ storys, loading }) => {
               <StoryCard story={story} />
             </Grid>
           ))}
-
           <Grid item xs={12} md={6}>
             <Link to="/farm">
               <StoryCard type="story" />

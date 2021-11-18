@@ -60,7 +60,7 @@ const CarouselBadge = styled.div`
   background: #d33939;
   color: white;
   font-size: 1rem;
-  z-index: 99;
+  z-index: 9;
 `
 
 const CarouselItem = css`

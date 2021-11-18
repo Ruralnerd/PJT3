@@ -9,12 +9,6 @@ const ProfileAccountuserData = ({
   loading,
   error,
 }) => {
-  if (error) {
-    if (error.response && error.response.status === 401) {
-      return <div>로그인 후 확인 가능합니다.</div>
-    }
-    return <div>오류 발생!</div>
-  }
   if (loading || !form) {
     return <LinearProgressBar />
   }
