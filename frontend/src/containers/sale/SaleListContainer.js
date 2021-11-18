@@ -5,11 +5,11 @@ import { getList } from '../../modules/sale'
 
 const SaleListContainer = () => {
   const dispatch = useDispatch()
-  const { num, option, error, loading, list, auth } = useSelector(
+  const { num, option, error, loading, sales, auth } = useSelector(
     ({ auth, sale, loading }) => ({
       num: sale.num,
       option: sale.option,
-      list: sale.list,
+      sales: sale.list,
       error: sale.error,
       auth: auth.auth,
       loading: loading['sale/GET_LIST'],
@@ -19,7 +19,7 @@ const SaleListContainer = () => {
     dispatch(getList({ num, option }))
   }, [dispatch, num, option])
 
-  return <SaleList list={list} error={error} loading={loading} auth={auth} />
+  return <SaleList auth={auth} sales={sales} error={error} loading={loading} />
 }
 
 export default SaleListContainer
