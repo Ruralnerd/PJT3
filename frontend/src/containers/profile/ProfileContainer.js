@@ -26,6 +26,7 @@ const ProfileContainer = ({ match, history }) => {
     localStorage.removeItem('token')
     localStorage.removeItem('user_id')
     history.push('/')
+    window.location.reload()
   }
   return (
     <div>

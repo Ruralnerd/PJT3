@@ -50,6 +50,7 @@ const LoginForm = ({ history }) => {
         client.defaults.headers.common['Authorization'] = `JWT ${auth.token}`
         localStorage.setItem('token', auth.token)
         localStorage.setItem('user_id', auth.id)
+        window.location.reload()
       } catch (e) {
         console.log(e)
       }
