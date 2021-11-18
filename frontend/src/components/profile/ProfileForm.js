@@ -11,6 +11,7 @@ import StoryListCard from '../common/StoryListCard'
 
 const ProfileWrapper = styled.div`
   width: 100%;
+  min-height: calc(100vh - 15rem);
   padding: 0.5rem;
 `
 
