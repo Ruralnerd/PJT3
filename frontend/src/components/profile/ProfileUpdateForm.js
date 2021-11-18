@@ -14,7 +14,7 @@ import {
 } from '@mui/material'
 import Button from '../common/Button'
 
-const ProfileUpdateuserData = ({ form, onChange, onSubmit }) => {
+const ProfileUpdateForm = ({ form, onChange, onSubmit }) => {
   return (
     <>
       {form && (
@@ -64,4 +64,4 @@ const ProfileUpdateuserData = ({ form, onChange, onSubmit }) => {
   )
 }
 
-export default ProfileUpdateuserData
+export default ProfileUpdateForm
