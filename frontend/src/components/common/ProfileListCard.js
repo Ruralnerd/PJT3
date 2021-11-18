@@ -147,7 +147,7 @@ const ProfileListCard = ({ profile }) => {
   const { id, nickname, profile_img, markets } = profile
   return (
     <CardWrapper>
-      <Link to={`/story/${id}`}>
+      <Link to={`/profile/${id}`}>
         <div className="container">
           <div className="card">
             <div className="slide slide1">
