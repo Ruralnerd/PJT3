@@ -227,16 +227,14 @@ def googlelogin_callback(request):
 
         return JsonResponse({"id" : user.id, "token" : token}, status=status.HTTP_200_OK)
 
-@swagger_auto_schema(method='get', responses={status.HTTP_200_OK: GetUserSerializer})
+
 @swagger_auto_schema(method='put', request_body=UserSerializer,  responses={status.HTTP_200_OK: UserSerializer})
-@api_view(['GET', 'PUT'])
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+@authentication_classes([JSONWebTokenAuthentication])
 def update(request, user_pk):
     user = get_object_or_404(get_user_model(), pk=user_pk)
-    if request.method == 'GET':
-        serializer = GetUserSerializer(user)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-    if request.user == user and request.method == 'PUT':
+    if request.user == user:
         serializer = UserSerializer(user, data = request.data)
         if serializer.is_valid(raise_exception=True):
             user = serializer.save()
@@ -247,6 +245,13 @@ def update(request, user_pk):
         return Response(serializer.errors.as_data(),status=status.HTTP_400_BAD_REQUEST)
     
     return Response({'errors' : '토큰과 유저정보가 일치하지 않습니다'}, status=status.HTTP_403_FORBIDDEN)
+
+@swagger_auto_schema(method='get', responses={status.HTTP_200_OK: GetUserSerializer})
+@api_view(['GET'])
+def user_detail(request, user_pk):
+    user = get_object_or_404(get_user_model(), pk=user_pk)
+    serializer = GetUserSerializer(user)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 @swagger_auto_schema(method='post', responses={status.HTTP_201_CREATED: UserSerializer})
 @api_view(['POST'])

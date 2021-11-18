@@ -11,5 +11,6 @@ urlpatterns = [
     path('google/login/', views.googlelogin),
     path('google/callback/', views.googlelogin_callback),
     path('users/<int:user_pk>/follow/', views.follow),
-    path('users/<int:user_pk>/', views.update),
+    path('users/<int:user_pk>/update/', views.update),
+    path('users/<int:user_pk>/', views.user_detail),
 ]
