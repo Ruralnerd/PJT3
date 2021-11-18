@@ -144,7 +144,6 @@ const CardInfo = styled.div`
 
 const CardBadge = styled.span`
   border-radius: 4px;
-  padding: 3px 4px;
 
   ${({ type }) =>
     type === 'popular' &&
