@@ -147,7 +147,7 @@ const StoryDetail = ({ user_id, story, error, loading, onDeleteStory }) => {
           <div>{producer.nickname} 농부님</div>
         </div>
         {user_id && user_id.toString() === producer.id.toString() && (
-          <Button fullWidth onClick={onDeleteStory}>
+          <Button red onClick={onDeleteStory}>
             글 삭제
           </Button>
         )}
