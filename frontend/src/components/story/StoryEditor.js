@@ -55,11 +55,15 @@ const StoryEditor = ({ title, onChangeField }) => {
   }
 
   const NextButton = () => {
-    document.getElementById('context').value = null
-    document.getElementById('file').value = null
-    URL.revokeObjectURL(fileImage)
-    setFileImage('')
-    setTest((test) => [...test, { img: image.img, content: context }])
+    if (fileImage === '') {
+      alert('사진은 꼭 넣어주셔야 해요!')
+    } else {
+      document.getElementById('context').value = null
+      document.getElementById('file').value = null
+      URL.revokeObjectURL(fileImage)
+      setFileImage('')
+      setTest((test) => [...test, { img: image.img, content: context }])
+    }
   }
 
   useEffect(() => {
