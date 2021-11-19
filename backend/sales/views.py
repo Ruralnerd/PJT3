@@ -75,7 +75,7 @@ def markets(request):
         user = request.user
         serializer = MarketCreateSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
-            market = serializer.save(seller=user, hits=1000)
+            market = serializer.save(seller=user)
             new = MarketSerializer(market)
             return Response(new.data, status=status.HTTP_201_CREATED)
     return Response(status=status.HTTP_401_UNAUTHORIZED)
