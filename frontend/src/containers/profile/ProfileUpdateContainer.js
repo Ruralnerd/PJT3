@@ -7,8 +7,9 @@ import {
   initialize,
   putProfile,
 } from '../../modules/profile'
+import { withRouter } from 'react-router-dom'
 
-const ProfileUpdateContainer = () => {
+const ProfileUpdateContainer = ({ history }) => {
   const dispatch = useDispatch()
   const { form, loading, error, auth } = useSelector(
     ({ profile, loading, auth }) => ({
@@ -65,6 +66,7 @@ const ProfileUpdateContainer = () => {
         ac_bank,
       }),
     )
+    history.push(`/profile/${auth.id}`)
     window.location.reload()
   }
 
@@ -81,4 +83,4 @@ const ProfileUpdateContainer = () => {
   )
 }
 
-export default ProfileUpdateContainer
+export default withRouter(ProfileUpdateContainer)

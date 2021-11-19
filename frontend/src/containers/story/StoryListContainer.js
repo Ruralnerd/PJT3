@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getStorys } from '../../modules/story'
+import { getStorys, postStory } from '../../modules/story'
 import StoryList from '../../components/story/StoryList'
 
 const StoryListContainer = () => {
@@ -20,8 +20,18 @@ const StoryListContainer = () => {
     dispatch(getStorys({ num, option }))
   }, [dispatch, num, option])
 
+  const onPostStory = () => {
+    dispatch(postStory({ title: 'title' }))
+  }
+
   return (
-    <StoryList auth={auth} storys={storys} error={error} loading={loading} />
+    <StoryList
+      auth={auth}
+      storys={storys}
+      error={error}
+      loading={loading}
+      onPostStory={onPostStory}
+    />
   )
 }
 
