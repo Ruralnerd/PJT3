@@ -115,7 +115,11 @@ const SaleFormContainer = ({ history }) => {
   }
 
   const onAddContent = () => {
-    dispatch(addContent())
+    if (form.contents[form.current_page - 2].img === '') {
+      alert('사진은 꼭 넣어주셔야 해요!')
+    } else {
+      dispatch(addContent())
+    }
   }
 
   return (

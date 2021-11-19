@@ -26,7 +26,7 @@ const StoryListBody = styled.div`
   padding: 10px 20px;
 `
 
-const StoryList = ({ auth, storys, error, loading }) => {
+const StoryList = ({ auth, storys, error, loading, onPostStory }) => {
   if (error) {
     return <div>오류 발생!</div>
   }
@@ -38,7 +38,7 @@ const StoryList = ({ auth, storys, error, loading }) => {
       <StoryListBanner>
         <div>카드를 열어 농부들의 생생한 이야기를 들어보세요!</div>
         {auth.id !== null && auth.token !== null && (
-          <Button cyan to="/editor/story">
+          <Button cyan to="/editor/story" onClick={onPostStory}>
             스토리 글 작성하기
           </Button>
         )}
