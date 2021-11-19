@@ -19,8 +19,8 @@ const SaleInfoHeader = css`
 `
 
 const SaleInfoText = css`
-  color: ${palette.gray[7]};
-  font-weight: 200;
+  color: #3b31bb;
+  font-weight: 400;
   font-size: 14px;
   margin-bottom: 14px;
 `
@@ -117,6 +117,35 @@ const SaleForm = ({
       )
     }
   }
+  const infoTextMaker = (page) => {
+    if (page === 2) {
+      return (
+        <div css={SaleInfoText}>
+          첫 시작이네요! 상품의 대표 사진을 넣어주세요. 가장 예쁜 사진으로요!
+        </div>
+      )
+    } else if (page === 3) {
+      return (
+        <div css={SaleInfoText}>
+          농부님이 잘 나온 사진을 올려주세요. 셀카도 좋아요!
+        </div>
+      )
+    } else if (page === 4) {
+      return <div css={SaleInfoText}>농장의 전경이 찍힌 사진을 올려주세요.</div>
+    } else if (page === 5) {
+      return (
+        <div css={SaleInfoText}>
+          상품을 자세히 보고 싶어요! 상품을 조금 더 가까이에서 찍어 주세요.
+        </div>
+      )
+    } else {
+      return (
+        <div css={SaleInfoText}>
+          상품을 소개하는 이미지와 설명을 입력해 주세요.
+        </div>
+      )
+    }
+  }
 
   return (
     <div css={SaleFormWrapper}>
@@ -134,9 +163,7 @@ const SaleForm = ({
         ) : (
           <>
             {/* 이미지와 콘텐츠를 추가하는 PUT 메소드 페이지 */}
-            <div css={SaleInfoText}>
-              상품을 소개하는 이미지와 설명을 입력해 주세요.
-            </div>
+            {infoTextMaker(form.current_page)}
             <div css={SaleInfoBox}>
               <SaleFormContent
                 form={form}
